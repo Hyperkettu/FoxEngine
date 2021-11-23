@@ -5,79 +5,86 @@
 
 int main()
 {
+	
+Fox::JSONFile* file = new Fox::JSONFile;
+{
+	Fox::BoolValue* bv = new Fox::BoolValue(false);
+	Fox::BoolValue* bv2 = new Fox::BoolValue(false);
+	Fox::BoolValue* bv3 = new Fox::BoolValue(false);
 
-	Fox::JSONFile file;
+	Fox::StringValue* sv = new Fox::StringValue("images/sick.png");
 
-	Fox::BoolValue bv = false;
-	Fox::StringValue sv = "images/sick.png";
-
-	Fox::StringValue sv2 = "images/sick2.png";
-	Fox::StringValue sv3 = "images/sick3.png";
+	Fox::StringValue* sv2 = new Fox::StringValue("images/sick2.png");
+	Fox::StringValue* sv3 = new Fox::StringValue("images/sick3.png");
 
 
-	Fox::JSONObject obj;
+	Fox::JSONObject* obj = new Fox::JSONObject;
 	std::string truth = "truth_value";
 	std::string path = "path";
 
 	std::string child = "child";
 
-	Fox::JSONObject obj2;
-	obj2.set("path2", &sv2);
-	obj2.set("truth_value2", &bv);
+	Fox::JSONObject* obj2 = new Fox::JSONObject;
+	obj2->set("path2", sv2);
+	obj2->set("truth_value2", bv);
 
-	obj.set(path, &sv);
-	obj.set(truth, &bv);
-	obj.set(child, &obj2);
+	obj->set(path, sv);
+	obj->set(truth, bv2);
+	obj->set(child, obj2);
 
 
-	Fox::JSONObject obj3;
-	obj3.set("path3", &sv3);
-	obj3.set("truth_value3", &bv);
+	Fox::JSONObject* obj3 = new Fox::JSONObject;
+	obj3->set("path3", sv3);
+	obj3->set("truth_value3", bv3);
 
-	Fox::JSONObject objArray;
-	Fox::StringValue sval = "arvo";
-	objArray.set("value", &sval);
+	Fox::JSONObject* objArray = new Fox::JSONObject;
+	Fox::StringValue* sval = new Fox::StringValue("arvo");
+	objArray->set("value", sval);
 
 	std::string myArrayString = "myArray";
 
-	Fox::JSONValueArray myArray;
+	Fox::JSONValueArray* myArray = new Fox::JSONValueArray;
 
-	Fox::StringValue testiStr = "testiStringi";
-	Fox::BoolValue boolv = false;
+	Fox::StringValue* testiStr = new Fox::StringValue("testiStringi");
+	Fox::BoolValue* boolv = new Fox::BoolValue(false);
 	Fox::FloatValue* fv = new Fox::FloatValue(3.1415926f);
+	Fox::FloatValue* fv2 = new Fox::FloatValue(3.1415926f);
+
 	Fox::IntValue iv = 2;
 
 	Fox::JSONValue* arr[4] = {
-		&testiStr,
-		&objArray,
-		&boolv,
+		testiStr,
+		objArray,
+		boolv,
 		fv
 	};
 
 
 	std::string numval = "a";
 
-	obj.set(numval, fv);
+	obj->set(numval, fv2);
 
-	myArray.fromArray(arr, 4);
+	myArray->fromArray(arr, 4);
 
-	obj3.set(myArrayString, &myArray);
+	obj3->set(myArrayString, myArray);
 
-	obj2.set("child2", &obj3);
+	obj2->set("child2", obj3);
 
 	//obj3.set("myArray", myArray);
 
-	file.setRoot(obj);
+	file->setRoot(*obj);
 
-//	std::cout << file << std::endl; 
+	//	std::cout << file << std::endl; 
 
 	std::stringstream ss;
-	ss << file;
+	ss << *file;
 
-	Fox::ResourceSystem::writeToJsonFile("oma.json", file);
+	Fox::ResourceSystem::writeToJsonFile("oma.json", *file);
 	std::string str = ss.str();
-	Fox::JSONFile file2;
-	file2.parse(str);
+	Fox::JSONFile* file2 = new Fox::JSONFile;
+	file2->parse(str);
 
-	Fox::ResourceSystem::writeToJsonFile("parsed.json", file2);
+	Fox::ResourceSystem::writeToJsonFile("parsed.json", *file2);
+	delete file2; }
+	delete file;
 }

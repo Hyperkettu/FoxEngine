@@ -6,14 +6,16 @@
 
 namespace Fox {
 
+	JSONFile::~JSONFile() {
+		delete root;
+	}
+
 	void JSONFile::parse(std::string& file) {
 	
 		char chars[] = "\t \n";
 
 		for(size_t index = 0u; index < strlen(chars); index++)
 			file.erase(std::remove(file.begin(), file.end(), chars[index]), file.end());
-
-		std::cout << file << std::endl;
 
 		size_t index = file.find('{');
 
@@ -53,7 +55,6 @@ namespace Fox {
 					std::cout << "Parsing attribute: " << attributeName << std::endl;
 #endif
 					file = file.substr(endIndex + 1);
-					std::cout << file << std::endl;
 
 					index = file.find(':');
 
@@ -120,7 +121,6 @@ namespace Fox {
 							else {
 								file = file.substr(valueEnd2);
 							}
-							std::cout << "now: " << file << std::endl;
 						}
 					}
 					else {

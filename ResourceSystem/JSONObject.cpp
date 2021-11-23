@@ -2,6 +2,12 @@
 
 namespace Fox {
 
+	JSONObject::~JSONObject() {
+		for (auto iter = attributes.begin(); iter != attributes.end(); iter++) {
+			delete iter->second;
+		}
+	}
+
 	JSONValue& JSONObject::operator[](std::string& key) {
 		return *attributes[key];
 	}

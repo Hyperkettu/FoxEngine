@@ -4,6 +4,13 @@
 
 namespace Fox {
 
+	JSONValueArray::~JSONValueArray() {
+		for (size_t i = 0u; i < values.size(); i++) {
+			if(values[i])
+				delete values[i];
+		}
+	}
+
 	JSONValue& JSONValueArray::operator[](size_t index) {
 		return *values[index];
 	}

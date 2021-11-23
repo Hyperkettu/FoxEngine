@@ -14,7 +14,7 @@ namespace Fox {
 		JSONObject(JSONObject& object) {
 			attributes = object.attributes;
 		}
-		virtual ~JSONObject() = default;
+		virtual ~JSONObject();
 
 		void set(const std::string& key, JSONValue* value) {
 			attributes[key] = value;

@@ -9,6 +9,7 @@ namespace Fox {
 	class JSONValueArray : public JSONValue {
 	public:
 		JSONValueArray() = default;
+		~JSONValueArray();
 
 		void fromArray(JSONValue* array[], size_t arrayLength) {
 			for (size_t i = 0u; i < arrayLength; i++) {

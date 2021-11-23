@@ -13,8 +13,9 @@ namespace Fox {
 
 	public: 
 		JSONFile() {}
+		~JSONFile();
 
-		template<class ValueType>
+		template<class ValueType, typename std::enable_if<std::is_base_of<JSONValue, ValueType>::value>::type* = nullptr>
 		void setRoot(ValueType& value) {
 			root = &value;
 		}
