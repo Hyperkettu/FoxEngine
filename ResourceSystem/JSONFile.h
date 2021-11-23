@@ -21,6 +21,10 @@ namespace Fox {
 		}
 
 		void parse(std::string& file);
+
+		friend std::ostream& operator<<(std::ostream& outputStream, const JSONFile& object);
+
+	private: 
 		void parseValue(JSONObject* parent, std::string& file);
 		bool parseBoolValue(JSONObject* object, std::string& attributeName, size_t comma, size_t endOfObject, std::string& file);
 		bool parseNumberValue(JSONObject* object, const std::string& attributeName, size_t comma, size_t endOfObject, std::string& file);
@@ -28,9 +32,6 @@ namespace Fox {
 		bool parseArray(JSONValueArray* array, std::string& file);
 		bool parseIndexData(std::vector<JSONValue*>& array, std::string& indexData);
 
-		friend std::ostream& operator<<(std::ostream& outputStream, const JSONFile& object);
-
-	private: 
 		JSONValue* root;
 	};
 }
