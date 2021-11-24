@@ -2,6 +2,11 @@
 
 #include <Windows.h>
 
+#include "Application/resource.h"
+
+#define MAX_STRING_NAME 256
+#define GetHInstance() GetModuleHandle(nullptr) 
+
 #define Log(...)				\
 {								\
 char buf[512];					\
