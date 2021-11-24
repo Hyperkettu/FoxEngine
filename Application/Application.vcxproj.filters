@@ -14,33 +14,29 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\app">
-      <UniqueIdentifier>{fc0aa196-92bf-434a-a5bd-7e8e7268a70c}</UniqueIdentifier>
+      <UniqueIdentifier>{78169c16-2589-4251-9c4d-2d98dabe386a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\app">
-      <UniqueIdentifier>{0484b863-0e37-4da2-9d3e-bb10dd8b5dd0}</UniqueIdentifier>
+      <UniqueIdentifier>{aa582a13-d3a7-457e-837c-02a6490a676d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FoxEngine.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="FoxEngine.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="WinApplication.h">
+    <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinApplication.cpp">
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
       <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

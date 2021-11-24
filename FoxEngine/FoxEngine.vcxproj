@@ -24,6 +24,7 @@
     <ProjectGuid>{d58f29b8-f037-477f-bbc9-25c629a6d729}</ProjectGuid>
     <RootNamespace>FoxEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Application</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,20 +140,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="FoxEngine.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="FoxEngine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="FoxEngine.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FoxEngine.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WinApplication.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinApplication.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
