@@ -1,7 +1,9 @@
+#include "pch.h"
+
 #include <iostream>
 #include <sstream>
 
-#include "ResourceSystem.h"
+#include "ResourceSystem/ResourceSystem.h"
 
 int main()
 {

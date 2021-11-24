@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "TypedValue.h"
 
 namespace Fox {
