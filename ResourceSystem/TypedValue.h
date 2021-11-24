@@ -11,6 +11,9 @@ namespace Fox {
 		TypedValue(const char* string) : value(std::string(string)) {}
 		TypedValue(ValueType value) : value(value) {}
 		virtual ~TypedValue() = default;
+		ValueType& get() {
+			return value;
+		}
 		template<class U>
 		friend std::ostream& operator<<(std::ostream& outputStream, const TypedValue<U>& jsonValue);
 	protected:

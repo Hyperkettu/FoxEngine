@@ -21,6 +21,18 @@ namespace Fox {
 			values[index] = &value;
 		}
 
+		template<class U>
+		U& get(size_t index) {
+			U* value = dynamic_cast<U*>(values[index]);
+			if (value) {
+				return *value;
+			}
+			else {
+				U dummy;
+				return dummy;
+			}
+		}
+
 		JSONValue& operator[](size_t index);
 
 		friend std::ostream& operator<<(std::ostream& outputStream, const JSONValueArray& object);

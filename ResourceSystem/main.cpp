@@ -85,6 +85,9 @@ Fox::JSONFile* file = new Fox::JSONFile;
 	file2->parse(str);
 
 	Fox::ResourceSystem::writeToJsonFile("parsed.json", *file2);
+
+	std::string s = file2->get<Fox::JSONObject>().get<Fox::JSONObject>("child").get<Fox::JSONObject>("child2").get<Fox::JSONValueArray>("myArray").get<Fox::JSONObject>(1).get<Fox::StringValue>("value").get();;
+	std::cout << "my str: " << s << std::endl;
 	delete file2; }
 	delete file;
 }

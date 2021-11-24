@@ -20,6 +20,12 @@ namespace Fox {
 			root = &value;
 		}
 
+		template<class U>
+		U& get() {
+			U* ptr = dynamic_cast<U*>(root);
+			return *ptr;
+		}
+
 		void parse(std::string& file);
 
 		friend std::ostream& operator<<(std::ostream& outputStream, const JSONFile& object);

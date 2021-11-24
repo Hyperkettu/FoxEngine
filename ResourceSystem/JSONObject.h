@@ -22,9 +22,27 @@ namespace Fox {
 
 		JSONValue& operator[](std::string& key);
 
+		JSONObject& get() {
+			return *this;
+		}
+
+		template<class U>
+		U& get(const char* key) {
+			const std::string str(key);			
+			U* typedValuePtr = dynamic_cast<U*>(attributes[str]);
+			if (typedValuePtr) {
+				return *typedValuePtr;
+			}	
+			else {
+				U value;
+				return value;
+			}
+		
+		}
+
 		friend std::ostream& operator<<(std::ostream& outputStream, const JSONObject& object);
 
-	public:
+	private:
 		std::map<std::string, JSONValue*> attributes;
 	};
 
