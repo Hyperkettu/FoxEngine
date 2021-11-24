@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-#include "JSONValue.h"
+#include "ResourceSystem/JSONValue.h"
 
 namespace Fox { 
 

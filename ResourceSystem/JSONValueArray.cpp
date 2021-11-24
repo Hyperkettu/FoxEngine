@@ -1,6 +1,6 @@
 #include "JSONValueArray.h"
 
-#include "JSONObject.h"
+#include "ResourceSystem/JSONObject.h"
 
 namespace Fox {
 

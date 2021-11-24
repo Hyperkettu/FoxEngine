@@ -1,8 +1,8 @@
 #include "JSONValue.h"
 
-#include "TypedValue.cpp"
-#include "JSONObject.h"
-#include "JSONValueArray.h"
+#include "ResourceSystem/JSONObject.h"
+#include "ResourceSystem/JSONValueArray.h"
+#include "ResourceSystem/TypedValue.cpp"
 
 namespace Fox {
 

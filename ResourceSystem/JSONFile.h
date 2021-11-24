@@ -3,9 +3,9 @@
 #include <vector>
 #include <cassert>
 
-#include "JSONObject.h"
-#include "TypedValue.h"
-#include "JSONValueArray.h"
+#include "ResourceSystem/JSONObject.h"
+#include "ResourceSystem/JSONValueArray.h"
+#include "ResourceSystem/TypedValue.h"
 
 namespace Fox {
 
