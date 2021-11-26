@@ -37,6 +37,7 @@ LRESULT CALLBACK WindowProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 
 #pragma region WindowsSpecific
 
+/*
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpCmdLine, int nCmdShow) {
 
 	// init globals 
@@ -52,7 +53,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 	handleMessages();
 
 	return 0;
-}
+}*/
 
 LRESULT CALLBACK WindowProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 

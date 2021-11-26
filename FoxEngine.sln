@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceSystem", "ResourceS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Application", "Application\Application.vcxproj", "{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fox", "Fox\Fox.vcxproj", "{EE1DDB01-78F4-4492-A9E9-CBB49887BD2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}.Debug|x64.Build.0 = Debug|x64
 		{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}.Release|x64.ActiveCfg = Release|x64
 		{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}.Release|x64.Build.0 = Release|x64
+		{EE1DDB01-78F4-4492-A9E9-CBB49887BD2F}.Debug|x64.ActiveCfg = Debug|x64
+		{EE1DDB01-78F4-4492-A9E9-CBB49887BD2F}.Debug|x64.Build.0 = Debug|x64
+		{EE1DDB01-78F4-4492-A9E9-CBB49887BD2F}.Release|x64.ActiveCfg = Release|x64
+		{EE1DDB01-78F4-4492-A9E9-CBB49887BD2F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\pch">
+      <UniqueIdentifier>{6e4e2d06-4c3c-4ed2-962b-4074d77f88f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pch">
+      <UniqueIdentifier>{efab33e2-e21f-45c5-8741-55a63c97ced9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Platform">
+      <UniqueIdentifier>{85139b05-4bda-4239-b170-964e968ca538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Platform\WIN32">
+      <UniqueIdentifier>{78af3fdf-6d30-4938-8c31-ab8cfefba155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Platform">
+      <UniqueIdentifier>{4666a997-d0ad-4213-8901-0e70daa1b0bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Platform\WIN32">
+      <UniqueIdentifier>{3ceef0e3-85ca-4ef7-a4cf-85620459a08d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Fox.h">
+      <Filter>Header Files\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\WIN32\IApplication.h">
+      <Filter>Header Files\Platform\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\WIN32\WinEntry.h">
+      <Filter>Header Files\Platform\WIN32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Fox.cpp">
+      <Filter>Source Files\pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\WIN32\IApplication.cpp">
+      <Filter>Source Files\Platform\WIN32</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
