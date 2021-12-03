@@ -5,6 +5,11 @@
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpCmdLine, int nCmdShow) {
 
 	auto entryApplication = Fox::EntryApplication();
+
+	Fox::GameSettings gameSettings;
+	entryApplication->SetupGameSettings();
+
+	Fox::Logger logger;
 	entryApplication->Init();
 
 	MSG msg = { 0 };

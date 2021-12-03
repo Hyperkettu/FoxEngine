@@ -9,3 +9,10 @@
 #else
 #define FOX_API __declspec(dllimport)
 #endif
+
+#define MAX_STRING_NAME 256
+#define GetHInstance() GetModuleHandle(nullptr) 
+
+#include "Fox/Common/Logger.h"
+#include "Fox/Common/Time.h"
+#include "Fox/Core/GameSettings.h"

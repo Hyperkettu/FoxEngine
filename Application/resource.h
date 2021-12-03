@@ -5,6 +5,7 @@
 #define IDI_MAINICON                    101
 #define IDS_WINDOW_CLASS                102
 #define IDS_GAME_NAME                   103
+#define IDS_SHORT_NAME                  104
 
 // Next default values for new objects
 // 

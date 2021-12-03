@@ -15,14 +15,22 @@ namespace Fox {
 	{
 	}
 
+	VOID Application::SetupGameSettings()
+	{
+		GameSettings::SetGameName(IDS_GAME_NAME);
+		GameSettings::SetShortName(IDS_SHORT_NAME);
+		GameSettings::SetMainIcon(IDI_MAINICON);
+	}
+
 	VOID Application::Init()
 	{
-		MessageBox(0, L"Loaded up", 0, 0);
+		//MessageBox(0, L"Loaded up", 0, 0);
+		Logger::PrintLog(L"Loaded up %s, thanks", L"project");
 	}
 
 	VOID Application::Update()
 	{
-		MessageBox(0, L"Loop", 0, 0);
+	//	MessageBox(0, L"Loop", 0, 0);
 	}
 
 }

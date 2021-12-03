@@ -9,6 +9,7 @@ namespace Fox {
 		IApplication();
 		virtual ~IApplication() {};
 
+		virtual VOID SetupGameSettings() = 0;
 		virtual VOID Init() = 0;
 		virtual VOID Update() = 0;
 	};

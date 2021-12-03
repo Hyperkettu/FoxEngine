@@ -90,11 +90,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Common\Logger.h" />
+    <ClInclude Include="Common\Time.h" />
+    <ClInclude Include="Core\GameSettings.h" />
     <ClInclude Include="Fox.h" />
     <ClInclude Include="Platform\WIN32\IApplication.h" />
     <ClInclude Include="Platform\WIN32\WinEntry.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Common\Logger.cpp" />
+    <ClCompile Include="Common\Time.cpp" />
+    <ClCompile Include="Core\GameSettings.cpp" />
     <ClCompile Include="Fox.cpp" />
     <ClCompile Include="Platform\WIN32\IApplication.cpp" />
   </ItemGroup>

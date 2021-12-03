@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Platform\WIN32">
       <UniqueIdentifier>{3ceef0e3-85ca-4ef7-a4cf-85620459a08d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{ea7aaec5-0863-4ca3-a437-ac6a2bb670d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{49cf39ff-fe0a-4518-acc1-65a5ad7d8f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{9d82fb29-d3e1-4c88-b5df-c54fd993b59c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{d75c48aa-dd80-4869-8ca5-f4a9c87063cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fox.h">
@@ -42,6 +54,15 @@
     <ClInclude Include="Platform\WIN32\WinEntry.h">
       <Filter>Header Files\Platform\WIN32</Filter>
     </ClInclude>
+    <ClInclude Include="Common\Logger.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameSettings.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Time.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fox.cpp">
@@ -49,6 +70,15 @@
     </ClCompile>
     <ClCompile Include="Platform\WIN32\IApplication.cpp">
       <Filter>Source Files\Platform\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Logger.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameSettings.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Time.cpp">
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
