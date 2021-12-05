@@ -24,8 +24,11 @@ namespace Fox {
 
 	VOID Application::Init()
 	{
-		//MessageBox(0, L"Loaded up", 0, 0);
-		Logger::PrintLog(L"Loaded up %s, thanks", L"project");
+		Logger::PrintDebugSeparator();
+		Logger::PrintLog(L"Application starting...\n");
+		Logger::PrintLog(L"Game Name: %s\n", GameSettings::GameName());
+		Logger::PrintLog(L"Boot Time %s\n", GameSettings::BootTime());
+		Logger::PrintDebugSeparator();
 	}
 
 	VOID Application::Update()

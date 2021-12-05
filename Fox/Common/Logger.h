@@ -11,8 +11,10 @@ namespace Fox {
 
 		static Logger* Instance() { return instance; }
 		static VOID PrintLog(const WCHAR* format, ...);
+		static VOID PrintDebugSeparator();
 		static std::wstring LogDirectory();
 		static std::wstring LogFile();
+		
 	private:
 		static Logger* instance;
 	};

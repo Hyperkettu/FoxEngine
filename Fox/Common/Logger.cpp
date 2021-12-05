@@ -38,6 +38,24 @@ namespace Fox {
 		}
 	}
 
+	VOID Logger::PrintDebugSeparator()
+	{
+		std::wstring line = L"\n---------------------------------------------------------------------------\n\n";
+
+#ifdef _DEBUG
+		std::wfstream file;
+		file.open(std::wstring(LogDirectory() + L"//" + LogFile()), std::ios_base::app);
+
+		if (file.is_open()) {
+			file << line;
+			file.close();
+		}
+		else {
+			MessageBox(nullptr, L"Unable to open log file...", L"Log Error", MB_OK);
+		}
+#endif // _DEBUG
+	}
+
 	std::wstring Logger::LogDirectory()	{
 		WCHAR path[1024];
 		WCHAR* appDataLocalPath;
