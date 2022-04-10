@@ -61,7 +61,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox\Application;C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox\Application;C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -69,6 +69,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)Fox\$(Configuration)\Fox.dll $(OutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -80,7 +83,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox\Application;C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox\Application;C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -90,6 +93,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)Fox\$(Configuration)\Fox.dll $(OutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />

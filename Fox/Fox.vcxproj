@@ -61,7 +61,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Fox.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox;C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox;C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -80,7 +80,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Fox.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox;C:\Olli\Ohjelmointi\C++\Visual_Studio\2019\DirectX\FoxEngine\Fox\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox;C:\Olli\Ohjelmointi\Cpp\Visual_Studio\2019\DirectX\FoxEngine\Fox\Fox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
