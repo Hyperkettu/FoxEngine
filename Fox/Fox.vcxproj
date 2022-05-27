@@ -93,6 +93,12 @@
     <ClInclude Include="Common\Logger.h" />
     <ClInclude Include="Common\Time.h" />
     <ClInclude Include="Core\GameSettings.h" />
+    <ClInclude Include="Core\JSONFile.h" />
+    <ClInclude Include="Core\JSONObject.h" />
+    <ClInclude Include="Core\JSONValue.h" />
+    <ClInclude Include="Core\JSONValueArray.h" />
+    <ClInclude Include="Core\ResourceSystem.h" />
+    <ClInclude Include="Core\TypedValue.h" />
     <ClInclude Include="Fox.h" />
     <ClInclude Include="Platform\WIN32\IApplication.h" />
     <ClInclude Include="Platform\WIN32\WinEntry.h" />
@@ -101,6 +107,12 @@
     <ClCompile Include="Common\Logger.cpp" />
     <ClCompile Include="Common\Time.cpp" />
     <ClCompile Include="Core\GameSettings.cpp" />
+    <ClCompile Include="Core\JSONFile.cpp" />
+    <ClCompile Include="Core\JSONObject.cpp" />
+    <ClCompile Include="Core\JSONValue.cpp" />
+    <ClCompile Include="Core\JSONValueArray.cpp" />
+    <ClCompile Include="Core\ResourceSystem.cpp" />
+    <ClCompile Include="Core\TypedValue.cpp" />
     <ClCompile Include="Fox.cpp" />
     <ClCompile Include="Platform\WIN32\IApplication.cpp" />
   </ItemGroup>

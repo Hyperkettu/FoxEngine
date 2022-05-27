@@ -16,3 +16,5 @@
 #include "Fox/Common/Logger.h"
 #include "Fox/Common/Time.h"
 #include "Fox/Core/GameSettings.h"
+#include "Fox/Core/JSONFile.h"
+#include "Fox/Core/ResourceSystem.h"
