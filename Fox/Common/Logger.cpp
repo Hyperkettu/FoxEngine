@@ -22,7 +22,7 @@ namespace Fox {
 		vswprintf_s(buffer, format, args);
 		va_end(args);
 
-		OutputDebugString(buffer);
+	//	OutputDebugString(buffer);
 
 		std::wfstream file;
 		file.open(std::wstring(LogDirectory() + L"//" + LogFile()), std::ios_base::app);

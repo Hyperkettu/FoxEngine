@@ -2,7 +2,6 @@
 #include "Application.h"
 
 #include "Fox/Platform/WIN32/WinEntry.h"
-#include "Fox/Core/TypedValue.h"
 
 namespace Fox {
 
@@ -31,11 +30,8 @@ namespace Fox {
 		Logger::PrintLog(L"Boot Time %s\n", GameSettings::BootTime());
 		Logger::PrintDebugSeparator();
 
-		std::string data = Fox::ResourceSystem::readFile("oma.json");
-		Fox::JSONFile* file = new Fox::JSONFile;
-		file->parse(data);
-		Fox::StringValue& s = file->get<Fox::JSONObject>().get<Fox::JSONObject>("child").get<Fox::JSONObject>("child2").get<Fox::JSONValueArray>("myArray").get<Fox::JSONObject>(1).get<Fox::StringValue>("value");
-		std::string& str = s.value;
+		ShaderConfig shaderConfig("shader.json");
+		INT success = shaderConfig.resolveFile();
 	}
 
 	VOID Application::Update()

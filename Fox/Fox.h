@@ -12,9 +12,11 @@
 
 #define MAX_STRING_NAME 256
 #define GetHInstance() GetModuleHandle(nullptr) 
+#define SAFE_DELETE(x) if(x) { delete x; x = nullptr; }
 
 #include "Fox/Common/Logger.h"
 #include "Fox/Common/Time.h"
 #include "Fox/Core/GameSettings.h"
 #include "Fox/Core/JSONFile.h"
 #include "Fox/Core/ResourceSystem.h"
+#include "Fox/Graphics/ShaderConfig.h"

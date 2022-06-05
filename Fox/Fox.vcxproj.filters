@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{d75c48aa-dd80-4869-8ca5-f4a9c87063cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{73dd2f94-2723-4e39-b3cb-9b82d3dc9506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{cbbb9969-35f1-443e-bff5-8f4b364c76a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fox.h">
@@ -81,6 +87,9 @@
     <ClInclude Include="Core\TypedValue.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\ShaderConfig.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fox.cpp">
@@ -115,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="Core\TypedValue.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ShaderConfig.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

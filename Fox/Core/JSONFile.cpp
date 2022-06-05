@@ -39,9 +39,10 @@ namespace Fox {
 
 		size_t objectEnd;
 		do {
-			objectEnd = file.find('}');
+			objectEnd = file.rfind('}');
+			size_t objectEnds = file.find('}');
 
-			if (objectEnd == 0u) {
+			if (objectEnd == 0u || objectEnds == 0u) {
 				file = file.substr(1u);
 				break;
 			}
@@ -52,7 +53,9 @@ namespace Fox {
 				if (endIndex > index) {
 					std::string attributeName = file.substr(index + 1u, endIndex - index - 1u);
 #if defined(_DEBUG)
-					std::cout << "Parsing attribute: " << attributeName << std::endl;
+					std::wstring attrName;
+					Logger::stringToWString(attrName, attributeName);
+					Logger::PrintLog(L"Parsing attribute: %s\n", attrName.c_str());
 #endif
 					file = file.substr(endIndex + 1);
 
@@ -124,16 +127,16 @@ namespace Fox {
 						}
 					}
 					else {
-						std::cout << "File is not valid JSON." << std::endl;
+						Logger::PrintLog(L"File is not valid JSON.\n");
 					}
 
 				}
 				else {
-					std::cout << "Could not find object attributes names" << std::endl;
+					Logger::PrintLog(L"Could not find object attributes names.\n");
 				}
 			}
 			else {
-				std::cout << "Could not find object attributes names anymore" << std::endl;
+				Logger::PrintLog(L"Could not find object attributes names anymore.\n");
 			}
 		} while (objectEnd != 0u);
 	}
@@ -145,7 +148,7 @@ namespace Fox {
 			BoolValue* value = new BoolValue(true);
 			object->set(attributeName, value);
 #if defined (_DEBUG)
-			std::cout << "Resolved with value " << true << std::endl;
+			Logger::PrintLog(L"Resolved with value %d\n", true);
 #endif
 			return true;
 		}
@@ -156,7 +159,7 @@ namespace Fox {
 			BoolValue* value = new BoolValue(false);
 			object->set(attributeName, value);
 #if defined (_DEBUG)
-			std::cout << "Resolved with value " << false << std::endl;
+			Logger::PrintLog(L"Resolved with value %d\n", false);
 #endif
 			return true;
 		}
@@ -176,7 +179,7 @@ namespace Fox {
 				FloatValue* value =  new FloatValue(floatValue);
 				object->set(attributeName, value);
 #if defined (_DEBUG)
-				std::cout << "Resolved with value " << *value << std::endl;
+				Logger::PrintLog(L"Resolved with value %f\n", value->value);
 #endif
 				numberValueSolved = true;
 			}
@@ -190,7 +193,7 @@ namespace Fox {
 				IntValue* value = new IntValue(intValue);
 				object->set(attributeName, value);
 #if defined (_DEBUG)
-				std::cout << "Resolved with value " << *value << std::endl;
+				Logger::PrintLog(L"Resolved with value %d\n", value->value);
 #endif
 				numberValueSolved = true;
 			}
@@ -210,7 +213,7 @@ namespace Fox {
 					FloatValue* value = new FloatValue(floatValue);
 					object->set(attributeName, value);
 #if defined (_DEBUG)
-					std::cout << "Resolved with value " << *value << std::endl;
+					Logger::PrintLog(L"Resolved with value %f\n", value->value);
 #endif
 					numberValueSolved = true;
 				}
@@ -225,7 +228,7 @@ namespace Fox {
 					IntValue* value = new IntValue(intValue);
 					object->set(attributeName, value);
 #if defined (_DEBUG)
-					std::cout << "Resolved with value " << *value << std::endl;
+					Logger::PrintLog(L"Resolved with value %d\n", value->value);
 #endif
 					numberValueSolved = true;
 				}
@@ -244,7 +247,9 @@ namespace Fox {
 			StringValue* stringValue = new StringValue(value.substr(1u, value.size() - 2u));
 			object->set(attributeName, stringValue);
 #if defined (_DEBUG) 
-			std::cout << "Resolved with value " << value.substr(1u, value.size() - 2u) << std::endl;
+			std::wstring str;
+			Logger::stringToWString(str, value.substr(1u, value.size() - 2u));
+			Logger::PrintLog(L"Resolved with value %s\n", str.c_str());
 #endif
 			return true;
 		}
@@ -253,9 +258,26 @@ namespace Fox {
 			StringValue* stringValue = new StringValue(value.substr(1u, value.size() - 3u));
 			object->set(attributeName, stringValue);
 #if defined (_DEBUG) 
-			std::cout << "Resolved with value " << value.substr(1u, value.size() - 3u) << std::endl;
+			std::wstring str;
+			Logger::stringToWString(str, value.substr(1u, value.size() - 3u));
+			Logger::PrintLog(L"Resolved with value %s\n", str.c_str());
 #endif
 			return true;
+		}
+
+		size_t count = std::count(value.begin(), value.end(), '}');
+
+		if (count > 0u) {
+			if (value[0] == '\"' && value[value.size() - count - 1u] == '\"') {
+				StringValue* stringValue = new StringValue(value.substr(1u, value.size() - count - 2u));
+				object->set(attributeName, stringValue);
+#if defined (_DEBUG) 
+				std::wstring str;
+				Logger::stringToWString(str, value.substr(1u, value.size() - count - 2u));
+				Logger::PrintLog(L"Resolved with value %s\n", str.c_str());
+#endif
+				return true;
+			}
 		}
 		
 		return false;
@@ -273,8 +295,29 @@ namespace Fox {
 		std::vector<JSONValue*> values;
 
 		do {
+			std::string indexData;
+			size_t objectStart = file.find("{", cellStart);
+			size_t objectEnd = ~0u;
+			if (objectStart == 1u || objectStart == 2u || file.find("{") == 1u) {
+				objectEnd = file.find("}", cellStart);
+				JSONObject* object = new JSONObject;
+				parseValue(object, file);
+				values.push_back(object);
+			}
 
-			std::string indexData = file.substr(cellStart, commaIndex - cellStart);
+			arrayEndIndex = file.find(']', 1u);
+
+			if (arrayEndIndex == std::string::npos) {
+				break;
+			}
+
+			if (file.find(',') == 0u) {
+				continue;
+			}
+
+			commaIndex = file.find(',', 1u);
+			indexData = file.substr(cellStart, commaIndex - cellStart);
+
 			file = file.substr(commaIndex);
 			arrayEndIndex = file.find(']');
 			commaIndex = file.find(',', 1u);

@@ -100,6 +100,7 @@
     <ClInclude Include="Core\ResourceSystem.h" />
     <ClInclude Include="Core\TypedValue.h" />
     <ClInclude Include="Fox.h" />
+    <ClInclude Include="Graphics\ShaderConfig.h" />
     <ClInclude Include="Platform\WIN32\IApplication.h" />
     <ClInclude Include="Platform\WIN32\WinEntry.h" />
   </ItemGroup>
@@ -114,6 +115,7 @@
     <ClCompile Include="Core\ResourceSystem.cpp" />
     <ClCompile Include="Core\TypedValue.cpp" />
     <ClCompile Include="Fox.cpp" />
+    <ClCompile Include="Graphics\ShaderConfig.cpp" />
     <ClCompile Include="Platform\WIN32\IApplication.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

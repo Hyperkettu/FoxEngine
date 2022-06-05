@@ -1,0 +1,17 @@
+{
+	"shaderName": "static-pbr",
+	"source": "Shaders/static-pbr.hlsl",
+	"numDescriptorTables": 2,
+	"descriptorTables": [
+		{
+			"name": "MatricesPerFrame",
+			"type": "constant-buffer",
+			"bindIndex": 0
+		},
+		{
+			"name": "ObjectData",
+			"type": "constant-buffer",
+			"bindIndex": 1
+		}
+	]
+}
