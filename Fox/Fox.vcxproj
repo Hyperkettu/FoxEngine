@@ -92,12 +92,16 @@
   <ItemGroup>
     <ClInclude Include="Common\Logger.h" />
     <ClInclude Include="Common\Time.h" />
+    <ClInclude Include="Core\CallableWrapper.h" />
+    <ClInclude Include="Core\Delegate.h" />
     <ClInclude Include="Core\GameSettings.h" />
     <ClInclude Include="Core\JSONFile.h" />
     <ClInclude Include="Core\JSONObject.h" />
     <ClInclude Include="Core\JSONValue.h" />
     <ClInclude Include="Core\JSONValueArray.h" />
     <ClInclude Include="Core\ResourceSystem.h" />
+    <ClInclude Include="Core\Signal.h" />
+    <ClInclude Include="Core\SignalBind.h" />
     <ClInclude Include="Core\TypedValue.h" />
     <ClInclude Include="Fox.h" />
     <ClInclude Include="Graphics\ShaderConfig.h" />

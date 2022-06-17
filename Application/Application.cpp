@@ -32,11 +32,19 @@ namespace Fox {
 
 		ShaderConfig shaderConfig("shader.json");
 		INT success = shaderConfig.resolveFile();
+
+		initBind = updateSignal.Connect(*this, &Application::initTest);
+		updateBind = updateSignal.Connect(*this, &Application::updateTest);
+
+		updateSignal(0);
 	}
 
 	VOID Application::Update()
 	{
+		static int val = 1;
 	///	MessageBox(0, L"Loop", 0, 0);
+		updateSignal(val);
+		val++;
 	}
 
 }
