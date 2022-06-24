@@ -112,6 +112,15 @@
     <ClInclude Include="Platform\Win32\WinEntry.h">
       <Filter>Platform\Win32\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Core.h">
+      <Filter>Core\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CoreMinimal.h">
+      <Filter>Core\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CoreDefinitions.h">
+      <Filter>Core\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -149,6 +158,15 @@
     </ClCompile>
     <ClCompile Include="Platform\Win32\IApplication.cpp">
       <Filter>Platform\Win32\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Core.cpp">
+      <Filter>Core\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CoreMinimal.cpp">
+      <Filter>Core\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CoreDefinitions.cpp">
+      <Filter>Core\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

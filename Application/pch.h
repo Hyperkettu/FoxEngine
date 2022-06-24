@@ -4,5 +4,5 @@
 
 #include "Application/resource.h"
 
-#include "Fox/Fox.h"
-
+//#include "Fox/Fox.h"
+#include "Fox/Core/CoreMinimal.h"
