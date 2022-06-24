@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceSystem", "ResourceSystem\ResourceSystem.vcxproj", "{40CEE189-07D0-4FB7-8491-F027E0B93BCC}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Application", "Application\Application.vcxproj", "{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fox", "Fox\Fox.vcxproj", "{EE1DDB01-78F4-4492-A9E9-CBB49887BD2F}"
@@ -15,10 +13,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{40CEE189-07D0-4FB7-8491-F027E0B93BCC}.Debug|x64.ActiveCfg = Debug|x64
-		{40CEE189-07D0-4FB7-8491-F027E0B93BCC}.Debug|x64.Build.0 = Debug|x64
-		{40CEE189-07D0-4FB7-8491-F027E0B93BCC}.Release|x64.ActiveCfg = Release|x64
-		{40CEE189-07D0-4FB7-8491-F027E0B93BCC}.Release|x64.Build.0 = Release|x64
 		{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}.Debug|x64.ActiveCfg = Debug|x64
 		{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}.Debug|x64.Build.0 = Debug|x64
 		{43C27FC7-AEA4-4BF3-BB97-23D6EE344CD4}.Release|x64.ActiveCfg = Release|x64
