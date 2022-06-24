@@ -37,7 +37,7 @@ namespace Fox {
         }
 
         template <class T>
-        SignalBind Bind(T&& functionObject)
+        SignalBind Connect(T&& functionObject)
         {
             Delegate<ReturnType(ParamTypes...)> delegate;
             delegates.push_back(std::move(delegate));
