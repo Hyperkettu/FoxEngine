@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Common\CmdLineArgs.h" />
     <ClInclude Include="Common\Logger.h" />
     <ClInclude Include="Common\Time.h" />
     <ClInclude Include="Core\CallableWrapper.h" />
@@ -106,12 +107,15 @@
     <ClInclude Include="Core\Signal.h" />
     <ClInclude Include="Core\SignalBind.h" />
     <ClInclude Include="Core\TypedValue.h" />
+    <ClInclude Include="Engine\FoxEngine.h" />
+    <ClInclude Include="Engine\Simulation.h" />
     <ClInclude Include="Fox.h" />
     <ClInclude Include="Graphics\ShaderConfig.h" />
     <ClInclude Include="Platform\Win32\IApplication.h" />
     <ClInclude Include="Platform\Win32\WinEntry.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Common\CmdLineArgs.cpp" />
     <ClCompile Include="Common\Logger.cpp" />
     <ClCompile Include="Common\Time.cpp" />
     <ClCompile Include="Core\Core.cpp" />
@@ -124,6 +128,8 @@
     <ClCompile Include="Core\JSONValueArray.cpp" />
     <ClCompile Include="Core\ResourceSystem.cpp" />
     <ClCompile Include="Core\TypedValue.cpp" />
+    <ClCompile Include="Engine\FoxEngine.cpp" />
+    <ClCompile Include="Engine\Simulation.cpp" />
     <ClCompile Include="Fox.cpp" />
     <ClCompile Include="Graphics\ShaderConfig.cpp" />
     <ClCompile Include="Platform\Win32\IApplication.cpp" />

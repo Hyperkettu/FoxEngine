@@ -2,6 +2,8 @@
 
 #include "Fox/Core/CoreDefinitions.h"
 
+#include "Fox/Engine/FoxEngine.h"
+
 #include "Fox/Common/Logger.h"
 #include "Fox/Common/Time.h"
 #include "Fox/Core/CallableWrapper.h"

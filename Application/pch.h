@@ -2,6 +2,8 @@
 
 #include <Windows.h>
 
+#include <string>
+
 #include "Application/resource.h"
 
 //#include "Fox/Fox.h"

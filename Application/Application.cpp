@@ -27,7 +27,9 @@ namespace Fox {
 		Logger::PrintDebugSeparator();
 		Logger::PrintLog(L"Application starting...\n");
 		Logger::PrintLog(L"Game Name: %s\n", GameSettings::GameName());
-		Logger::PrintLog(L"Boot Time %s\n", GameSettings::BootTime());
+		Logger::PrintLog(L"Boot Time: %s\n", GameSettings::BootTime());
+		Logger::PrintLog(L"Engine Mode: %s\n", Fox::Engine::EngineModeToString().c_str());
+
 		Logger::PrintDebugSeparator();
 
 		ShaderConfig shaderConfig("shader.json");
@@ -43,7 +45,7 @@ namespace Fox {
 	{
 		static int val = 1;
 	///	MessageBox(0, L"Loop", 0, 0);
-		updateSignal(val);
+	//	updateSignal(val);
 		val++;
 	}
 

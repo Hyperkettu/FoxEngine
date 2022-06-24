@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Fox/Platform/WIN32/IApplication.h"
+#include "Fox/Engine/Simulation.h"
 
 namespace Fox {
 
-	class Application: public IApplication {
+	class Application: public Fox::Engine::Simulation {
 	public:
 		Application();
 		~Application();

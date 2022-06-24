@@ -1,6 +1,7 @@
 #include "Fox/Fox.h"
 
-#include "Fox/Platform/WIN32/IApplication.h"
+#include "Fox/Platform/Win32/IApplication.h"
+#include "Fox/Common/CmdLineArgs.h"
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -8,6 +9,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 
 	Fox::GameSettings gameSettings;
 	entryApplication->SetupGameSettings();
+
+	Fox::Common::ReadCommandLineArguments();
 
 	Fox::Logger logger;
 	entryApplication->Init();

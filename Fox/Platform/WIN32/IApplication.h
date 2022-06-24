@@ -1,19 +1,24 @@
 #pragma once
 
-#define ENTRYAPP(x) Fox::IApplication* EntryApplication() { return new x; }
+#define ENTRYAPP(x) Fox::Platform::Win32::IApplication* EntryApplication() { return new x; }
 
 namespace Fox {
 
-	class FOX_API IApplication {
-	public:
-		IApplication();
-		virtual ~IApplication() {};
+	namespace Platform {
 
-		virtual VOID SetupGameSettings() = 0;
-		virtual VOID Init() = 0;
-		virtual VOID Update() = 0;
-	};
+		namespace Win32 {
 
-	IApplication* EntryApplication();
+			class FOX_API IApplication {
+			public:
+				IApplication();
+				virtual ~IApplication() {};
 
+				virtual VOID SetupGameSettings() = 0;
+				virtual VOID Init() = 0;
+				virtual VOID Update() = 0;
+			};
+		}
+	}
+
+	Fox::Platform::Win32::IApplication* EntryApplication();
 }

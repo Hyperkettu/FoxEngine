@@ -59,6 +59,18 @@
     <Filter Include="Platform\Win32\Public">
       <UniqueIdentifier>{a46c136c-b44e-46dc-9d89-8d0eb3766033}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{651fb4ec-46e2-4ec2-b3b1-97b8aaafcf0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Classes">
+      <UniqueIdentifier>{0c388270-cb1f-4d51-9c99-78e675bca2d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Public">
+      <UniqueIdentifier>{ef405936-bf52-44d5-a027-69116d942b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Private">
+      <UniqueIdentifier>{88acdd38-9b4c-4c84-bd08-149f40396762}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Logger.h">
@@ -121,6 +133,15 @@
     <ClInclude Include="Core\CoreDefinitions.h">
       <Filter>Core\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\FoxEngine.h">
+      <Filter>Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Simulation.h">
+      <Filter>Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CmdLineArgs.h">
+      <Filter>Common\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -167,6 +188,15 @@
     </ClCompile>
     <ClCompile Include="Core\CoreDefinitions.cpp">
       <Filter>Core\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FoxEngine.cpp">
+      <Filter>Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Simulation.cpp">
+      <Filter>Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\CmdLineArgs.cpp">
+      <Filter>Common\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,8 +3,14 @@
 
 namespace Fox {
 
-	Fox::IApplication::IApplication()
-	{
+	namespace Platform {
+
+		namespace Win32 {
+	
+			IApplication::IApplication()
+			{
+			}
+		}
 	}
 
 }
