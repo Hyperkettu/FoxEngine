@@ -1,144 +1,154 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\pch">
-      <UniqueIdentifier>{6e4e2d06-4c3c-4ed2-962b-4074d77f88f3}</UniqueIdentifier>
+    <Filter Include="Common">
+      <UniqueIdentifier>{226f6820-b8cf-4a86-82b9-071b3d457991}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\pch">
-      <UniqueIdentifier>{efab33e2-e21f-45c5-8741-55a63c97ced9}</UniqueIdentifier>
+    <Filter Include="Common\Classes">
+      <UniqueIdentifier>{0f142793-52b2-4cfa-bb40-e1d500fc4de3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Platform">
-      <UniqueIdentifier>{85139b05-4bda-4239-b170-964e968ca538}</UniqueIdentifier>
+    <Filter Include="Common\Private">
+      <UniqueIdentifier>{bb3305e4-8b7e-40b2-98c0-a4b52a0fda6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Platform\WIN32">
-      <UniqueIdentifier>{78af3fdf-6d30-4938-8c31-ab8cfefba155}</UniqueIdentifier>
+    <Filter Include="Common\Public">
+      <UniqueIdentifier>{5bb33ea5-5349-43c4-a0d5-71cbd08320b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Platform">
-      <UniqueIdentifier>{4666a997-d0ad-4213-8901-0e70daa1b0bc}</UniqueIdentifier>
+    <Filter Include="Core">
+      <UniqueIdentifier>{8ec0a84d-29a9-48ad-ab6e-a522981fde14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Platform\WIN32">
-      <UniqueIdentifier>{3ceef0e3-85ca-4ef7-a4cf-85620459a08d}</UniqueIdentifier>
+    <Filter Include="Core\Classes">
+      <UniqueIdentifier>{b1be9946-af48-4a04-a554-c32ed0118ccb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Common">
-      <UniqueIdentifier>{ea7aaec5-0863-4ca3-a437-ac6a2bb670d4}</UniqueIdentifier>
+    <Filter Include="Core\Private">
+      <UniqueIdentifier>{683a35f7-c7b1-41d8-8722-d18c2c247c86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Common">
-      <UniqueIdentifier>{49cf39ff-fe0a-4518-acc1-65a5ad7d8f8b}</UniqueIdentifier>
+    <Filter Include="Core\Public">
+      <UniqueIdentifier>{d05f40b4-0914-48b7-8187-9300ce926a65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Core">
-      <UniqueIdentifier>{9d82fb29-d3e1-4c88-b5df-c54fd993b59c}</UniqueIdentifier>
+    <Filter Include="Fox">
+      <UniqueIdentifier>{f473abf8-b2de-49ab-9905-a41984bc8ea8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{d75c48aa-dd80-4869-8ca5-f4a9c87063cb}</UniqueIdentifier>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{b2f192d5-898c-478b-977e-56b9f526fa41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{73dd2f94-2723-4e39-b3cb-9b82d3dc9506}</UniqueIdentifier>
+    <Filter Include="Graphics\Private">
+      <UniqueIdentifier>{f3fa2f2a-f6d3-441b-8779-1ec3224fb4cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{cbbb9969-35f1-443e-bff5-8f4b364c76a9}</UniqueIdentifier>
+    <Filter Include="Graphics\Public">
+      <UniqueIdentifier>{243b6f18-7ff1-4d7f-bfc2-5298f365cf34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Classes">
+      <UniqueIdentifier>{2481a146-1758-4977-ba90-8f513b2dbf95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{501de9d6-62ed-42a8-87a5-faf268146268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Win32">
+      <UniqueIdentifier>{f231aa6f-fd1f-4f5e-aa9f-98d300075d47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Win32\Classes">
+      <UniqueIdentifier>{ee97bbb2-c84c-4509-9785-5f630d360c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Win32\Private">
+      <UniqueIdentifier>{98f7c83b-d34a-4219-be6d-c66bc3ec1a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Win32\Public">
+      <UniqueIdentifier>{a46c136c-b44e-46dc-9d89-8d0eb3766033}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Fox.h">
-      <Filter>Header Files\pch</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\WIN32\IApplication.h">
-      <Filter>Header Files\Platform\WIN32</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\WIN32\WinEntry.h">
-      <Filter>Header Files\Platform\WIN32</Filter>
-    </ClInclude>
     <ClInclude Include="Common\Logger.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\GameSettings.h">
-      <Filter>Header Files\Core</Filter>
+      <Filter>Common\Public</Filter>
     </ClInclude>
     <ClInclude Include="Common\Time.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\JSONFile.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\JSONObject.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\JSONValue.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\JSONValueArray.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ResourceSystem.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\TypedValue.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ShaderConfig.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Delegate.h">
-      <Filter>Header Files\Core</Filter>
+      <Filter>Common\Public</Filter>
     </ClInclude>
     <ClInclude Include="Core\CallableWrapper.h">
-      <Filter>Header Files\Core</Filter>
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Delegate.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameSettings.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\JSONFile.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\JSONObject.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\JSONValue.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\JSONValueArray.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ResourceSystem.h">
+      <Filter>Core\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Core\Signal.h">
-      <Filter>Header Files</Filter>
+      <Filter>Core\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Core\SignalBind.h">
-      <Filter>Header Files\Core</Filter>
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TypedValue.h">
+      <Filter>Core\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Fox.h">
+      <Filter>Fox</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ShaderConfig.h">
+      <Filter>Graphics\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Win32\IApplication.h">
+      <Filter>Platform\Win32\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Win32\WinEntry.h">
+      <Filter>Platform\Win32\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Fox.cpp">
-      <Filter>Source Files\pch</Filter>
-    </ClCompile>
-    <ClCompile Include="Platform\WIN32\IApplication.cpp">
-      <Filter>Source Files\Platform\WIN32</Filter>
-    </ClCompile>
     <ClCompile Include="Common\Logger.cpp">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\GameSettings.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Common\Private</Filter>
     </ClCompile>
     <ClCompile Include="Common\Time.cpp">
-      <Filter>Source Files\Common</Filter>
+      <Filter>Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameSettings.cpp">
+      <Filter>Core\Private</Filter>
     </ClCompile>
     <ClCompile Include="Core\JSONFile.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core\Private</Filter>
     </ClCompile>
     <ClCompile Include="Core\JSONObject.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core\Private</Filter>
     </ClCompile>
     <ClCompile Include="Core\JSONValue.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core\Private</Filter>
     </ClCompile>
     <ClCompile Include="Core\JSONValueArray.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core\Private</Filter>
     </ClCompile>
     <ClCompile Include="Core\ResourceSystem.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core\Private</Filter>
     </ClCompile>
     <ClCompile Include="Core\TypedValue.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Fox.cpp">
+      <Filter>Fox</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\ShaderConfig.cpp">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Graphics\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Win32\IApplication.cpp">
+      <Filter>Platform\Win32\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

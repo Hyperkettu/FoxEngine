@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Application.h"
 
-#include "Fox/Platform/WIN32/WinEntry.h"
+#include "Fox/Platform/Win32/WinEntry.h"
 
 namespace Fox {
 
