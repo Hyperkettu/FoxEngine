@@ -121,9 +121,6 @@
     <ClInclude Include="Platform\Win32\IApplication.h">
       <Filter>Platform\Win32\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Win32\WinEntry.h">
-      <Filter>Platform\Win32\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Core.h">
       <Filter>Core\Public</Filter>
     </ClInclude>
@@ -141,6 +138,21 @@
     </ClInclude>
     <ClInclude Include="Common\CmdLineArgs.h">
       <Filter>Common\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SplashScreen.h">
+      <Filter>Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Win32\Window.h">
+      <Filter>Platform\Win32\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Win32\SubObject.h">
+      <Filter>Platform\Win32\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Win32\WinEntry.h">
+      <Filter>Platform\Win32\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Win32\Win32Utils.h">
+      <Filter>Platform\Win32\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +209,18 @@
     </ClCompile>
     <ClCompile Include="Common\CmdLineArgs.cpp">
       <Filter>Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SplashScreen.cpp">
+      <Filter>Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Win32\Win32Utils.cpp">
+      <Filter>Platform\Win32\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Win32\Window.cpp">
+      <Filter>Platform\Win32\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Win32\SubObject.cpp">
+      <Filter>Platform\Win32\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

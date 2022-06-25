@@ -13,6 +13,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 	Fox::Common::ReadCommandLineArguments();
 
 	Fox::Logger logger;
+
+	entryApplication->PreInitialize();
 	entryApplication->Init();
 
 	MSG msg = { 0 };

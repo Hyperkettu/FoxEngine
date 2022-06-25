@@ -12,6 +12,8 @@ namespace Fox {
 			Simulation();
 			~Simulation();
 
+			virtual VOID PreInitialize() override;
+
 		};
 	}
 }

@@ -24,13 +24,6 @@ namespace Fox {
 
 	VOID Application::Init()
 	{
-		Logger::PrintDebugSeparator();
-		Logger::PrintLog(L"Application starting...\n");
-		Logger::PrintLog(L"Game Name: %s\n", GameSettings::GameName());
-		Logger::PrintLog(L"Boot Time: %s\n", GameSettings::BootTime());
-		Logger::PrintLog(L"Engine Mode: %s\n", Fox::Engine::EngineModeToString().c_str());
-
-		Logger::PrintDebugSeparator();
 
 		ShaderConfig shaderConfig("shader.json");
 		INT success = shaderConfig.resolveFile();

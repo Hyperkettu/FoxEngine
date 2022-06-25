@@ -38,9 +38,6 @@
     <ClCompile Include="Application.cpp">
       <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Application.rc">
