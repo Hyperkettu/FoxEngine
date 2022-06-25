@@ -15,6 +15,9 @@ namespace Fox {
 			static WCHAR* ShortName() { return instance->shortName; }
 			static VOID SetShortName(UINT id) { LoadString(GetHInstance(), id, instance->shortName, MAX_STRING_NAME); }
 
+			static WCHAR* GetSplashURL() { return instance->splashURL; }
+			static VOID SetSplashURL(UINT id) { LoadString(GetHInstance(), id, instance->splashURL, MAX_STRING_NAME); }
+
 			static HICON MainIcon() { return instance->mainIcon; }
 			static VOID SetMainIcon(UINT id) { LoadIcon(GetHInstance(), MAKEINTRESOURCE(id)); }
 
@@ -29,6 +32,7 @@ namespace Fox {
 			WCHAR shortName[MAX_STRING_NAME];
 			HICON mainIcon;
 			WCHAR bootTime[MAX_STRING_NAME];
+			WCHAR splashURL[MAX_STRING_NAME];
 	};
 
 }

@@ -51,7 +51,7 @@ namespace Fox {
 
 						hDC = BeginPaint(hWnd, &paintStruct);
 
-						Fox::Platform::Win32::Utils::AddBitmap(L"..\\Fox\\Assets\\Images\\SplashScreen.bmp", hDC);
+						Fox::Platform::Win32::Utils::AddBitmap(GameSettings::GetSplashURL(), hDC);
 
 						SetBkMode(hDC, TRANSPARENT);
 						SetTextColor(hDC, RGB(255, 255, 255));

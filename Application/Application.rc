@@ -104,6 +104,7 @@ BEGIN
     IDS_WINDOW_CLASS        "GameWindow"
     IDS_GAME_NAME           "DirectX12"
     IDS_SHORT_NAME          "DX12"
+    IDS_SPLASH_URL          "Assets\\Images\\SplashScreen.bmp"
 END
 
 #endif    // English (United States) resources

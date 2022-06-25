@@ -37,6 +37,7 @@ namespace Fox {
 		GameSettings::SetGameName(IDS_GAME_NAME);
 		GameSettings::SetShortName(IDS_SHORT_NAME);
 		GameSettings::SetMainIcon(IDI_MAINICON);
+		GameSettings::SetSplashURL(IDS_SPLASH_URL);
 	}
 
 	VOID BlankProjectApplication::Init()
