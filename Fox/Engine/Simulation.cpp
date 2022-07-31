@@ -8,7 +8,7 @@ namespace Fox {
 	namespace Engine {
 	
 		Simulation::Simulation() : 
-			Fox::Platform::Win32::Window(L"MainApplication", L"MainApplication", NULL, 1024, 100)
+			Fox::Platform::Win32::Window(L"MainApplication", NULL)
 		{
 		}
 

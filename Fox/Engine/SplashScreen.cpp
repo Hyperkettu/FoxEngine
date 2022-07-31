@@ -31,9 +31,10 @@ namespace Fox {
 
 
 			SplashWindow::SplashWindow() 
-				: Fox::Platform::Win32::Window(L"SplashScreen", L"SplashScreen", NULL, 500, 560) {
+				: Fox::Platform::Win32::Window(L"SplashScreen", NULL, Platform::Win32::WindowType::POPUP) {
 				wcscpy_s(outputMessage, L"SplashScreen Starting...");
 				Fox::Platform::Win32::Window::RegisterNewClass();
+				Size(500, 560);
 				Fox::Platform::Win32::Window::Initialize();
 			}
 

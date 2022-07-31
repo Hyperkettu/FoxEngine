@@ -7,8 +7,9 @@ namespace Fox {
 
 		namespace Win32 {
 
-			Window::Window(std::wstring className, std::wstring title, HICON hicon, INT width, INT height) : 
-				Fox::Platform::Win32::SubObject(className, title, hicon), width(width), height(height) {
+			Window::Window(std::wstring title, HICON hicon, WindowType windowType) : 
+				Fox::Platform::Win32::SubObject(title, title, hicon), type(windowType) {
+				Size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 			}
 
 			Window::~Window() {
@@ -22,12 +23,12 @@ namespace Fox {
 				GetWindowRect(hDesktop, &desktopRect);
 
 				RECT rect = { 0, 0, width, height };
-				AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+				AdjustWindowRect(&rect, type, false);
 				int w = rect.right - rect.left;
 				int h = rect.bottom - rect.top;
 
-				handle = CreateWindow(className.c_str(), title.c_str(), WS_POPUP,
-					desktopRect.right / 2 - w / 2, desktopRect.bottom / 2 - h / 2, width, height, nullptr, nullptr, GetHInstance(), static_cast<void*>(this));
+				handle = CreateWindow(className.c_str(), title.c_str(), type,
+					desktopRect.right / 2 - width / 2, desktopRect.bottom / 2 - height / 2, width, height, nullptr, nullptr, GetHInstance(), static_cast<void*>(this));
 
 				ShowWindow(handle, SW_SHOW);
 				UpdateWindow(handle);
