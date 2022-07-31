@@ -7,7 +7,8 @@ namespace Fox {
 
 	namespace Engine {
 	
-		Simulation::Simulation()
+		Simulation::Simulation() : 
+			Fox::Platform::Win32::Window(L"MainApplication", L"MainApplication", NULL, 1024, 100)
 		{
 		}
 
@@ -26,6 +27,17 @@ namespace Fox {
 
 			Fox::Engine::SplashScreen::Open();
 
+			Fox::Platform::Win32::Window::RegisterNewClass();
+			Fox::Platform::Win32::Window::Initialize();
+
+		}
+
+		LRESULT Simulation::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+
+			switch (message) {
+			}
+
+			return CommonMessageHandler(hWnd, message, wParam, lParam);
 		}
 
 	}

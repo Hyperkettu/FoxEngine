@@ -1,7 +1,5 @@
 #pragma once 
 
-#include "Fox/Platform/Win32/SubObject.h"
-
 namespace Fox {
 
 	namespace Platform {

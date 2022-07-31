@@ -12,7 +12,7 @@ namespace Fox {
 				~SubObject();
 
 				virtual VOID RegisterNewClass();
-				virtual VOID Initialize() = 0;
+				virtual VOID Initialize() = 0; 
 
 				static LRESULT CALLBACK SetupMessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 				static LRESULT AssignMessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

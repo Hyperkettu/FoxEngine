@@ -14,3 +14,10 @@
 #include "Fox/Core/Signal.h"
 #include "Fox/Core/SignalBind.h"
 #include "Fox/Graphics/ShaderConfig.h"
+
+#ifdef WIN32
+	#include "Fox/Platform/Win32/Win32Utils.h"
+	#include "Fox/Platform/Win32/SubObject.h"
+	#include "Fox/Platform/Win32/Window.h"
+	#include "Fox/Platform/Win32/IApplication.h"
+#endif
