@@ -37,7 +37,7 @@ namespace Fox {
 			switch (message) {
 			}
 
-			return CommonMessageHandler(hWnd, message, wParam, lParam);
+			return Window::MessageHandler(hWnd, message, wParam, lParam);
 		}
 
 	}

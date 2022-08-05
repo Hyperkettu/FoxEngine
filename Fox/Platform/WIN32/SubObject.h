@@ -14,17 +14,23 @@ namespace Fox {
 				virtual VOID RegisterNewClass();
 				virtual VOID Initialize() = 0; 
 
+				HWND GetHandle() {
+					return handle;
+				}
+
+				VOID Handle(HWND hwnd) { handle = hwnd; }
+
 				static LRESULT CALLBACK SetupMessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 				static LRESULT AssignMessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-				virtual LRESULT CommonMessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-				virtual LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) = 0;
+				virtual LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
 			protected: 
 				std::wstring className;
 				std::wstring title;
 				HICON hIcon;
+				HWND handle;
 			};
 		}
 	}

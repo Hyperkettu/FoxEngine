@@ -73,12 +73,12 @@ namespace Fox {
 					case WM_OUTPUTMESSAGE: {
 						WCHAR* msg = reinterpret_cast<WCHAR*>(wParam);
 						wcscpy_s(outputMessage, msg);
-						RedrawWindow(hWnd, nullptr, nullptr, RDW_INVALIDATE);
+						RedrawWindow();
 						return 0;
 					}
 				}
 				
-				return CommonMessageHandler(hWnd, message, wParam, lParam);
+				return Window::MessageHandler(hWnd, message, wParam, lParam);
 			}
 		}
 	}

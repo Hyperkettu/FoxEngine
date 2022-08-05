@@ -24,7 +24,7 @@ namespace Fox {
 				window.cbWndExtra = 0;
 
 				window.hCursor = LoadCursor(nullptr, IDC_ARROW);
-				window.hbrBackground = static_cast<HBRUSH> (CreateSolidBrush(RGB(46, 46, 46)));
+				window.hbrBackground = static_cast<HBRUSH> (CreateSolidBrush(RGB(36, 36, 36)));
 
 				window.hIcon = hIcon;
 				window.hIconSm = hIcon;
@@ -47,6 +47,7 @@ namespace Fox {
 					Fox::Platform::Win32::SubObject* const pWnd = static_cast<Fox::Platform::Win32::SubObject*>(pCreate->lpCreateParams);
 					SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 					SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Fox::Platform::Win32::SubObject::AssignMessageHandler));
+					pWnd->Handle(hWnd);
 					return pWnd->MessageHandler(hWnd, message, wParam, lParam);
 				}
 
@@ -58,7 +59,7 @@ namespace Fox {
 				return pWnd->MessageHandler(hWnd, message, wParam, lParam);
 			}
 
-			LRESULT SubObject::CommonMessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+			LRESULT SubObject::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 				return DefWindowProc(hWnd, message, wParam, lParam);
 			}
 
