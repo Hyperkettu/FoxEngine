@@ -5,5 +5,6 @@
 #endif
 
 #include <string>
+#include <list>
 
 #include "Fox/Core/Core.h"

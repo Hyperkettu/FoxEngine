@@ -1,5 +1,7 @@
 .vs/
 Debug/
 Release/
+Application/Application.aps
 
 *.exe
+

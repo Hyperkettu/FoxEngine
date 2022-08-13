@@ -18,6 +18,7 @@
 #ifdef WIN32
 	#include "Fox/Platform/Win32/Win32Utils.h"
 	#include "Fox/Platform/Win32/SubObject.h"
+	#include "Fox/Platform/Win32/WindowCaption.h"
 	#include "Fox/Platform/Win32/Window.h"
 	#include "Fox/Platform/Win32/IApplication.h"
 #endif

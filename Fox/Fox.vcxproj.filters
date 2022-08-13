@@ -154,6 +154,9 @@
     <ClInclude Include="Platform\Win32\Win32Utils.h">
       <Filter>Platform\Win32\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Platform\Win32\WindowCaption.h">
+      <Filter>Platform\Win32\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -220,6 +223,9 @@
       <Filter>Platform\Win32\Private</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Win32\SubObject.cpp">
+      <Filter>Platform\Win32\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Win32\WindowCaption.cpp">
       <Filter>Platform\Win32\Private</Filter>
     </ClCompile>
   </ItemGroup>

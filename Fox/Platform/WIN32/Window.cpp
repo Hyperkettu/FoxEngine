@@ -1,4 +1,4 @@
-#include "Fox.h"
+﻿#include "Fox.h"
 #include "Window.h"
 
 #define DCX_USESSTYLE 0x00010000
@@ -43,6 +43,11 @@ namespace Fox {
 				case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
 				case WM_NCPAINT: { OnNonClientPaint(reinterpret_cast<HRGN>(wParam)); } return FALSE;
 				case WM_NCACTIVATE: { OnNonClientActivate(LOWORD(wParam) != WA_INACTIVE); } return TRUE;
+				case WM_NCLBUTTONDOWN: { OnButtonClick(); } break;
+				case WM_NCLBUTTONDBLCLK: { Fox::Platform::Win32::Utils::MaximizeWindow(handle); } return FALSE;
+				case WM_GETMINMAXINFO: { OnGetWindowMinMaxInfo(reinterpret_cast<MINMAXINFO*>(lParam)); } return FALSE;
+				case WM_EXITSIZEMOVE: { OnExitSizeMove(); } break;
+				case WM_PAINT: { OnPaint(); } break;
 				case WM_TIMER: { RedrawWindow(); } break;
 
 				default:
@@ -71,11 +76,13 @@ namespace Fox {
 				FillRect(hDC, &fillRect, brush);
 				DeleteObject(brush);
 
-				if (isActive) {
+				if (isActive && !Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
 					brush = CreateSolidBrush(RGB(255, 255, 255));
 					FrameRect(hDC, &fillRect, brush);
 					DeleteObject(brush);
 				}
+
+				PaintCaption(hDC);
 
 				BitBlt(hDC, 0, 0, w, h, hDC, 0, 0, SRCCOPY);
 				SelectObject(hDC, handleOld);
@@ -87,6 +94,10 @@ namespace Fox {
 			VOID Window::OnNonClientCreate() {
 				SetTimer(handle, 1, 100, NULL);
 				SetWindowTheme(handle, L"", L"");
+
+				WindowCaption::AddCaptionButton(new CaptionButton(L"X", CaptionButton::Command::CLOSE));
+				WindowCaption::AddCaptionButton(new CaptionButton(L"🗖", CaptionButton::Command::MAXIMIZE));
+				WindowCaption::AddCaptionButton(new CaptionButton(L"_", CaptionButton::Command::MINIMIZE));
 			}
 
 			VOID Window::RedrawWindow() {
@@ -96,6 +107,112 @@ namespace Fox {
 
 			VOID Window::OnNonClientActivate(BOOL active) {
 				isActive = active;
+			}
+
+			VOID Window::PaintCaption(HDC hDC) {
+				RECT rect; 
+				GetWindowRect(handle, &rect);
+
+				INT w = rect.right - rect.left;
+				INT h = rect.bottom - rect.top;
+
+				if (ShowTitle()) {
+					rect = { 0, 0, w, 30 };
+
+					SetBkMode(hDC, TRANSPARENT);
+					SetTextColor(hDC, isActive ? RGB(255, 255, 255) : RGB(92, 92, 92));
+
+					DrawText(hDC, title.c_str(), wcslen(title.c_str()), &rect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
+				}
+
+				int spacing = 0;
+
+				POINT mousePosition;
+				GetCursorPos(&mousePosition);
+				GetWindowRect(handle, &rect);
+
+				mousePosition.x -= rect.left;
+				mousePosition.y -= rect.top;
+
+				for (auto& button : WindowCaption::CaptionButtons()) {
+					spacing += button->width;
+
+					button->rect = { w - spacing, 0, w - spacing + button->width, 30 };
+
+					if (mousePosition.x > button->rect.left && mousePosition.x < button->rect.right &&
+						mousePosition.y > button->rect.top && mousePosition.y < button->rect.bottom) {
+						HBRUSH brush = CreateSolidBrush(RGB(92, 92, 92));
+						FillRect(hDC, &button->rect, brush);
+						DeleteObject(brush);
+						
+					}
+
+					if (button->text.compare(L"🗖") == 0 && Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
+						button->text = L"⧉";
+					}
+					else if (button->text.compare(L"⧉") == 0 && !Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
+						button->text = L"🗖";
+					}
+
+					DrawText(hDC, button->text.c_str(), wcslen(button->text.c_str()), &button->rect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
+				}
+
+			}
+
+			VOID Window::OnButtonClick() {
+				RECT rect;
+				POINT mousePosition;
+				GetCursorPos(&mousePosition);
+				GetWindowRect(handle, &rect);
+
+				mousePosition.x -= rect.left;
+				mousePosition.y -= rect.top;
+
+				for (auto& button : WindowCaption::CaptionButtons()) {
+
+					if (mousePosition.x > button->rect.left && mousePosition.x < button->rect.right &&
+						mousePosition.y > button->rect.top && mousePosition.y < button->rect.bottom) {
+						switch (button->command) {
+							case CaptionButton::Command::CLOSE: { SendMessage(handle, WM_CLOSE, 0, 0); }  break;
+							case CaptionButton::Command::MINIMIZE: { ShowWindow(handle, SW_MINIMIZE); }  break;
+							case CaptionButton::Command::MAXIMIZE: { Fox::Platform::Win32::Utils::MaximizeWindow(handle); }  break;
+						}
+					}
+				}
+			}
+
+			VOID Window::OnGetWindowMinMaxInfo(MINMAXINFO* info) {
+				RECT workArea;
+				SystemParametersInfo(SPI_GETWORKAREA, 0, &workArea, 0);
+				info->ptMaxSize.x = workArea.right - workArea.left;
+				info->ptMaxSize.y = workArea.bottom - workArea.top;
+				info->ptMaxPosition.x = workArea.left;
+				info->ptMaxPosition.y = workArea.top;
+				info->ptMinTrackSize.x = 400;
+				info->ptMinTrackSize.y = 300;
+			}
+			
+			VOID Window::OnExitSizeMove() {
+				RECT rect;
+				GetWindowRect(handle, &rect);
+				RECT workArea;
+				SystemParametersInfo(SPI_GETWORKAREA, 0, &workArea, 0);
+				if (rect.top < workArea.top + 10 && !Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
+					Fox::Platform::Win32::Utils::MaximizeWindow(handle);
+				}
+			}
+
+			VOID Window::OnPaint() {
+				PAINTSTRUCT paintStruct;
+				HDC hDC = BeginPaint(handle, &paintStruct);
+
+				RECT rect;
+				GetClientRect(handle, &rect);
+				HBRUSH brush = CreateSolidBrush(RGB(36, 36, 36));
+				FillRect(hDC, &rect, brush);
+				DeleteObject(brush);
+
+				EndPaint(handle, &paintStruct);
 			}
 		}
 	}

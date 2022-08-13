@@ -34,6 +34,23 @@ namespace Fox {
 					return true;
 				}
 
+				BOOL IsWindowFullscreen(HWND hWnd) {
+					WINDOWPLACEMENT placement;
+					GetWindowPlacement(hWnd, &placement);
+					if (placement.showCmd == SW_MAXIMIZE)
+						return TRUE;
+					return FALSE;
+				}
+
+				VOID MaximizeWindow(HWND hWnd) {
+					WINDOWPLACEMENT placement;
+					GetWindowPlacement(hWnd, &placement);
+					if (placement.showCmd == SW_MAXIMIZE) {
+						ShowWindow(hWnd, SW_NORMAL);
+					} else {
+						ShowWindow(hWnd, SW_MAXIMIZE);
+					}
+				}
 			}
 		}
 	}

@@ -9,7 +9,7 @@ namespace Fox {
 
 		namespace Win32 {
 
-			class FOX_API Window : public Fox::Platform::Win32::SubObject {
+			class FOX_API Window : public Fox::Platform::Win32::SubObject, public Fox::Platform::Win32::WindowCaption {
 			public:
 				Window(std::wstring title, HICON hicon, WindowType windowType = RESIZABLE);
 				~Window();
@@ -23,6 +23,15 @@ namespace Fox {
 				VOID OnNonClientActivate(BOOL active);
 
 				VOID RedrawWindow();
+
+				VOID PaintCaption(HDC hDC);
+
+				VOID OnButtonClick();
+
+				VOID OnGetWindowMinMaxInfo(MINMAXINFO* info);
+				VOID OnExitSizeMove();
+
+				VOID OnPaint();
 
 				VOID Size(SIZE windowSize) { size = windowSize; width = windowSize.cx; height = windowSize.cy; }
 				VOID Size(INT windowWidth, INT windowHeight) { size.cx = windowWidth; size.cy = windowHeight; width = windowWidth; height = windowHeight; }
