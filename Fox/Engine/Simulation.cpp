@@ -10,6 +10,7 @@ namespace Fox {
 		Simulation::Simulation() : 
 			Fox::Platform::Win32::Window(L"MainApplication", NULL)
 		{
+
 		}
 
 		Simulation::~Simulation()
@@ -29,6 +30,17 @@ namespace Fox {
 
 			Fox::Platform::Win32::Window::RegisterNewClass();
 			Fox::Platform::Win32::Window::Initialize();
+
+			UINT numBackbuffers = 3u;
+			direct3D = std::make_unique<Fox::Graphics::DirectX::Direct3D>(
+				DXGI_FORMAT_R8G8B8A8_UNORM,
+				DXGI_FORMAT_UNKNOWN,
+				numBackbuffers,
+				D3D_FEATURE_LEVEL_12_1,
+				Fox::Graphics::DirectX::Direct3D::requireTearingSupport
+				);
+
+			direct3D->InitializeDXGIAdapter();
 
 		}
 

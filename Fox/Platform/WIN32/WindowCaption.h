@@ -6,7 +6,7 @@ namespace Fox {
 	
 		namespace Win32 { 
 
-			class WindowCaption
+			class FOX_API WindowCaption
 			{
 				public:
 

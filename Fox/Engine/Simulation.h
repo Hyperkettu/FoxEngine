@@ -13,6 +13,9 @@ namespace Fox {
 			virtual VOID PreInitialize() override;
 			virtual LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
+		private:
+
+			std::unique_ptr<Fox::Graphics::DirectX::Direct3D> direct3D;
 
 		};
 	}

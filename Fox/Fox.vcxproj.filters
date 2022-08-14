@@ -71,6 +71,18 @@
     <Filter Include="Engine\Private">
       <UniqueIdentifier>{88acdd38-9b4c-4c84-bd08-149f40396762}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\DirectX">
+      <UniqueIdentifier>{7649c791-8857-40c1-a0e3-53b344f1de6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DirectX\Classes">
+      <UniqueIdentifier>{1b38e3e5-3aeb-411c-8116-fdce61beff5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DirectX\Public">
+      <UniqueIdentifier>{80a90b4b-3ede-4fb1-abc6-463d76d016bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DirectX\Private">
+      <UniqueIdentifier>{ca9d1c14-c029-49f4-93e4-4db3c1dd201c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Logger.h">
@@ -157,6 +169,15 @@
     <ClInclude Include="Platform\Win32\WindowCaption.h">
       <Filter>Platform\Win32\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX\Direct3D.h">
+      <Filter>Graphics\DirectX\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\DirectXHelper.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\d3dx12.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -227,6 +248,15 @@
     </ClCompile>
     <ClCompile Include="Platform\Win32\WindowCaption.cpp">
       <Filter>Platform\Win32\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\Direct3D.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\DirectXHelper.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\d3dx12.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -16,9 +16,28 @@
 #include "Fox/Graphics/ShaderConfig.h"
 
 #ifdef WIN32
+
+#include <stdexcept>
+#include <wrl.h>>
+
+	// DirectX 12 headers
+	#include <dxgi1_6.h>
+	#include <d3d12.h>
+	#include "Fox/Graphics/DirectX/d3dx12.h"
+	#include <DirectXMath.h>
+
+	#ifdef _DEBUG
+		#include <dxgidebug.h>
+	#endif
+
+	#include "Fox/Graphics/DirectX/DirectXHelper.h"
+	#include "Fox/Graphics/DirectX/Direct3D.h"
 	#include "Fox/Platform/Win32/Win32Utils.h"
 	#include "Fox/Platform/Win32/SubObject.h"
 	#include "Fox/Platform/Win32/WindowCaption.h"
 	#include "Fox/Platform/Win32/Window.h"
 	#include "Fox/Platform/Win32/IApplication.h"
+
+	#include "Fox/Graphics/DirectX/DirectXHelper.h"
+	#include "Fox/Graphics/DirectX/Direct3D.h"
 #endif
