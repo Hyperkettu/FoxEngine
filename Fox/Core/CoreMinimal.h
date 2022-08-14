@@ -39,5 +39,6 @@
 	#include "Fox/Platform/Win32/IApplication.h"
 
 	#include "Fox/Graphics/DirectX/DirectXHelper.h"
+	#include "Fox/Graphics/DirectX/DirectXRaytracingHelper.h"
 	#include "Fox/Graphics/DirectX/Direct3D.h"
 #endif

@@ -12,7 +12,7 @@ namespace Fox {
 
 			Direct3D::Direct3D(DXGI_FORMAT backbufferFormat,
 				DXGI_FORMAT depthStencilBufferFormat,
-				UINT backbufferCount,
+				UINT backBufferCount,
 				D3D_FEATURE_LEVEL minFeatureLevel,
 				UINT flags,
 				UINT adapterIdOverride) : 
@@ -168,6 +168,101 @@ namespace Fox {
 					}
 
 					*ppAdapter = adapter.Detach();
+				}
+			}
+
+			VOID Direct3D::CreateDeviceResources() {
+				// Create DirectX 12 API Device
+				ThrowIfFailed(D3D12CreateDevice(adapter.Get(), minimumFeatureLevel, IID_PPV_ARGS(&direct3dDevice)));
+
+#ifndef NDEBUG 
+				Microsoft::WRL::ComPtr<ID3D12InfoQueue> direct3DInfoQueue;
+				
+				if (SUCCEEDED(direct3dDevice.As(&direct3DInfoQueue))) {
+					// if configure debug device if active
+#ifdef _DEBUG 
+					direct3DInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+					direct3DInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+#endif
+					D3D12_MESSAGE_ID hide[] =
+					{
+						D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,
+						D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE
+					};
+					D3D12_INFO_QUEUE_FILTER filter = {};
+					filter.DenyList.NumIDs = _countof(hide);
+					filter.DenyList.pIDList = hide;
+					direct3DInfoQueue->AddStorageFilterEntries(&filter);
+				}
+#endif
+				// Determine maximum supported feature level for this device
+				static const D3D_FEATURE_LEVEL s_featureLevels[] =
+				{
+					D3D_FEATURE_LEVEL_12_1,
+					D3D_FEATURE_LEVEL_12_0,
+					D3D_FEATURE_LEVEL_11_1,
+					D3D_FEATURE_LEVEL_11_0,
+				};
+
+				D3D12_FEATURE_DATA_FEATURE_LEVELS featureLevels =
+				{
+					_countof(s_featureLevels), s_featureLevels, D3D_FEATURE_LEVEL_11_0
+				};
+
+				HRESULT hr = direct3dDevice->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &featureLevels, sizeof(featureLevels));
+
+				if (SUCCEEDED(hr))
+				{
+					direct3DFeatureLevel = featureLevels.MaxSupportedFeatureLevel;
+				}
+				else
+				{
+					direct3DFeatureLevel = minimumFeatureLevel;
+				}
+
+				// Create the main command queue.
+				D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+				queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+				queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+
+				ThrowIfFailed(direct3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&mainCommandQueue)));
+
+				// Create descriptor heaps for render target views and depth stencil views.
+				D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc = {};
+				rtvDescriptorHeapDesc.NumDescriptors = backBufferCount;
+				rtvDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+
+				ThrowIfFailed(direct3dDevice->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(&renderTargetViewDescriptorHeap)));
+
+				renderTargetViewDescriptorSize = direct3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+				if (depthStencilBufferFormat != DXGI_FORMAT_UNKNOWN)
+				{
+					D3D12_DESCRIPTOR_HEAP_DESC dsvDescriptorHeapDesc = {};
+					dsvDescriptorHeapDesc.NumDescriptors = 1;
+					dsvDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+
+					ThrowIfFailed(direct3dDevice->CreateDescriptorHeap(&dsvDescriptorHeapDesc, IID_PPV_ARGS(&depthStencilViewDescriptorHeap)));
+				}
+
+				// Create a command allocator for each back buffer that will be rendered to.
+				for (UINT i = 0u; i < backBufferCount; i++)
+				{
+					ThrowIfFailed(direct3dDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i])));
+				}
+
+				// Create a command list for recording graphics commands.
+				ThrowIfFailed(direct3dDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocators[0].Get(), nullptr, IID_PPV_ARGS(&mainCommandList)));
+				ThrowIfFailed(mainCommandList->Close());
+
+				// Create a fence for tracking GPU execution progress.
+				ThrowIfFailed(direct3dDevice->CreateFence(fenceValues[backBufferIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+				fenceValues[backBufferIndex]++;
+
+				fenceEvent.Attach(CreateEvent(nullptr, FALSE, FALSE, nullptr));
+				if (!fenceEvent.IsValid())
+				{
+					ThrowIfFailed(E_FAIL, L"CreateEvent failed.\n");
 				}
 			}
 

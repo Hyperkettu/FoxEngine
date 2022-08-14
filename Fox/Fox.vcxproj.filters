@@ -178,6 +178,9 @@
     <ClInclude Include="Graphics\DirectX\d3dx12.h">
       <Filter>Graphics\DirectX\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX\DirectXRaytracingHelper.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -256,6 +259,9 @@
       <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\DirectX\d3dx12.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\DirectXRaytracingHelper.cpp">
       <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
   </ItemGroup>

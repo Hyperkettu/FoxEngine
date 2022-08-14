@@ -42,6 +42,11 @@ namespace Fox {
 
 			direct3D->InitializeDXGIAdapter();
 
+			Fox::Graphics::DirectX::ThrowIfFailed(Fox::Graphics::DirectX::IsDirectXRaytracingSupported(direct3D->GetAdapter()),
+				L"ERROR: DirectX Raytracing is not supported by your OS, GPU and/or driver.\n\n");
+			direct3D->CreateDeviceResources();
+
+
 		}
 
 		LRESULT Simulation::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {

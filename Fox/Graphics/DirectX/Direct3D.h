@@ -27,8 +27,13 @@ namespace Fox {
 				~Direct3D();
 
 				VOID InitializeDXGIAdapter();
+				VOID SetAdapterOverride(UINT adapterId) { adapterIdOverride = adapterId; }
+				VOID CreateDeviceResources();
+
 
 				VOID WaitForGpu() noexcept;
+
+				IDXGIAdapter1* GetAdapter() const { return adapter.Get(); }
 
 			private:
 
