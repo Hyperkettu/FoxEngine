@@ -10,7 +10,18 @@ namespace Fox {
 
 		namespace DirectX {
 
-			Direct3D::Direct3D(DXGI_FORMAT backbufferFormat,
+			inline DXGI_FORMAT NoSRGB(DXGI_FORMAT format)
+			{
+				switch (format)
+				{
+				case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:   return DXGI_FORMAT_R8G8B8A8_UNORM;
+				case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:   return DXGI_FORMAT_B8G8R8A8_UNORM;
+				case DXGI_FORMAT_B8G8R8X8_UNORM_SRGB:   return DXGI_FORMAT_B8G8R8X8_UNORM;
+				default:                                return format;
+				}
+			}
+
+			Direct3D::Direct3D(DXGI_FORMAT backBufferFormat,
 				DXGI_FORMAT depthStencilBufferFormat,
 				UINT backBufferCount,
 				D3D_FEATURE_LEVEL minFeatureLevel,
@@ -51,6 +62,24 @@ namespace Fox {
 			{
 				// Ensure that the GPU is no longer referencing resources that are about to be destroyed.
 				WaitForGpu();
+			}
+
+			VOID Direct3D::RegisterDeviceNotify(IDeviceNotify* deviceNotify)
+			{
+				this->deviceNotify = deviceNotify;
+
+				// On RS4 and higher, applications that handle device removal 
+				// should declare themselves as being able to do so
+				__if_exists(DXGIDeclareAdapterRemovalSupport)
+				{
+					if (deviceNotify)
+					{
+						if (FAILED(DXGIDeclareAdapterRemovalSupport()))
+						{
+							Logger::PrintLog(L"Warning: application failed to declare adapter removal support.\n");
+						}
+					}
+				}
 			}
 
 			VOID Direct3D::InitializeDXGIAdapter() {
@@ -266,9 +295,200 @@ namespace Fox {
 				}
 			}
 
+			VOID Direct3D::CreateWindowSizeDependentResources() {
+				if (!windowHandle) {
+					ThrowIfFailed(E_HANDLE, L"Call SetWindow with a valid Win32 window handle.\n");
+				}
+
+				// Wait until all previous GPU work is complete.
+				WaitForGpu();
+
+				// Release resources that are tied to the swap chain and update fence values.
+				for (UINT i = 0u; i < backBufferCount; i++) {
+					backBufferRenderTargets[i].Reset();
+					fenceValues[i] = fenceValues[backBufferIndex];
+				}
+
+				DXGI_FORMAT backBufferFormat = NoSRGB(this->backBufferFormat);
+				
+				// if swapchain exists, resize it, otherwise create it
+				if (swapChain) {
+					HRESULT hr = swapChain->ResizeBuffers(backBufferCount, screenWidth, screenHeight, 
+						backBufferFormat, (options & allowTearing) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0);
+
+					if (hr == ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) {
+#ifdef _DEBUG
+						Logger::PrintLog(L"Device Lost on ResizeBuffers: Reason code 0x%08X\n", (hr == DXGI_ERROR_DEVICE_REMOVED) ?
+							direct3dDevice->GetDeviceRemovedReason() : hr);
+#endif // _DEBUG
+						// If the device was removed for any reason, a new device and swap chain will need to be created.
+						HandleLostGraphicsDevice();
+
+						// Everything is set up now. Do not continue execution of this method. HandleDeviceLost will reenter this method 
+						// and correctly set up the new device.
+						return;
+					
+					} else {
+						ThrowIfFailed(hr);
+					}
+
+				} else { // swapchain does not exist so create one 
+					DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+					swapChainDesc.Width = screenWidth;
+					swapChainDesc.Height = screenHeight;
+					swapChainDesc.Format = backBufferFormat;
+					swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+					swapChainDesc.BufferCount = backBufferCount;
+					swapChainDesc.SampleDesc.Count = 1;
+					swapChainDesc.SampleDesc.Quality = 0;
+					swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+					swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+					swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
+					swapChainDesc.Flags = (options & allowTearing) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+					
+					DXGI_SWAP_CHAIN_FULLSCREEN_DESC swapChainFullScreenDesc = {};
+					swapChainFullScreenDesc.Windowed = TRUE;
+
+					// create swap chain
+					Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain;
+
+					// DXGI does not allow creating a swapchain targeting a window which has fullscreen styles(no border + topmost).
+					// Temporarily remove the topmost property for creating the swapchain.
+					BOOL isFullscreen = Fox::Platform::Win32::Utils::IsWindowFullscreen(windowHandle);
+					if (isFullscreen)
+					{
+						Fox::Platform::Win32::Utils::SetWindowZorderToTopMost(windowHandle, false);
+					}
+
+					ThrowIfFailed(dxgiFactory->CreateSwapChainForHwnd(mainCommandQueue.Get(), windowHandle, &swapChainDesc,
+						&swapChainFullScreenDesc, nullptr, &swapChain));
+
+					if (isFullscreen) {
+						Fox::Platform::Win32::Utils::SetWindowZorderToTopMost(windowHandle, true);
+					}
+					
+					ThrowIfFailed(swapChain.As(&this->swapChain));
+
+					// With tearing support enabled we will handle ALT+Enter key presses in the
+					// window message loop rather than let DXGI handle it by calling SetFullscreenState.
+					if (IsTearingSupported())
+					{
+						dxgiFactory->MakeWindowAssociation(windowHandle, DXGI_MWA_NO_ALT_ENTER);
+					}
+				}
+
+				// Obtain the back buffers for this window which will be the final render targets
+				// and create render target views for each of them.
+				for (UINT i = 0u; i < backBufferCount; i++)
+				{
+					ThrowIfFailed(swapChain->GetBuffer(i, IID_PPV_ARGS(&backBufferRenderTargets[i])));
+
+					wchar_t name[25] = {};
+					swprintf_s(name, L"Render target %u", i);
+					backBufferRenderTargets[i]->SetName(name);
+
+					D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+					rtvDesc.Format = backBufferFormat;
+					rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+					CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptor(renderTargetViewDescriptorHeap->GetCPUDescriptorHandleForHeapStart(), i, renderTargetViewDescriptorSize);
+					direct3dDevice->CreateRenderTargetView(backBufferRenderTargets[i].Get(), &rtvDesc, rtvDescriptor);
+				}
+
+				// Reset the index to the current back buffer.
+				backBufferIndex = swapChain->GetCurrentBackBufferIndex();
+
+				// create depth stencil buffer
+				if (depthStencilBufferFormat != DXGI_FORMAT_UNKNOWN) {
+					// Allocate a 2-D surface as the depth/stencil buffer and create a depth/stencil view
+					// on this surface.
+					CD3DX12_HEAP_PROPERTIES depthHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
+					D3D12_RESOURCE_DESC depthStencilDesc = CD3DX12_RESOURCE_DESC::Tex2D(depthStencilBufferFormat, screenWidth, screenHeight, 1, 1);
+
+					depthStencilDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+					D3D12_CLEAR_VALUE clearValue = {};
+					clearValue.Format = depthStencilBufferFormat;
+					clearValue.DepthStencil.Depth = 1.0f;
+					clearValue.DepthStencil.Stencil = 0;
+
+					direct3dDevice->CreateCommittedResource(
+						&depthHeapProperties,
+						D3D12_HEAP_FLAG_NONE,
+						&depthStencilDesc,
+						D3D12_RESOURCE_STATE_DEPTH_WRITE,
+						&clearValue,
+						IID_PPV_ARGS(&depthStencil));
+
+					depthStencil->SetName(L"Depth stencil");
+
+					D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+					dsvDesc.Format = depthStencilBufferFormat;
+					dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+					direct3dDevice->CreateDepthStencilView(depthStencil.Get(), &dsvDesc, depthStencilViewDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
+
+				}
+
+				// Set the 3D rendering viewport and scissor rectangle to target the entire window.
+				screenViewport.TopLeftX = screenViewport.TopLeftY = 0.f;
+				screenViewport.Width = static_cast<float>(screenWidth);
+				screenViewport.Height = static_cast<float>(screenHeight);
+				screenViewport.MinDepth = D3D12_MIN_DEPTH;
+				screenViewport.MaxDepth = D3D12_MAX_DEPTH;
+
+				scissorRect.left = scissorRect.top = 0;
+				scissorRect.right = screenWidth;
+				scissorRect.bottom = screenHeight;
+			}
+
+			VOID Direct3D::HandleLostGraphicsDevice() {
+				if (deviceNotify)
+				{
+					deviceNotify->OnDeviceLost();
+				}
+
+				// reset all device resources
+				for (UINT i = 0u; i < backBufferCount; i++)
+				{
+					commandAllocators[i].Reset();
+					backBufferRenderTargets[i].Reset();
+				}
+
+				depthStencil.Reset();
+				mainCommandQueue.Reset();
+				mainCommandList.Reset();
+				fence.Reset();
+				renderTargetViewDescriptorHeap.Reset();
+				depthStencilViewDescriptorHeap.Reset();
+				swapChain.Reset();
+				direct3dDevice.Reset();
+				dxgiFactory.Reset();
+				adapter.Reset();
+			
+#ifdef _DEBUG
+				{
+					Microsoft::WRL::ComPtr<IDXGIDebug1> dxgiDebug;
+					if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug))))
+					{
+						dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
+					}
+				}
+#endif
+				// restore device resources
+				InitializeDXGIAdapter();
+				CreateDeviceResources();
+				CreateWindowSizeDependentResources();
+
+
+				if (deviceNotify) {
+					deviceNotify->OnDeviceRestored();
+				}
+			}
+
 			// Wait for pending GPU work to complete.
-			VOID Direct3D::WaitForGpu() noexcept
-			{
+			VOID Direct3D::WaitForGpu() noexcept {
+
 				if (mainCommandQueue && fence && fenceEvent.IsValid())
 				{
 					// Schedule a signal command in the GPU queue.

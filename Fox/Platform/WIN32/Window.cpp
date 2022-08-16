@@ -9,17 +9,17 @@ namespace Fox {
 
 		namespace Win32 {
 
-			Window::Window(std::wstring title, HICON hicon, WindowType windowType) : 
+			Window::Window(std::wstring title, HICON hicon, WindowType windowType) :
 				Fox::Platform::Win32::SubObject(title, title, hicon), type(windowType) {
 				Size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 			}
 
 			Window::~Window() {
-			
+
 			}
 
 			VOID Window::Initialize() {
-			
+
 				RECT desktopRect;
 				const HWND hDesktop = GetDesktopWindow();
 				GetWindowRect(hDesktop, &desktopRect);
@@ -37,7 +37,7 @@ namespace Fox {
 			}
 
 			LRESULT Window::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
-			
+
 				switch (message)
 				{
 				case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
@@ -71,7 +71,7 @@ namespace Fox {
 
 				HBRUSH brush = CreateSolidBrush(RGB(46, 46, 46));
 
-				RECT fillRect = RECT { 0, 0, w, h };
+				RECT fillRect = RECT{ 0, 0, w, h };
 
 				FillRect(hDC, &fillRect, brush);
 				DeleteObject(brush);
@@ -110,7 +110,7 @@ namespace Fox {
 			}
 
 			VOID Window::PaintCaption(HDC hDC) {
-				RECT rect; 
+				RECT rect;
 				GetWindowRect(handle, &rect);
 
 				INT w = rect.right - rect.left;
@@ -144,13 +144,12 @@ namespace Fox {
 						HBRUSH brush = CreateSolidBrush(RGB(92, 92, 92));
 						FillRect(hDC, &button->rect, brush);
 						DeleteObject(brush);
-						
+
 					}
 
 					if (button->text.compare(L"🗖") == 0 && Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
 						button->text = L"⧉";
-					}
-					else if (button->text.compare(L"⧉") == 0 && !Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
+					} else if (button->text.compare(L"⧉") == 0 && !Fox::Platform::Win32::Utils::IsWindowFullscreen(handle)) {
 						button->text = L"🗖";
 					}
 
@@ -173,9 +172,9 @@ namespace Fox {
 					if (mousePosition.x > button->rect.left && mousePosition.x < button->rect.right &&
 						mousePosition.y > button->rect.top && mousePosition.y < button->rect.bottom) {
 						switch (button->command) {
-							case CaptionButton::Command::CLOSE: { SendMessage(handle, WM_CLOSE, 0, 0); }  break;
-							case CaptionButton::Command::MINIMIZE: { ShowWindow(handle, SW_MINIMIZE); }  break;
-							case CaptionButton::Command::MAXIMIZE: { Fox::Platform::Win32::Utils::MaximizeWindow(handle); }  break;
+						case CaptionButton::Command::CLOSE: { SendMessage(handle, WM_CLOSE, 0, 0); }  break;
+						case CaptionButton::Command::MINIMIZE: { ShowWindow(handle, SW_MINIMIZE); }  break;
+						case CaptionButton::Command::MAXIMIZE: { Fox::Platform::Win32::Utils::MaximizeWindow(handle); }  break;
 						}
 					}
 				}
@@ -191,7 +190,7 @@ namespace Fox {
 				info->ptMinTrackSize.x = 400;
 				info->ptMinTrackSize.y = 300;
 			}
-			
+
 			VOID Window::OnExitSizeMove() {
 				RECT rect;
 				GetWindowRect(handle, &rect);

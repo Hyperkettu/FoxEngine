@@ -1,5 +1,7 @@
 #pragma once 
 
+#define WM_WINDOW_HANDLE_SET (WM_USER + 0x0002)
+
 namespace Fox { 
 
 	namespace Platform {

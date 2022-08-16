@@ -51,6 +51,20 @@ namespace Fox {
 						ShowWindow(hWnd, SW_MAXIMIZE);
 					}
 				}
+
+				VOID SetWindowZorderToTopMost(HWND hWnd, BOOL setToTopMost) {
+					RECT windowRect;
+					GetWindowRect(hWnd, &windowRect);
+
+					SetWindowPos(
+						hWnd,
+						(setToTopMost) ? HWND_TOPMOST : HWND_NOTOPMOST,
+						windowRect.left,
+						windowRect.top,
+						windowRect.right - windowRect.left,
+						windowRect.bottom - windowRect.top,
+						SWP_FRAMECHANGED | SWP_NOACTIVATE);
+				}
 			}
 		}
 	}

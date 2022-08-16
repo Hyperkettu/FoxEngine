@@ -20,6 +20,7 @@ namespace Fox {
 				BOOL FOX_API AddBitmap(CONST WCHAR* szFileName, HDC hWinDC, INT x = 0, INT y = 0);
 				BOOL FOX_API IsWindowFullscreen(HWND hWnd);
 				VOID FOX_API MaximizeWindow(HWND hWnd);
+				VOID FOX_API SetWindowZorderToTopMost(HWND windowHandle, BOOL setToTopMost); 
 			}
 		}
 	}

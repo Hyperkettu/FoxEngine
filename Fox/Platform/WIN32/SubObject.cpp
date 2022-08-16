@@ -48,6 +48,7 @@ namespace Fox {
 					SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 					SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Fox::Platform::Win32::SubObject::AssignMessageHandler));
 					pWnd->Handle(hWnd);
+					PostMessage(hWnd, WM_WINDOW_HANDLE_SET, 0, 0);
 					return pWnd->MessageHandler(hWnd, message, wParam, lParam);
 				}
 

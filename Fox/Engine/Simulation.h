@@ -4,7 +4,7 @@ namespace Fox {
 
 	namespace Engine {
 	
-		class FOX_API Simulation : public Fox::Platform::Win32::IApplication, public Fox::Platform::Win32::Window {
+		class FOX_API Simulation : public Fox::Platform::Win32::IApplication, public Fox::Platform::Win32::Window, public Fox::Graphics::DirectX::IDeviceNotify {
 
 		public:
 			Simulation();
@@ -12,6 +12,11 @@ namespace Fox {
 
 			virtual VOID PreInitialize() override;
 			virtual LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+
+			virtual VOID OnDeviceLost() override;
+			virtual VOID OnDeviceRestored() override;
+
+			VOID InitializeRenderer();
 
 		private:
 

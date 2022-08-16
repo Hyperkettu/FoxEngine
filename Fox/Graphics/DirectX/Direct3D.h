@@ -26,12 +26,22 @@ namespace Fox {
 
 				~Direct3D();
 
+				VOID RegisterDeviceNotify(IDeviceNotify* deviceNotify);
+
 				VOID InitializeDXGIAdapter();
 				VOID SetAdapterOverride(UINT adapterId) { adapterIdOverride = adapterId; }
 				VOID CreateDeviceResources();
+				VOID CreateWindowSizeDependentResources();
 
+				VOID HandleLostGraphicsDevice();
 
 				VOID WaitForGpu() noexcept;
+
+				VOID SetWindow(HWND handle, UINT width, UINT height) { windowHandle = handle; screenWidth = width; screenHeight = height; }
+
+
+				BOOL IsTearingSupported() const { return options & allowTearing; }
+
 
 				IDXGIAdapter1* GetAdapter() const { return adapter.Get(); }
 
@@ -57,8 +67,8 @@ namespace Fox {
 				// Swap chain
 				Microsoft::WRL::ComPtr<IDXGIFactory4> dxgiFactory;
 				Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain;
-				Microsoft::WRL::ComPtr<IDXGIResource> backBufferRenderTargets[MAX_BACKBUFFER_COUNT];
-				Microsoft::WRL::ComPtr<IDXGIResource> depthStencil;
+				Microsoft::WRL::ComPtr<ID3D12Resource> backBufferRenderTargets[MAX_BACKBUFFER_COUNT];
+				Microsoft::WRL::ComPtr<ID3D12Resource> depthStencil;
 				
 				// Presentation fence objects 
 				Microsoft::WRL::ComPtr<ID3D12Fence> fence;
@@ -80,10 +90,14 @@ namespace Fox {
 
 				// cached properties
 				D3D_FEATURE_LEVEL direct3DFeatureLevel;
+				HWND windowHandle;
 
 				UINT options;
 
 				IDeviceNotify* deviceNotify;
+
+				UINT screenWidth;
+				UINT screenHeight;
 
 			};
 		}
