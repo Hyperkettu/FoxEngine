@@ -34,6 +34,8 @@ namespace Fox {
 				VOID OnGetWindowMinMaxInfo(MINMAXINFO* info);
 				VOID OnExitSizeMove();
 
+				virtual VOID ToggleWindowFullscreen();
+
 				VOID OnPaint();
 
 				VOID Size(SIZE windowSize) { size = windowSize; width = windowSize.cx; height = windowSize.cy; }
@@ -50,6 +52,7 @@ namespace Fox {
 
 				WindowType type;
 				BOOL isActive;
+				BOOL isFullscreen;
 			};
 		}
 	}

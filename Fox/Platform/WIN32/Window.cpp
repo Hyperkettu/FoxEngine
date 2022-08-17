@@ -10,7 +10,7 @@ namespace Fox {
 		namespace Win32 {
 
 			Window::Window(std::wstring title, HICON hicon, WindowType windowType) :
-				Fox::Platform::Win32::SubObject(title, title, hicon), type(windowType) {
+				Fox::Platform::Win32::SubObject(title, title, hicon), type(windowType), isFullscreen(false) {
 				Size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 			}
 
@@ -221,6 +221,14 @@ namespace Fox {
 				DeleteObject(brush);
 
 				EndPaint(handle, &paintStruct);
+			}
+
+			VOID Window::ToggleWindowFullscreen() {
+				if (isFullscreen) {
+					isFullscreen = FALSE;
+				} else {
+					isFullscreen = TRUE;
+				}
 			}
 		}
 	}

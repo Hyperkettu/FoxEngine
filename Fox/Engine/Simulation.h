@@ -16,6 +16,8 @@ namespace Fox {
 			virtual VOID OnKeyDown(UINT8 keyCode) override;
 			virtual VOID OnKeyUp(UINT8 keyCode) override;
 
+			virtual VOID ToggleWindowFullscreen() override;
+
 			virtual VOID OnDeviceLost() override;
 			virtual VOID OnDeviceRestored() override;
 			virtual VOID Render(FLOAT dt) override;
@@ -23,6 +25,8 @@ namespace Fox {
 			VOID InitializeRenderer();
 
 		private:
+			UINT windowStyle;
+			RECT windowRect;
 
 			std::unique_ptr<Fox::Graphics::DirectX::Direct3D> direct3D;
 
