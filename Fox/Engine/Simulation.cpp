@@ -36,7 +36,18 @@ namespace Fox {
 		LRESULT Simulation::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 			switch (message) {
-			case WM_WINDOW_HANDLE_SET: { InitializeRenderer(); } break;
+				case WM_WINDOW_HANDLE_SET: { InitializeRenderer(); } break;
+				case WM_SYSKEYDOWN:
+					// ALT+ENTER:
+					if ((wParam == VK_RETURN) && (lParam & (1 << 29)))
+					{
+						if (direct3D->IsTearingSupported())
+						{
+							ToggleWindowFullscreen();
+							return 0;
+						}
+					}
+					break;
 			}
 
 			return Window::MessageHandler(hWnd, message, wParam, lParam);
@@ -86,8 +97,8 @@ namespace Fox {
 
 		VOID Simulation::OnKeyDown(UINT8 keyCode) {
 			switch (keyCode) {
-			case 27: { PostMessage(handle, WM_QUIT, 0, 0); } break; // close window on ESC key press
-			case 'F': { ToggleWindowFullscreen(); } break;
+				case 27: { PostMessage(handle, WM_QUIT, 0, 0); } break; // close window on ESC key press
+				case 'F': { ToggleWindowFullscreen(); } break;		
 			}
 		}
 
