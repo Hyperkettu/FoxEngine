@@ -22,6 +22,7 @@ namespace Fox {
 				VOID OnNonClientPaint(HRGN region); 
 				VOID OnNonClientActivate(BOOL active);
 				virtual VOID OnResizeWindow(UINT width, UINT height, BOOL minimized);
+				virtual VOID OnWindowMoved(UINT x, UINT y);
 
 				VOID RedrawWindow();
 

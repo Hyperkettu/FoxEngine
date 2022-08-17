@@ -50,6 +50,12 @@ namespace Fox {
 					case WM_PAINT: { OnPaint(); } break;
 					case WM_TIMER: { RedrawWindow(); } break;
 					case WM_KEYDOWN: { OnKeyDown(static_cast<UINT8>(wParam)); } break;
+					case WM_KEYUP: { OnKeyUp(static_cast<UINT8>(wParam)); } break;
+					case WM_MOVE: { 
+						UINT x = static_cast<UINT>(LOWORD(lParam));
+						UINT y = static_cast<UINT>(HIWORD(lParam));
+						OnWindowMoved(x, y);
+					} return FALSE;
 
 				default:
 					break;
@@ -234,6 +240,12 @@ namespace Fox {
 			VOID Window::OnResizeWindow(UINT width, UINT height, BOOL minimized) {
 				this->width = width;
 				this->height = height;
+			}
+
+			VOID Window::OnWindowMoved(UINT x, UINT y) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Window moved to: %u %u\n", x, y);
+#endif
 			}
 		}
 	}
