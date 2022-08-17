@@ -26,6 +26,9 @@ namespace Fox {
 
 				~Direct3D();
 
+				VOID RenderBegin(D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_PRESENT);
+				VOID RenderEnd(D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_RENDER_TARGET);
+
 				VOID RegisterDeviceNotify(IDeviceNotify* deviceNotify);
 
 				VOID InitializeDXGIAdapter();
@@ -33,20 +36,53 @@ namespace Fox {
 				VOID CreateDeviceResources();
 				VOID CreateWindowSizeDependentResources();
 
+				BOOL WindowSizeChanged(UINT width, UINT height, BOOL minimized);
 				VOID HandleLostGraphicsDevice();
 
+				VOID ExecuteMainCommandList();
 				VOID WaitForGpu() noexcept;
 
 				VOID SetWindow(HWND handle, UINT width, UINT height) { windowHandle = handle; screenWidth = width; screenHeight = height; }
 
 
 				BOOL IsTearingSupported() const { return options & allowTearing; }
+				BOOL IsWindowVisible() const { return isWindowVisible; }
 
 
+
+				// Direct3D Accessors.
 				IDXGIAdapter1* GetAdapter() const { return adapter.Get(); }
+				ID3D12Device* GetDirect3DDevice() const { return direct3dDevice.Get(); }
+				IDXGIFactory4* GetDXGIFactory() const { return dxgiFactory.Get(); }
+				IDXGISwapChain3* GetSwapChain() const { return swapChain.Get(); }
+				D3D_FEATURE_LEVEL GetDeviceFeatureLevel() const { return direct3DFeatureLevel; }
+				ID3D12Resource* GetCurrentBackBufferRenderTarget() const { return backBufferRenderTargets[backBufferIndex].Get(); }
+				ID3D12Resource* GetDepthStencil() const { return depthStencil.Get(); }
+				ID3D12CommandQueue* GetMainCommandQueue() const { return mainCommandQueue.Get(); }
+				ID3D12CommandAllocator* GetCurrentCommandAllocator() const { return commandAllocators[backBufferIndex].Get(); }
+				ID3D12GraphicsCommandList* GetMainCommandList() const { return mainCommandList.Get(); }
+				DXGI_FORMAT GetBackBufferFormat() const { return backBufferFormat; }
+				DXGI_FORMAT GetDepthStencilBufferFormat() const { return depthStencilBufferFormat; }
+				D3D12_VIEWPORT GetScreenViewport() const { return screenViewport; }
+				D3D12_RECT GetScissorRect() const { return scissorRect; }
+				UINT GetCurrentFrameIndex() const { return backBufferIndex; }
+				UINT GetPreviousFrameIndex() const { return backBufferIndex == 0 ? backBufferCount - 1 : backBufferIndex - 1; }
+				UINT GetBackBufferCount() const { return backBufferCount; }
+				unsigned int GetDeviceOptions() const { return options; }
+				LPCWSTR GetAdapterDescription() const { return adapterDescription.c_str(); }
+				UINT GetAdapterID() const { return adapterId; }
+
+				CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView() const
+				{
+					return CD3DX12_CPU_DESCRIPTOR_HANDLE(renderTargetViewDescriptorHeap->GetCPUDescriptorHandleForHeapStart(), backBufferIndex, renderTargetViewDescriptorSize);
+				}
+				CD3DX12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView() const
+				{
+					return CD3DX12_CPU_DESCRIPTOR_HANDLE(depthStencilViewDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
+				}
 
 			private:
-
+				VOID MoveToNextFrame();
 				VOID InitializeAdapter(IDXGIAdapter1** ppAdapter);
 
 
@@ -93,6 +129,7 @@ namespace Fox {
 				HWND windowHandle;
 
 				UINT options;
+				BOOL isWindowVisible;
 
 				IDeviceNotify* deviceNotify;
 

@@ -38,6 +38,7 @@ namespace Fox {
 				minimumFeatureLevel(minFeatureLevel),
 				direct3DFeatureLevel(D3D_FEATURE_LEVEL_12_1),
 				options(flags),
+				isWindowVisible(true),
 				deviceNotify(nullptr),
 				adapterIdOverride(adapterIdOverride),
 				adapterId(UINT_MAX)
@@ -486,9 +487,84 @@ namespace Fox {
 				}
 			}
 
+			// This method is called when the Win32 window changes size.
+			// It returns true if window size change was applied.
+			BOOL Direct3D::WindowSizeChanged(UINT width, UINT height, BOOL minimized) {
+				if (minimized || width == 0 || height == 0) {
+					return FALSE;
+				}
+
+				// don't recreate resources if screen size did not really change
+				if (screenWidth == width && screenHeight == height) {
+					return FALSE;
+				}
+
+				screenWidth = width;
+				screenHeight = height;
+
+				CreateWindowSizeDependentResources();
+
+				return TRUE;
+			
+}
+
+			VOID Direct3D::ExecuteMainCommandList() {
+				ThrowIfFailed(mainCommandList->Close());
+				ID3D12CommandList* commandLists[] = { mainCommandList.Get() };
+				mainCommandQueue->ExecuteCommandLists(ARRAYSIZE(commandLists), commandLists);
+			}
+
+			VOID Direct3D::RenderBegin(D3D12_RESOURCE_STATES beforeState) {
+				// Reset command list and allocator.
+				ThrowIfFailed(commandAllocators[backBufferIndex]->Reset());
+				ThrowIfFailed(mainCommandList->Reset(commandAllocators[backBufferIndex].Get(), nullptr));
+
+				if (beforeState != D3D12_RESOURCE_STATE_RENDER_TARGET)
+				{
+					// Transition the render target into the correct state to allow for drawing into it.
+					D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(backBufferRenderTargets[backBufferIndex].Get(), 
+						beforeState, D3D12_RESOURCE_STATE_RENDER_TARGET);
+					mainCommandList->ResourceBarrier(1, &barrier);
+				}
+			}
+
+			VOID Direct3D::RenderEnd(D3D12_RESOURCE_STATES beforeState) {
+				if (beforeState != D3D12_RESOURCE_STATE_PRESENT) {
+					// Transition the render target to the state that allows it to be presented to the display.
+					D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(backBufferRenderTargets[backBufferIndex].Get(), beforeState, D3D12_RESOURCE_STATE_PRESENT);
+					mainCommandList->ResourceBarrier(1, &barrier);
+				}
+
+				ExecuteMainCommandList();
+				
+				HRESULT hr;
+				if (options & allowTearing) {
+					// Recommended to always use tearing if supported when using a sync interval of 0.
+					// Note this will fail if in true 'fullscreen' mode.
+					hr = swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
+				} else {
+					// The first argument instructs DXGI to block until VSync, putting the application
+					// to sleep until the next VSync. This ensures we don't waste any cycles rendering
+					// frames that will never be displayed to the screen.
+					hr = swapChain->Present(1, 0);
+				}
+
+				// If the device was reset we must completely reinitialize the renderer.
+				if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) {
+#ifdef _DEBUG
+					Logger::PrintLog(L"Device Lost on Present: Reason code 0x%08X\n", (hr == DXGI_ERROR_DEVICE_REMOVED) ? 
+						direct3dDevice->GetDeviceRemovedReason() : hr);
+#endif
+					HandleLostGraphicsDevice();
+				} else {
+					ThrowIfFailed(hr);
+					MoveToNextFrame();
+				}	
+			}
+
+
 			// Wait for pending GPU work to complete.
 			VOID Direct3D::WaitForGpu() noexcept {
-
 				if (mainCommandQueue && fence && fenceEvent.IsValid())
 				{
 					// Schedule a signal command in the GPU queue.
@@ -506,6 +582,26 @@ namespace Fox {
 					}
 				}
 			}
+
+			VOID Direct3D::MoveToNextFrame() {
+				// Schedule a Signal command in the queue.
+				const UINT64 currentFenceValue = fenceValues[backBufferIndex];
+				ThrowIfFailed(mainCommandQueue->Signal(fence.Get(), currentFenceValue));
+
+				// Update the back buffer index.
+				backBufferIndex = swapChain->GetCurrentBackBufferIndex();
+
+				// If the next frame is not ready to be rendered yet, wait until it is ready.
+				if (fence->GetCompletedValue() < fenceValues[backBufferIndex])
+				{
+					ThrowIfFailed(fence->SetEventOnCompletion(fenceValues[backBufferIndex], fenceEvent.Get()));
+					WaitForSingleObjectEx(fenceEvent.Get(), INFINITE, FALSE);
+				}
+
+				// Set the fence value for the next frame.
+				fenceValues[backBufferIndex] = currentFenceValue + 1;
+			}
+
 		}
 	}
 }

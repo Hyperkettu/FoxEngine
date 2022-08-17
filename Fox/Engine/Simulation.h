@@ -15,6 +15,7 @@ namespace Fox {
 
 			virtual VOID OnDeviceLost() override;
 			virtual VOID OnDeviceRestored() override;
+			virtual VOID Render(FLOAT dt) override;
 
 			VOID InitializeRenderer();
 

@@ -73,5 +73,16 @@ namespace Fox {
 			Logger::PrintLog(L"DirectX 12 Device inited.\n");
 		}
 
+		VOID Simulation::Render(FLOAT dt) {
+			if (!direct3D) {
+				return;
+			}
+
+			direct3D->RenderBegin();
+			FLOAT color[4] = { 1.0f, 0.0f, 1.0f, 1.0f };
+			direct3D->GetMainCommandList()->ClearRenderTargetView(direct3D->GetRenderTargetView(), color, 0, nullptr);
+			direct3D->RenderEnd();
+		}
+
 	}
 }

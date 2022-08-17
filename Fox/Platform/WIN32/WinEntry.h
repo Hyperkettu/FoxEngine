@@ -27,6 +27,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 		}
 		else {
 			entryApplication->Update(); 
+			entryApplication->Render(0);
 		}
 	}
 
