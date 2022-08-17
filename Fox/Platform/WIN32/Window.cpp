@@ -51,12 +51,49 @@ namespace Fox {
 					case WM_TIMER: { RedrawWindow(); } break;
 					case WM_KEYDOWN: { OnKeyDown(static_cast<UINT8>(wParam)); } break;
 					case WM_KEYUP: { OnKeyUp(static_cast<UINT8>(wParam)); } break;
+					case WM_MOUSEMOVE:
+					///	if (pSample && static_cast<UINT8>(wParam) == MK_LBUTTON)
+						{
+							UINT x = LOWORD(lParam);
+							UINT y = HIWORD(lParam);
+							OnMouseMoved(x, y);
+						}
+						return FALSE;
 					case WM_MOVE: { 
 						UINT x = static_cast<UINT>(LOWORD(lParam));
 						UINT y = static_cast<UINT>(HIWORD(lParam));
 						OnWindowMoved(x, y);
 					} return FALSE;
+					case WM_LBUTTONDOWN:
+					{
+						UINT x = LOWORD(lParam);
+						UINT y = HIWORD(lParam);
+						OnLeftMouseButtonDown(x, y);
+					}
+					return FALSE;
 
+					case WM_LBUTTONUP:
+					{
+						UINT x = LOWORD(lParam);
+						UINT y = HIWORD(lParam);
+						OnLeftMouseButtonUp(x, y);
+					}
+					return FALSE;
+					case WM_RBUTTONDOWN:
+					{
+						UINT x = LOWORD(lParam);
+						UINT y = HIWORD(lParam);
+						OnRightMouseButtonDown(x, y);
+					}
+					return FALSE;
+
+					case WM_RBUTTONUP:
+					{
+						UINT x = LOWORD(lParam);
+						UINT y = HIWORD(lParam);
+						OnRightMouseButtonUp(x, y);
+					}
+					return FALSE;
 				default:
 					break;
 				}
@@ -246,6 +283,36 @@ namespace Fox {
 #ifdef _DEBUG
 				Logger::PrintLog(L"Window moved to: %u %u\n", x, y);
 #endif
+			}
+
+			VOID Window::OnMouseMoved(UINT x, UINT y) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Mouse moved to: %u %u\n", x, y);
+#endif
+			}
+
+			VOID Window::OnLeftMouseButtonDown(UINT x, UINT y) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Left mouse button clicked at: %u %u\n", x, y);
+#endif	
+			}
+
+			VOID Window::OnRightMouseButtonDown(UINT x, UINT y) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Right mouse button clicked at: %u %u\n", x, y);
+#endif	
+			}
+
+			VOID Window::OnLeftMouseButtonUp(UINT x, UINT y) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Left mouse button up at: %u %u\n", x, y);
+#endif	
+			}
+
+			VOID Window::OnRightMouseButtonUp(UINT x, UINT y) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Right mouse button up at: %u %u\n", x, y);
+#endif	
 			}
 		}
 	}

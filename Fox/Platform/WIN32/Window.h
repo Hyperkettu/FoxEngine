@@ -31,7 +31,11 @@ namespace Fox {
 				VOID OnButtonClick();
 				virtual VOID OnKeyDown(UINT8 keyCode);
 				virtual VOID OnKeyUp(UINT8 keyCode);
-
+				virtual VOID OnMouseMoved(UINT x, UINT y);
+				virtual VOID OnLeftMouseButtonDown(UINT x, UINT y);
+				virtual VOID OnRightMouseButtonDown(UINT x, UINT y);
+				virtual VOID OnLeftMouseButtonUp(UINT x, UINT y);
+				virtual VOID OnRightMouseButtonUp(UINT x, UINT y);
 
 				VOID OnGetWindowMinMaxInfo(MINMAXINFO* info);
 				VOID OnExitSizeMove();
