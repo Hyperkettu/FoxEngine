@@ -48,6 +48,13 @@ namespace Fox {
 						}
 					}
 					break;
+				case WM_SIZE:
+					{
+						RECT clientRect = {};
+						GetClientRect(hWnd, &clientRect);
+						OnResizeWindow(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top, wParam == SIZE_MINIMIZED);
+					}
+					return 0;
 			}
 
 			return Window::MessageHandler(hWnd, message, wParam, lParam);
@@ -98,7 +105,7 @@ namespace Fox {
 		VOID Simulation::OnKeyDown(UINT8 keyCode) {
 			switch (keyCode) {
 				case 27: { PostMessage(handle, WM_QUIT, 0, 0); } break; // close window on ESC key press
-				case 'F': { ToggleWindowFullscreen(); } break;		
+				case 'F': { ToggleWindowFullscreen(); } break;
 			}
 		}
 
@@ -175,6 +182,14 @@ namespace Fox {
 			}
 
 			Window::ToggleWindowFullscreen();
+		}
+
+		VOID Simulation::OnResizeWindow(UINT width, UINT height, BOOL minimized) {
+			if (!direct3D || !direct3D->Resize(width, height, minimized)) {
+				return;
+			}
+
+			Window::OnResizeWindow(width, height, minimized);
 		}
 
 	}

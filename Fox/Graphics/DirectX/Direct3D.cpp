@@ -489,7 +489,7 @@ namespace Fox {
 
 			// This method is called when the Win32 window changes size.
 			// It returns true if window size change was applied.
-			BOOL Direct3D::WindowSizeChanged(UINT width, UINT height, BOOL minimized) {
+			BOOL Direct3D::Resize(UINT width, UINT height, BOOL minimized) {
 				if (minimized || width == 0 || height == 0) {
 					return FALSE;
 				}
@@ -501,7 +501,11 @@ namespace Fox {
 
 				screenWidth = width;
 				screenHeight = height;
+				aspectRatio = static_cast<FLOAT>(screenWidth) / static_cast<FLOAT>(screenHeight);
 
+#ifdef _DEBUG
+				Logger::PrintLog(L"Window resized: %u %u\n", screenWidth, screenHeight);
+#endif
 				CreateWindowSizeDependentResources();
 
 				return TRUE;

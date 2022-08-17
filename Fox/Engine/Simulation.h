@@ -17,6 +17,7 @@ namespace Fox {
 			virtual VOID OnKeyUp(UINT8 keyCode) override;
 
 			virtual VOID ToggleWindowFullscreen() override;
+			virtual VOID OnResizeWindow(UINT width, UINT height, BOOL minimized);
 
 			virtual VOID OnDeviceLost() override;
 			virtual VOID OnDeviceRestored() override;

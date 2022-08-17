@@ -36,7 +36,7 @@ namespace Fox {
 				VOID CreateDeviceResources();
 				VOID CreateWindowSizeDependentResources();
 
-				BOOL WindowSizeChanged(UINT width, UINT height, BOOL minimized);
+				BOOL Resize(UINT width, UINT height, BOOL minimized);
 				VOID HandleLostGraphicsDevice();
 
 				VOID ExecuteMainCommandList();
@@ -135,6 +135,7 @@ namespace Fox {
 
 				UINT screenWidth;
 				UINT screenHeight;
+				FLOAT aspectRatio;
 
 			};
 		}

@@ -230,6 +230,11 @@ namespace Fox {
 					isFullscreen = TRUE;
 				}
 			}
+
+			VOID Window::OnResizeWindow(UINT width, UINT height, BOOL minimized) {
+				this->width = width;
+				this->height = height;
+			}
 		}
 	}
 }
