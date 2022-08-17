@@ -27,6 +27,9 @@ namespace Fox {
 				VOID PaintCaption(HDC hDC);
 
 				VOID OnButtonClick();
+				virtual VOID OnKeyDown(UINT8 keyCode);
+				virtual VOID OnKeyUp(UINT8 keyCode);
+
 
 				VOID OnGetWindowMinMaxInfo(MINMAXINFO* info);
 				VOID OnExitSizeMove();

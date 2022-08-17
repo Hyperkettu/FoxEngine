@@ -13,6 +13,9 @@ namespace Fox {
 			virtual VOID PreInitialize() override;
 			virtual LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
+			virtual VOID OnKeyDown(UINT8 keyCode) override;
+			virtual VOID OnKeyUp(UINT8 keyCode) override;
+
 			virtual VOID OnDeviceLost() override;
 			virtual VOID OnDeviceRestored() override;
 			virtual VOID Render(FLOAT dt) override;

@@ -84,5 +84,15 @@ namespace Fox {
 			direct3D->RenderEnd();
 		}
 
+		VOID Simulation::OnKeyDown(UINT8 keyCode) {
+			switch (keyCode) {
+			case 27: { PostMessage(handle, WM_QUIT, 0, 0); } break; // close window on ESC key press
+			}
+		}
+
+		VOID Simulation::OnKeyUp(UINT8 keyCode) {
+		
+		}
+
 	}
 }

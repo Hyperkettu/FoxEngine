@@ -40,15 +40,16 @@ namespace Fox {
 
 				switch (message)
 				{
-				case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
-				case WM_NCPAINT: { OnNonClientPaint(reinterpret_cast<HRGN>(wParam)); } return FALSE;
-				case WM_NCACTIVATE: { OnNonClientActivate(LOWORD(wParam) != WA_INACTIVE); } return TRUE;
-				case WM_NCLBUTTONDOWN: { OnButtonClick(); } break;
-				case WM_NCLBUTTONDBLCLK: { Fox::Platform::Win32::Utils::MaximizeWindow(handle); } return FALSE;
-				case WM_GETMINMAXINFO: { OnGetWindowMinMaxInfo(reinterpret_cast<MINMAXINFO*>(lParam)); } return FALSE;
-				case WM_EXITSIZEMOVE: { OnExitSizeMove(); } break;
-				case WM_PAINT: { OnPaint(); } break;
-				case WM_TIMER: { RedrawWindow(); } break;
+					case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
+					case WM_NCPAINT: { OnNonClientPaint(reinterpret_cast<HRGN>(wParam)); } return FALSE;
+					case WM_NCACTIVATE: { OnNonClientActivate(LOWORD(wParam) != WA_INACTIVE); } return TRUE;
+					case WM_NCLBUTTONDOWN: { OnButtonClick(); } break;
+					case WM_NCLBUTTONDBLCLK: { Fox::Platform::Win32::Utils::MaximizeWindow(handle); } return FALSE;
+					case WM_GETMINMAXINFO: { OnGetWindowMinMaxInfo(reinterpret_cast<MINMAXINFO*>(lParam)); } return FALSE;
+					case WM_EXITSIZEMOVE: { OnExitSizeMove(); } break;
+					case WM_PAINT: { OnPaint(); } break;
+					case WM_TIMER: { RedrawWindow(); } break;
+					case WM_KEYDOWN: { OnKeyDown(static_cast<UINT8>(wParam)); } break;
 
 				default:
 					break;
@@ -178,6 +179,14 @@ namespace Fox {
 						}
 					}
 				}
+			}
+
+			VOID Window::OnKeyDown(UINT8 keyCode) {
+			
+			}
+
+			VOID Window::OnKeyUp(UINT8 keyCode) {
+			
 			}
 
 			VOID Window::OnGetWindowMinMaxInfo(MINMAXINFO* info) {
