@@ -199,6 +199,9 @@
     <ClInclude Include="Platform\WindowHandle.h">
       <Filter>Platform\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\RendererConfig.h">
+      <Filter>Graphics\DirectX\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -287,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="Graphics\IRenderer.cpp">
       <Filter>Graphics\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\RendererConfig.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

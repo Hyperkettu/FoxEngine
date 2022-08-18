@@ -61,12 +61,12 @@ namespace Fox {
 		}
 
 		VOID Simulation::InitializeRenderer() {
-			std::unique_ptr<Fox::Graphics::IRenderer> selectedRenderer(Fox::Graphics::GetRenderer(Fox::Graphics::GraphicsAPI::DirectX12Ultimate));
+			Fox::Graphics::RendererConfig rendererConfig;
+			rendererConfig.windowHandle = Fox::Platform::WindowHandle(handle);
+			std::unique_ptr<Fox::Graphics::IRenderer> selectedRenderer(Fox::Graphics::GetRenderer(rendererConfig));
 			renderer = std::move(selectedRenderer);
 
-			Fox::Platform::WindowHandle windowHandle(handle);
-
-			if (renderer->Initialize(windowHandle, width, height)) {
+			if (renderer->Initialize()) {
 #ifdef _DEBUG
 				Logger::PrintLog(L"Renderer initialized successfully\n");
 #endif

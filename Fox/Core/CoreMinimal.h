@@ -15,6 +15,7 @@
 #include "Fox/Core/SignalBind.h"
 #include "Fox/Graphics/ShaderConfig.h"
 #include "Fox/Platform/WindowHandle.h"
+#include "Fox/Graphics/RendererConfig.h"
 #include "Fox/Graphics/IRenderer.h"
 
 

@@ -6,22 +6,23 @@ namespace Fox {
 
 		class FOX_API IRenderer;
 
-		enum GraphicsAPI : INT {
-			DirectX12Ultimate = 0,
-			Vulkan
-		};
-
-		IRenderer* GetRenderer(Fox::Graphics::GraphicsAPI api);
+		IRenderer* GetRenderer(Fox::Graphics::RendererConfig& rendererConfig);
 
 		class FOX_API IRenderer {
 		public:
-			virtual BOOL Initialize(Fox::Platform::WindowHandle& windowHandle, UINT screenWidth, UINT screenHeight) = 0;
+
+			IRenderer(Fox::Graphics::RendererConfig& rendererConfig) : config(rendererConfig) {}
+
+			virtual BOOL Initialize() = 0;
 			virtual VOID Render(FLOAT dt) = 0;
 			virtual BOOL Resize(UINT width, UINT height, BOOL minimized) = 0;
 
 			virtual RECT GetFullscreenWindowRectangle() const = 0;
 
 			virtual BOOL IsTearingSupported() const = 0;
+
+		protected: 
+			Fox::Graphics::RendererConfig config;
 		};
 	}
 }

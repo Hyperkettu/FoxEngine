@@ -8,8 +8,9 @@ namespace Fox {
 
 			class FOX_API DirectX12Renderer : virtual public Fox::Graphics::IRenderer, public Fox::Graphics::DirectX::IDeviceNotify {
 			public:
+				DirectX12Renderer(Fox::Graphics::RendererConfig& rendererConfig) : Fox::Graphics::IRenderer(rendererConfig) {}
 				virtual ~DirectX12Renderer() {}
-				BOOL Initialize(Fox::Platform::WindowHandle& windowHandle, UINT screenWidth, UINT screenHeight) override;
+				BOOL Initialize() override;
 				VOID Render(FLOAT dt) override;
 				BOOL Resize(UINT width, UINT height, BOOL minimized);
 

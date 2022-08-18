@@ -14,8 +14,7 @@ namespace Fox {
 			class FOX_API Direct3D {
 			public: 
 
-				static const UINT allowTearing = 0x1u;
-				static const UINT requireTearingSupport = 0x2u;
+				Direct3D(Fox::Graphics::RendererConfig& config);
 
 				Direct3D(DXGI_FORMAT backbufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM,
 					DXGI_FORMAT depthStencilBufferFormat = DXGI_FORMAT_D32_FLOAT,
@@ -45,10 +44,11 @@ namespace Fox {
 				VOID SetWindow(HWND handle, UINT width, UINT height) { windowHandle = handle; screenWidth = width; screenHeight = height; }
 
 
-				BOOL IsTearingSupported() const { return options & allowTearing; }
+				BOOL IsTearingSupported() const { return config.allowTearing; }
 				BOOL IsWindowVisible() const { return isWindowVisible; }
 
-
+				DXGI_FORMAT GetDepthStencilFormat(Fox::Graphics::DepthStencilBufferFormat format);
+				DXGI_FORMAT GetBackBufferFormat(Fox::Graphics::BackBufferFormat format);
 
 				// Direct3D Accessors.
 				IDXGIAdapter1* GetAdapter() const { return adapter.Get(); }
@@ -85,9 +85,6 @@ namespace Fox {
 				VOID MoveToNextFrame();
 				VOID InitializeAdapter(IDXGIAdapter1** ppAdapter);
 
-
-				static const UINT MAX_BACKBUFFER_COUNT = 3u;
-
 				UINT adapterIdOverride;
 				UINT backBufferIndex;
 				Microsoft::WRL::ComPtr<IDXGIAdapter1> adapter;
@@ -98,17 +95,17 @@ namespace Fox {
 				Microsoft::WRL::ComPtr<ID3D12Device> direct3dDevice;
 				Microsoft::WRL::ComPtr<ID3D12CommandQueue> mainCommandQueue;
 				Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> mainCommandList;
-				Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocators[MAX_BACKBUFFER_COUNT];
+				Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocators[Fox::Graphics::Buffering::MAX_NUMBER_OF_BUFFERS];
 
 				// Swap chain
 				Microsoft::WRL::ComPtr<IDXGIFactory4> dxgiFactory;
 				Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain;
-				Microsoft::WRL::ComPtr<ID3D12Resource> backBufferRenderTargets[MAX_BACKBUFFER_COUNT];
+				Microsoft::WRL::ComPtr<ID3D12Resource> backBufferRenderTargets[Fox::Graphics::Buffering::MAX_NUMBER_OF_BUFFERS];
 				Microsoft::WRL::ComPtr<ID3D12Resource> depthStencil;
 				
 				// Presentation fence objects 
 				Microsoft::WRL::ComPtr<ID3D12Fence> fence;
-				UINT64 fenceValues[MAX_BACKBUFFER_COUNT];
+				UINT64 fenceValues[Fox::Graphics::Buffering::MAX_NUMBER_OF_BUFFERS];
 				Microsoft::WRL::Wrappers::Event fenceEvent;
 
 				// Direct3D rendering
@@ -137,6 +134,7 @@ namespace Fox {
 				UINT screenHeight;
 				FLOAT aspectRatio;
 
+				Fox::Graphics::RendererConfig config;
 			};
 		}
 	}

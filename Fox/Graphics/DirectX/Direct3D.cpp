@@ -21,6 +21,40 @@ namespace Fox {
 				}
 			}
 
+			Direct3D::Direct3D(Fox::Graphics::RendererConfig& config) : 
+				backBufferIndex(0),
+				fenceValues{},
+				renderTargetViewDescriptorHeap(0),
+				screenViewport{},
+				scissorRect{},
+				backBufferFormat(GetBackBufferFormat(config.backBufferFormat)),
+				depthStencilBufferFormat(GetDepthStencilFormat(config.depthStencilBufferFormat)),
+				backBufferCount(config.buffering + 1),
+				minimumFeatureLevel(D3D_FEATURE_LEVEL_12_1),
+				direct3DFeatureLevel(D3D_FEATURE_LEVEL_12_1),
+				options(0),
+				isWindowVisible(true),
+				deviceNotify(nullptr),
+				adapterIdOverride(adapterIdOverride),
+				adapterId(UINT_MAX),
+				config(config) 
+			{
+
+				if (backBufferCount > Fox::Graphics::Buffering::MAX_NUMBER_OF_BUFFERS)
+				{
+					throw std::out_of_range("backBufferCount too large");
+				}
+
+				if (minimumFeatureLevel < D3D_FEATURE_LEVEL_11_0)
+				{
+					throw std::out_of_range("minFeatureLevel too low");
+				}
+				if (config.requireTearingSupport)
+				{
+					config.allowTearing = TRUE;
+				}
+			}
+
 			Direct3D::Direct3D(DXGI_FORMAT backBufferFormat,
 				DXGI_FORMAT depthStencilBufferFormat,
 				UINT backBufferCount,
@@ -43,7 +77,7 @@ namespace Fox {
 				adapterIdOverride(adapterIdOverride),
 				adapterId(UINT_MAX)
 			{
-				if (backBufferCount > MAX_BACKBUFFER_COUNT)
+				if (backBufferCount > Fox::Graphics::Buffering::MAX_NUMBER_OF_BUFFERS)
 				{
 					throw std::out_of_range("backBufferCount too large");
 				}
@@ -52,11 +86,10 @@ namespace Fox {
 				{
 					throw std::out_of_range("minFeatureLevel too low");
 				}
-				if (options & requireTearingSupport)
+				if (config.requireTearingSupport)
 				{
-					options |= allowTearing;
+					config.allowTearing = TRUE;
 				}
-
 			}
 
 			Direct3D::~Direct3D()
@@ -111,7 +144,7 @@ namespace Fox {
 				}
 
 				// check if tearing is supported on fullscreen 
-				if (options & (allowTearing | requireTearingSupport)) {
+				if (config.allowTearing || config.requireTearingSupport) {
 					BOOL isTearingAllowed = FALSE;
 					Microsoft::WRL::ComPtr<IDXGIFactory5> factory5;
 					HRESULT hr = dxgiFactory.As<IDXGIFactory5>(&factory5);
@@ -123,11 +156,11 @@ namespace Fox {
 					if (FAILED(hr) || !isTearingAllowed)
 					{
 						Logger::PrintLog(L"WARNING: Variable refresh rate displays are not supported.\n");
-						if (options & requireTearingSupport)
+						if (config.requireTearingSupport)
 						{
 							ThrowIfFailed(false, L"Error: Sample must be run on an OS with tearing support.\n");
 						}
-						options &= ~allowTearing;
+						config.allowTearing = FALSE;
 					}
 				}
 
@@ -315,7 +348,7 @@ namespace Fox {
 				// if swapchain exists, resize it, otherwise create it
 				if (swapChain) {
 					HRESULT hr = swapChain->ResizeBuffers(backBufferCount, screenWidth, screenHeight, 
-						backBufferFormat, (options & allowTearing) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0);
+						backBufferFormat, config.allowTearing ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0);
 
 					if (hr == ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) {
 #ifdef _DEBUG
@@ -345,7 +378,7 @@ namespace Fox {
 					swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
 					swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 					swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
-					swapChainDesc.Flags = (options & allowTearing) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+					swapChainDesc.Flags = config.allowTearing ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
 					
 					DXGI_SWAP_CHAIN_FULLSCREEN_DESC swapChainFullScreenDesc = {};
 					swapChainFullScreenDesc.Windowed = TRUE;
@@ -542,7 +575,7 @@ namespace Fox {
 				ExecuteMainCommandList();
 				
 				HRESULT hr;
-				if (options & allowTearing) {
+				if (config.allowTearing) {
 					// Recommended to always use tearing if supported when using a sync interval of 0.
 					// Note this will fail if in true 'fullscreen' mode.
 					hr = swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
@@ -605,6 +638,22 @@ namespace Fox {
 				// Set the fence value for the next frame.
 				fenceValues[backBufferIndex] = currentFenceValue + 1;
 			}
+
+			DXGI_FORMAT Direct3D::GetDepthStencilFormat(Fox::Graphics::DepthStencilBufferFormat format) {
+				switch (format) {
+					case Fox::Graphics::DepthStencilBufferFormat::UNKNOWN: return DXGI_FORMAT_UNKNOWN;
+					case Fox::Graphics::DepthStencilBufferFormat::DEPTH24_UNORM_STENCIL8_UINT: return DXGI_FORMAT_D24_UNORM_S8_UINT;
+					case Fox::Graphics::DepthStencilBufferFormat::DEPTH32_FLOATING_POINT: return DXGI_FORMAT_D32_FLOAT;
+				}
+			}
+
+			DXGI_FORMAT Direct3D::GetBackBufferFormat(Fox::Graphics::BackBufferFormat format) {
+				switch (format) {
+				case Fox::Graphics::BackBufferFormat::R8G8B8A8_UNORM:	return DXGI_FORMAT_R8G8B8A8_UNORM;
+				}
+			}
+
+
 
 		}
 	}
