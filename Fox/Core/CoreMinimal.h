@@ -14,6 +14,9 @@
 #include "Fox/Core/Signal.h"
 #include "Fox/Core/SignalBind.h"
 #include "Fox/Graphics/ShaderConfig.h"
+#include "Fox/Platform/WindowHandle.h"
+#include "Fox/Graphics/IRenderer.h"
+
 
 #ifdef WIN32
 
@@ -31,14 +34,12 @@
 	#endif
 
 	#include "Fox/Graphics/DirectX/DirectXHelper.h"
+	#include "Fox/Graphics/DirectX/DirectXRaytracingHelper.h"
 	#include "Fox/Graphics/DirectX/Direct3D.h"
+	#include "Fox/Graphics/DirectX/DirectX12Renderer.h"
 	#include "Fox/Platform/Win32/Win32Utils.h"
 	#include "Fox/Platform/Win32/SubObject.h"
 	#include "Fox/Platform/Win32/WindowCaption.h"
 	#include "Fox/Platform/Win32/Window.h"
 	#include "Fox/Platform/Win32/IApplication.h"
-
-	#include "Fox/Graphics/DirectX/DirectXHelper.h"
-	#include "Fox/Graphics/DirectX/DirectXRaytracingHelper.h"
-	#include "Fox/Graphics/DirectX/Direct3D.h"
 #endif

@@ -41,7 +41,7 @@ namespace Fox {
 					// ALT+ENTER:
 					if ((wParam == VK_RETURN) && (lParam & (1 << 29)))
 					{
-						if (direct3D->IsTearingSupported())
+						if (renderer->IsTearingSupported())
 						{
 							ToggleWindowFullscreen();
 							return 0;
@@ -60,46 +60,25 @@ namespace Fox {
 			return Window::MessageHandler(hWnd, message, wParam, lParam);
 		}
 
-		VOID Simulation::OnDeviceLost() {
-		//	ReleaseWindowSizeDependentResources();
-		//	ReleaseDeviceDependentResources();
-		}
-
-		VOID Simulation::OnDeviceRestored() {
-			//CreateDeviceDependentResources();
-			//CreateWindowSizeDependentResources();
-		}
-
 		VOID Simulation::InitializeRenderer() {
-			UINT numBackbuffers = 3u;
-			direct3D = std::make_unique<Fox::Graphics::DirectX::Direct3D>(
-				DXGI_FORMAT_R8G8B8A8_UNORM,
-				DXGI_FORMAT_UNKNOWN,
-				numBackbuffers,
-				D3D_FEATURE_LEVEL_12_1,
-				Fox::Graphics::DirectX::Direct3D::requireTearingSupport
-			);
+			std::unique_ptr<Fox::Graphics::IRenderer> selectedRenderer(Fox::Graphics::GetRenderer(Fox::Graphics::GraphicsAPI::DirectX12Ultimate));
+			renderer = std::move(selectedRenderer);
 
-			direct3D->RegisterDeviceNotify(this);
-			direct3D->SetWindow(handle, width, height);
-			direct3D->InitializeDXGIAdapter();
+			Fox::Platform::WindowHandle windowHandle(handle);
 
-			Fox::Graphics::DirectX::ThrowIfFailed(Fox::Graphics::DirectX::IsDirectXRaytracingSupported(direct3D->GetAdapter()),
-				L"ERROR: DirectX Raytracing is not supported by your OS, GPU and/or driver.\n\n");
-			direct3D->CreateDeviceResources();
-			direct3D->CreateWindowSizeDependentResources();
-			Logger::PrintLog(L"DirectX 12 Device inited.\n");
+			if (renderer->Initialize(windowHandle, width, height)) {
+#ifdef _DEBUG
+				Logger::PrintLog(L"Renderer initialized successfully\n");
+#endif
+			} else {
+				throw std::exception("Failed to initialize selected renderer.");
+			}
 		}
 
 		VOID Simulation::Render(FLOAT dt) {
-			if (!direct3D) {
-				return;
+			if (renderer) {
+				renderer->Render(dt);
 			}
-
-			direct3D->RenderBegin();
-			FLOAT color[4] = { 1.0f, 0.0f, 1.0f, 1.0f };
-			direct3D->GetMainCommandList()->ClearRenderTargetView(direct3D->GetRenderTargetView(), color, 0, nullptr);
-			direct3D->RenderEnd();
 		}
 
 		VOID Simulation::OnKeyDown(UINT8 keyCode) {
@@ -135,38 +114,7 @@ namespace Fox {
 				// Make the window borderless so that the client area can fill the screen.
 				SetWindowLong(handle, GWL_STYLE, windowStyle & ~(WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME));
 
-				RECT fullscreenWindowRect;
-				try
-				{
-					if (direct3D->GetSwapChain())
-					{
-						// Get the settings of the display on which the app's window is currently displayed
-						Microsoft::WRL::ComPtr<IDXGIOutput> pOutput;
-						Fox::Graphics::DirectX::ThrowIfFailed(direct3D->GetSwapChain()->GetContainingOutput(&pOutput));
-						DXGI_OUTPUT_DESC Desc;
-						Fox::Graphics::DirectX::ThrowIfFailed(pOutput->GetDesc(&Desc));
-						fullscreenWindowRect = Desc.DesktopCoordinates;
-					} else
-					{
-						// Fallback to EnumDisplaySettings implementation
-						throw Fox::Graphics::DirectX::HRException(S_FALSE);
-					}
-				} catch (Fox::Graphics::DirectX::HRException& e)
-				{
-					UNREFERENCED_PARAMETER(e);
-
-					// Get the settings of the primary display
-					DEVMODE devMode = {};
-					devMode.dmSize = sizeof(DEVMODE);
-					EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
-
-					fullscreenWindowRect = {
-						devMode.dmPosition.x,
-						devMode.dmPosition.y,
-						devMode.dmPosition.x + static_cast<LONG>(devMode.dmPelsWidth),
-						devMode.dmPosition.y + static_cast<LONG>(devMode.dmPelsHeight)
-					};
-				}
+				RECT fullscreenWindowRect = renderer->GetFullscreenWindowRectangle();
 
 				SetWindowPos(
 					handle,
@@ -185,7 +133,7 @@ namespace Fox {
 		}
 
 		VOID Simulation::OnResizeWindow(UINT width, UINT height, BOOL minimized) {
-			if (!direct3D || !direct3D->Resize(width, height, minimized)) {
+			if (!renderer || !renderer->Resize(width, height, minimized)) {
 				return;
 			}
 

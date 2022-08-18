@@ -83,6 +83,15 @@
     <Filter Include="Graphics\DirectX\Private">
       <UniqueIdentifier>{ca9d1c14-c029-49f4-93e4-4db3c1dd201c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\Classes">
+      <UniqueIdentifier>{d048e4f8-d6ec-479f-80bd-ac1c7a5c3beb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Public">
+      <UniqueIdentifier>{c6e45a28-ed6a-45c5-8ec1-ba11eb26d269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Private">
+      <UniqueIdentifier>{1120cb2c-4eaf-46e2-a98e-50d0cc7b9fc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Logger.h">
@@ -181,6 +190,15 @@
     <ClInclude Include="Graphics\DirectX\DirectXRaytracingHelper.h">
       <Filter>Graphics\DirectX\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX\DirectX12Renderer.h">
+      <Filter>Graphics\DirectX\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IRenderer.h">
+      <Filter>Graphics\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\WindowHandle.h">
+      <Filter>Platform\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -263,6 +281,12 @@
     </ClCompile>
     <ClCompile Include="Graphics\DirectX\DirectXRaytracingHelper.cpp">
       <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\DirectX12Renderer.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\IRenderer.cpp">
+      <Filter>Graphics\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
