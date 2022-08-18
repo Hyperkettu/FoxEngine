@@ -202,6 +202,9 @@
     <ClInclude Include="Graphics\RendererConfig.h">
       <Filter>Graphics\DirectX\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX\DirectXRaytracing.h">
+      <Filter>Graphics\DirectX\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -292,6 +295,9 @@
       <Filter>Graphics\Private</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\RendererConfig.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\DirectXRaytracing.cpp">
       <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
   </ItemGroup>

@@ -37,6 +37,7 @@
 	#include "Fox/Graphics/DirectX/DirectXHelper.h"
 	#include "Fox/Graphics/DirectX/DirectXRaytracingHelper.h"
 	#include "Fox/Graphics/DirectX/Direct3D.h"
+	#include "Fox/Graphics/DirectX/DirectXRaytracing.h"
 	#include "Fox/Graphics/DirectX/DirectX12Renderer.h"
 	#include "Fox/Platform/Win32/Win32Utils.h"
 	#include "Fox/Platform/Win32/SubObject.h"

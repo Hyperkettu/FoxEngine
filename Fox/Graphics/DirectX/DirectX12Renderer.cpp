@@ -8,6 +8,7 @@ namespace Fox {
 
 			BOOL DirectX12Renderer::Initialize() {
 				direct3D = std::make_unique<Fox::Graphics::DirectX::Direct3D>(config);
+				directXRaytracing = std::make_unique<Fox::Graphics::DirectX::DirectXRaytracing>();
 
 				HWND windowsHandle = static_cast<HWND>(config.windowHandle.GetHandle());
 
@@ -23,6 +24,12 @@ namespace Fox {
 #ifdef _DEBUG
 				Logger::PrintLog(L"DirectX 12 Ultimate Device initialized.\n");
 #endif
+
+				InitializeScene();
+
+				directXRaytracing->CreateDeviceDependentResources(*direct3D.get());
+				directXRaytracing->CreateWindowSizeDependentResources(*direct3D.get());
+
 				return TRUE;
 			}
 
@@ -36,13 +43,13 @@ namespace Fox {
 
 
 			VOID DirectX12Renderer::OnDeviceLost() {
-				//	ReleaseWindowSizeDependentResources();
-				//	ReleaseDeviceDependentResources();
+				directXRaytracing->ReleaseWindowSizeDependentResources();
+				directXRaytracing->ReleaseDeviceDependentResources();
 			}
 
 			VOID DirectX12Renderer::OnDeviceRestored() {
-				//CreateDeviceDependentResources();
-				//CreateWindowSizeDependentResources();
+				directXRaytracing->CreateDeviceDependentResources(*direct3D.get());
+				directXRaytracing->CreateWindowSizeDependentResources(*direct3D.get());
 			}
 
 			RECT DirectX12Renderer::GetFullscreenWindowRectangle() const {
@@ -92,6 +99,11 @@ namespace Fox {
 				direct3D->GetMainCommandList()->ClearRenderTargetView(direct3D->GetRenderTargetView(), color, 0, nullptr);
 				direct3D->RenderEnd();
 			}
+
+			BOOL DirectX12Renderer::InitializeScene() {
+				return TRUE;
+			}
+
 
 
 		}

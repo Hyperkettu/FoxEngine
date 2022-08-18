@@ -115,6 +115,7 @@
     <ClInclude Include="Graphics\DirectX\Direct3D.h" />
     <ClInclude Include="Graphics\DirectX\DirectX12Renderer.h" />
     <ClInclude Include="Graphics\DirectX\DirectXHelper.h" />
+    <ClInclude Include="Graphics\DirectX\DirectXRaytracing.h" />
     <ClInclude Include="Graphics\DirectX\DirectXRaytracingHelper.h" />
     <ClInclude Include="Graphics\IRenderer.h" />
     <ClInclude Include="Graphics\RendererConfig.h" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Graphics\DirectX\Direct3D.cpp" />
     <ClCompile Include="Graphics\DirectX\DirectX12Renderer.cpp" />
     <ClCompile Include="Graphics\DirectX\DirectXHelper.cpp" />
+    <ClCompile Include="Graphics\DirectX\DirectXRaytracing.cpp" />
     <ClCompile Include="Graphics\DirectX\DirectXRaytracingHelper.cpp" />
     <ClCompile Include="Graphics\IRenderer.cpp" />
     <ClCompile Include="Graphics\RendererConfig.cpp" />
