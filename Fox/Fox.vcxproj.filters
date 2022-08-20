@@ -205,6 +205,12 @@
     <ClInclude Include="Graphics\DirectX\DirectXRaytracing.h">
       <Filter>Graphics\DirectX\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX\HlslCompatibilityDefinitions.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\RaytracingHlslCompatibilityDefinitions.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">

@@ -19,12 +19,19 @@ namespace Fox {
 			private:
 
 				VOID CreateRaytracingInterfaces(const Fox::Graphics::DirectX::Direct3D& direct3D);
-
+				VOID CreateShaderRootSignatures(const Fox::Graphics::DirectX::Direct3D& direct3D);
 
 				// DirectX Raytracing (DXR) attributes
 				Microsoft::WRL::ComPtr<ID3D12Device5> dxrDevice;
 				Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> dxrCommandList;
 				Microsoft::WRL::ComPtr<ID3D12StateObject> dxrStateObject;
+
+				// Root signatures
+				Microsoft::WRL::ComPtr<ID3D12RootSignature> raytracingGlobalRootSignature;
+				Microsoft::WRL::ComPtr<ID3D12RootSignature> raytracingLocalRootSignature;
+
+				// Constant buffers
+				CubeData cubeConstantBuffer;
 			};
 		}
 	}

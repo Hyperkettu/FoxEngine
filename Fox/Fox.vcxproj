@@ -117,6 +117,8 @@
     <ClInclude Include="Graphics\DirectX\DirectXHelper.h" />
     <ClInclude Include="Graphics\DirectX\DirectXRaytracing.h" />
     <ClInclude Include="Graphics\DirectX\DirectXRaytracingHelper.h" />
+    <ClInclude Include="Graphics\DirectX\HlslCompatibilityDefinitions.h" />
+    <ClInclude Include="Graphics\DirectX\RaytracingHlslCompatibilityDefinitions.h" />
     <ClInclude Include="Graphics\IRenderer.h" />
     <ClInclude Include="Graphics\RendererConfig.h" />
     <ClInclude Include="Graphics\ShaderConfig.h" />
