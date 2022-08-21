@@ -12,6 +12,7 @@ namespace Fox {
 				CreateShaderRootSignatures(direct3D);
 				CreateRaytracingPipelineStateObject(direct3D);
 				CreateDescriptorHeap(direct3D);
+				BuildVertexAndIndexBuffers(direct3D);
 			}
 
 			VOID DirectXRaytracing::CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
