@@ -14,13 +14,23 @@ namespace Fox {
 				}
 			}
 
-			inline void ThrowIfFailed(HRESULT hr, const wchar_t* msg)
+			VOID ThrowIfFailed(HRESULT hr, const wchar_t* msg)
 			{
 				if (FAILED(hr))
 				{
 					Logger::PrintLog(msg);
 					throw HRException(hr);
 				}
+			}
+
+			VOID ThrowIfFalse(bool value)
+			{
+				ThrowIfFailed(value ? S_OK : E_FAIL);
+			}
+
+			VOID ThrowIfFalse(bool value, const wchar_t* msg)
+			{
+				ThrowIfFailed(value ? S_OK : E_FAIL, msg);
 			}
 		}
 	}

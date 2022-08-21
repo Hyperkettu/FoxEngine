@@ -5,6 +5,13 @@ namespace Fox {
 	namespace Graphics {
 
 		namespace DirectX {
+
+			struct Direct3DBuffer
+			{
+				Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+				D3D12_CPU_DESCRIPTOR_HANDLE handleForCPU;
+				D3D12_GPU_DESCRIPTOR_HANDLE handleForGPU;
+			};
 			
 			class FOX_API DirectXRaytracing {
 			public:
@@ -22,7 +29,9 @@ namespace Fox {
 				VOID CreateShaderRootSignatures(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateRaytracingPipelineStateObject(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateDescriptorHeap(const Fox::Graphics::DirectX::Direct3D& direct3D);
-
+				VOID BuildVertexAndIndexBuffers(const Fox::Graphics::DirectX::Direct3D& direct3D);
+				UINT CreateShaderResourceViewForBuffer(const Fox::Graphics::DirectX::Direct3D& direct3D, Direct3DBuffer* buffer, UINT numElements, UINT elementSize);
+				UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
 
 				VOID CreateLocalRootSignatureSubobjects(CD3DX12_STATE_OBJECT_DESC* raytracingPipelineStateDesc);
 
@@ -38,9 +47,14 @@ namespace Fox {
 				// Constant buffers
 				CubeData cubeConstantBuffer;
 
-				// descriptor heap
+				// Descriptor heap
 				Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 				UINT descriptorSize;
+				UINT numDescriptorsAllocated = 0u;
+
+				// Geometry
+				Direct3DBuffer indexBuffer;
+				Direct3DBuffer vertexBuffer;
 			};
 		}
 	}

@@ -8,6 +8,27 @@ namespace Fox {
     
         namespace DirectX {
 
+            inline VOID AllocateUploadBuffer(ID3D12Device* pDevice, VOID* pData, UINT64 dataSize, ID3D12Resource** ppResource, const wchar_t* resourceName = nullptr)
+            {
+                auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+                auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(dataSize);
+                ThrowIfFailed(pDevice->CreateCommittedResource(
+                    &uploadHeapProperties,
+                    D3D12_HEAP_FLAG_NONE,
+                    &bufferDesc,
+                    D3D12_RESOURCE_STATE_GENERIC_READ,
+                    nullptr,
+                    IID_PPV_ARGS(ppResource)));
+                if (resourceName)
+                {
+                    (*ppResource)->SetName(resourceName);
+                }
+                void* pMappedData;
+                (*ppResource)->Map(0, nullptr, &pMappedData);
+                memcpy(pMappedData, pData, dataSize);
+                (*ppResource)->Unmap(0, nullptr);
+            }
+
             inline VOID FOX_API PrintPipelineStateObjectDesc(const D3D12_STATE_OBJECT_DESC* desc);
         
             // Returns bool whether the device supports DirectX Raytracing tier.

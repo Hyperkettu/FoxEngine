@@ -157,6 +157,128 @@ namespace Fox {
 				Logger::PrintLog(L"Created shader resources descriptor heap successfully.\n");
 #endif
 			}
+
+			VOID DirectXRaytracing::BuildVertexAndIndexBuffers(const Fox::Graphics::DirectX::Direct3D& direct3D) {
+
+				auto device = direct3D.GetDirect3DDevice();
+
+				// Cube indices.
+				Index indices[] =
+				{
+					3,1,0,
+					2,1,3,
+
+					6,4,5,
+					7,4,6,
+
+					11,9,8,
+					10,9,11,
+
+					14,12,13,
+					15,12,14,
+
+					19,17,16,
+					18,17,19,
+
+					22,20,21,
+					23,20,22
+				};
+
+				// Cube vertices positions and corresponding triangle normals.
+				Vertex vertices[] =
+				{
+					{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+					{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+
+					{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f) },
+					{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f) },
+
+					{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f) },
+					{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f) },
+					{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f) },
+					{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f) },
+
+					{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+					{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+
+					{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f) },
+					{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f) },
+					{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f) },
+					{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f) },
+
+					{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+					{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+					{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+					{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+				};
+
+				AllocateUploadBuffer(device, indices, sizeof(indices), &indexBuffer.resource);
+				AllocateUploadBuffer(device, vertices, sizeof(vertices), &vertexBuffer.resource);
+
+				// Vertex buffer is passed to the shader along with index buffer as a descriptor table.
+				// Vertex buffer descriptor must follow index buffer descriptor in the descriptor heap.
+				UINT descriptorIndexIB = CreateShaderResourceViewForBuffer(direct3D, &indexBuffer, sizeof(indices) / 4, 0);
+				UINT descriptorIndexVB = CreateShaderResourceViewForBuffer(direct3D, &vertexBuffer, ARRAYSIZE(vertices), sizeof(vertices[0]));
+				ThrowIfFalse(descriptorIndexVB == descriptorIndexIB + 1, L"Vertex Buffer descriptor index must follow that of Index Buffer descriptor index!");
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Built geometry successfully.\n");
+#endif // _DEBUG
+
+			}
+
+			UINT DirectXRaytracing::CreateShaderResourceViewForBuffer(const Fox::Graphics::DirectX::Direct3D& direct3D, Direct3DBuffer* buffer, UINT numElements, UINT elementSize) {
+				auto device = direct3D.GetDirect3DDevice();
+		
+				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+				srvDesc.Buffer.NumElements = numElements;
+
+				if (elementSize == 0) {
+					srvDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+					srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_RAW;
+					srvDesc.Buffer.StructureByteStride = 0;
+				} else {
+					srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+					srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+					srvDesc.Buffer.StructureByteStride = elementSize;
+				}
+				UINT descriptorIndex = AllocateDescriptor(&buffer->handleForCPU);
+				device->CreateShaderResourceView(buffer->resource.Get(), &srvDesc, buffer->handleForCPU);
+				buffer->handleForGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(descriptorHeap->GetGPUDescriptorHandleForHeapStart(), descriptorIndex, descriptorSize);
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Created Shader Resource View for buffer successfully.\n");
+#endif // _DEBUG
+
+				return descriptorIndex;
+			}
+
+			// Allocate a descriptor and return its index. 
+			// If the passed descriptorIndexToUse is valid, it will be used instead of allocating a new one.
+			UINT DirectXRaytracing::AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndex)
+			{
+				auto descriptorHeapCpuHeapStart = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+				if (descriptorIndex >= descriptorHeap->GetDesc().NumDescriptors)
+				{
+					descriptorIndex = numDescriptorsAllocated++;
+				}
+				*cpuDescriptor = CD3DX12_CPU_DESCRIPTOR_HANDLE(descriptorHeapCpuHeapStart, descriptorIndex, descriptorSize);
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Allocated descriptor successfully.\n");
+#endif // _DEBUG
+
+				return descriptorIndex;
+			}
+
 		}
 	}
 }
