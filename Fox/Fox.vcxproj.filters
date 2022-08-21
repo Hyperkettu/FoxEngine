@@ -92,6 +92,12 @@
     <Filter Include="Platform\Private">
       <UniqueIdentifier>{1120cb2c-4eaf-46e2-a98e-50d0cc7b9fc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{df751374-c37f-450d-90ed-0037807f1305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders">
+      <UniqueIdentifier>{35451582-8116-4652-9468-c919297c1fa1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Logger.h">
@@ -306,5 +312,10 @@
     <ClCompile Include="Graphics\DirectX\DirectXRaytracing.cpp">
       <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\Shaders\PathTracer.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

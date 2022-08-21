@@ -10,7 +10,7 @@ namespace Fox {
 	}
 
 	INT ShaderConfig::resolveFile() {
-		std::string data = ResourceSystem::readFile(fileName);
+		std::string data = Fox::Core::ResourceSystem::ReadFile(fileName);
 		sourceFile = new JSONFile;
 		sourceFile->parse(data);
 

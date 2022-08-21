@@ -7,6 +7,8 @@ namespace Fox {
     namespace Graphics {
     
         namespace DirectX {
+
+            inline VOID FOX_API PrintPipelineStateObjectDesc(const D3D12_STATE_OBJECT_DESC* desc);
         
             // Returns bool whether the device supports DirectX Raytracing tier.
             inline bool FOX_API IsDirectXRaytracingSupported(IDXGIAdapter1* adapter)

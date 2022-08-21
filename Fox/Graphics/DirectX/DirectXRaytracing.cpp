@@ -10,6 +10,7 @@ namespace Fox {
 			VOID DirectXRaytracing::CreateDeviceDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
 				CreateRaytracingInterfaces(direct3D);
 				CreateShaderRootSignatures(direct3D);
+				CreateRaytracingPipelineStateObject(direct3D);
 			}
 
 			VOID DirectXRaytracing::CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
@@ -75,6 +76,67 @@ namespace Fox {
 				Logger::PrintLog(L"Created shader root signatures successfully.\n");
 #endif
 			}
+
+			//Create a raytracing pipeline state object(RTPSO).
+			// An RTPSO represents a full set of shaders reachable by a DispatchRays() call,
+			// with all configuration options resolved, such as local signatures and other state.
+			VOID DirectXRaytracing::CreateRaytracingPipelineStateObject(const Fox::Graphics::DirectX::Direct3D& direct3D) {
+				CD3DX12_STATE_OBJECT_DESC raytracingPipelineStateDesc = { D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE };
+				CD3DX12_DXIL_LIBRARY_SUBOBJECT* dxilLibrary = raytracingPipelineStateDesc.CreateSubobject<CD3DX12_DXIL_LIBRARY_SUBOBJECT>();
+				std::vector<uint8_t> shaderBytes = Fox::Core::ResourceSystem::ReadBinaryFile("Assets\\Shaders\\PathTracer.cso");
+				D3D12_SHADER_BYTECODE shaderByteCode = CD3DX12_SHADER_BYTECODE(static_cast<void*>(&shaderBytes[0]), shaderBytes.size());
+				dxilLibrary->SetDXILLibrary(&shaderByteCode);
+
+				{
+					dxilLibrary->DefineExport(L"MyRayGenerationShader");
+					dxilLibrary->DefineExport(L"MyClosestHitShader");
+					dxilLibrary->DefineExport(L"MyMissShader");
+				}
+
+				CD3DX12_HIT_GROUP_SUBOBJECT* hitGroup = raytracingPipelineStateDesc.CreateSubobject<CD3DX12_HIT_GROUP_SUBOBJECT>();
+				hitGroup->SetClosestHitShaderImport(L"MyClosestHitShader");
+				hitGroup->SetHitGroupExport(L"MyHitGroup");
+				hitGroup->SetHitGroupType(D3D12_HIT_GROUP_TYPE_TRIANGLES);
+
+				CD3DX12_RAYTRACING_SHADER_CONFIG_SUBOBJECT* shaderConfig = raytracingPipelineStateDesc.CreateSubobject<CD3DX12_RAYTRACING_SHADER_CONFIG_SUBOBJECT>();
+				UINT payloadSize = sizeof(XMFLOAT4);    // float4 pixelColor
+				UINT attributeSize = sizeof(XMFLOAT2);  // float2 barycentrics
+				shaderConfig->Config(payloadSize, attributeSize);
+
+				CreateLocalRootSignatureSubobjects(&raytracingPipelineStateDesc);
+
+				CD3DX12_GLOBAL_ROOT_SIGNATURE_SUBOBJECT* globalRootSignature = raytracingPipelineStateDesc.CreateSubobject<CD3DX12_GLOBAL_ROOT_SIGNATURE_SUBOBJECT>();
+				globalRootSignature->SetRootSignature(raytracingGlobalRootSignature.Get());
+
+				CD3DX12_RAYTRACING_PIPELINE_CONFIG_SUBOBJECT* pipelineConfig = raytracingPipelineStateDesc.CreateSubobject<CD3DX12_RAYTRACING_PIPELINE_CONFIG_SUBOBJECT>();
+				UINT maxRecursionDepth = 1;
+				pipelineConfig->Config(maxRecursionDepth);
+
+#if _DEBUG
+				Fox::Graphics::DirectX::PrintPipelineStateObjectDesc(raytracingPipelineStateDesc);
+#endif
+
+				ThrowIfFailed(dxrDevice->CreateStateObject(raytracingPipelineStateDesc, IID_PPV_ARGS(&dxrPipelineState)), 
+					L"Couldn't create DirectX Raytracing pipeline state object.\n");
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Created raytracing pipeline state object successfully.\n");
+#endif
+			}
+
+			VOID DirectXRaytracing::CreateLocalRootSignatureSubobjects(CD3DX12_STATE_OBJECT_DESC* raytracingPipelineStateDesc) {
+				CD3DX12_LOCAL_ROOT_SIGNATURE_SUBOBJECT* localRootSignature = raytracingPipelineStateDesc->CreateSubobject<CD3DX12_LOCAL_ROOT_SIGNATURE_SUBOBJECT>();
+				localRootSignature->SetRootSignature(raytracingLocalRootSignature.Get());
+
+				{
+					CD3DX12_SUBOBJECT_TO_EXPORTS_ASSOCIATION_SUBOBJECT* rootSignatureAssociation = 
+						raytracingPipelineStateDesc->CreateSubobject<CD3DX12_SUBOBJECT_TO_EXPORTS_ASSOCIATION_SUBOBJECT>();
+					rootSignatureAssociation->SetSubobjectToAssociate(*localRootSignature);
+					rootSignatureAssociation->AddExport(L"MyHitGroup");
+				}
+			}
+
+
 		}
 	}
 }
