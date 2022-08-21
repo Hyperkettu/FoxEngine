@@ -11,6 +11,7 @@ namespace Fox {
 				CreateRaytracingInterfaces(direct3D);
 				CreateShaderRootSignatures(direct3D);
 				CreateRaytracingPipelineStateObject(direct3D);
+				CreateDescriptorHeap(direct3D);
 			}
 
 			VOID DirectXRaytracing::CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
@@ -136,7 +137,26 @@ namespace Fox {
 				}
 			}
 
+			VOID DirectXRaytracing::CreateDescriptorHeap(const Fox::Graphics::DirectX::Direct3D& direct3D) {
+				auto device = direct3D.GetDirect3DDevice();
 
+				D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
+				// Allocate a heap for 3 descriptors:
+				// 2 - vertex and index buffer SRVs
+				// 1 - raytracing output texture SRV
+				descriptorHeapDesc.NumDescriptors = 3;
+				descriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+				descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+				descriptorHeapDesc.NodeMask = 0;
+				device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&descriptorHeap));
+				descriptorHeap->SetName(L"Shader Resources Descritor Heap"); // TODO don't name when Relase version
+
+				descriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Created shader resources descriptor heap successfully.\n");
+#endif
+			}
 		}
 	}
 }

@@ -21,9 +21,10 @@ namespace Fox {
 				VOID CreateRaytracingInterfaces(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateShaderRootSignatures(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateRaytracingPipelineStateObject(const Fox::Graphics::DirectX::Direct3D& direct3D);
+				VOID CreateDescriptorHeap(const Fox::Graphics::DirectX::Direct3D& direct3D);
+
 
 				VOID CreateLocalRootSignatureSubobjects(CD3DX12_STATE_OBJECT_DESC* raytracingPipelineStateDesc);
-
 
 				// DirectX Raytracing (DXR) attributes
 				Microsoft::WRL::ComPtr<ID3D12Device5> dxrDevice;
@@ -36,6 +37,10 @@ namespace Fox {
 
 				// Constant buffers
 				CubeData cubeConstantBuffer;
+
+				// descriptor heap
+				Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;
+				UINT descriptorSize;
 			};
 		}
 	}
