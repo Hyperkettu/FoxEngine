@@ -38,7 +38,7 @@ namespace Fox {
 				BOOL Resize(UINT width, UINT height, BOOL minimized);
 				VOID HandleLostGraphicsDevice();
 
-				VOID ExecuteMainCommandList();
+				VOID ExecuteMainCommandList() const;
 				VOID WaitForGpu() noexcept;
 
 				VOID SetWindow(HWND handle, UINT width, UINT height) { windowHandle = handle; screenWidth = width; screenHeight = height; }

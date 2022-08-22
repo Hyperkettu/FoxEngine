@@ -18,7 +18,7 @@ namespace Fox {
 
 				DirectXRaytracing() = default;
 
-				VOID CreateDeviceDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D);
+				VOID CreateDeviceDependentResources(Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID ReleaseDeviceDependentResources();
 				VOID ReleaseWindowSizeDependentResources();
@@ -29,7 +29,10 @@ namespace Fox {
 				VOID CreateShaderRootSignatures(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateRaytracingPipelineStateObject(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateDescriptorHeap(const Fox::Graphics::DirectX::Direct3D& direct3D);
-				VOID BuildVertexAndIndexBuffers(const Fox::Graphics::DirectX::Direct3D& direct3D);
+				VOID BuildVertexAndIndexBuffers(const Fox::Graphics::DirectX::Direct3D& direct3D);				
+				VOID BuildRaytracingAccelerationStructuresForGeometry(Fox::Graphics::DirectX::Direct3D& direct3D);
+
+
 				UINT CreateShaderResourceViewForBuffer(const Fox::Graphics::DirectX::Direct3D& direct3D, Direct3DBuffer* buffer, UINT numElements, UINT elementSize);
 				UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
 
@@ -55,6 +58,10 @@ namespace Fox {
 				// Geometry
 				Direct3DBuffer indexBuffer;
 				Direct3DBuffer vertexBuffer;
+
+				// Acceleration structure
+				Microsoft::WRL::ComPtr<ID3D12Resource> bottomLevelAccelerationStructure;
+				Microsoft::WRL::ComPtr<ID3D12Resource> topLevelAccelerationStructure;
 			};
 		}
 	}

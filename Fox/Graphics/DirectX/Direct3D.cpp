@@ -545,7 +545,7 @@ namespace Fox {
 			
 }
 
-			VOID Direct3D::ExecuteMainCommandList() {
+			VOID Direct3D::ExecuteMainCommandList() const {
 				ThrowIfFailed(mainCommandList->Close());
 				ID3D12CommandList* commandLists[] = { mainCommandList.Get() };
 				mainCommandQueue->ExecuteCommandLists(ARRAYSIZE(commandLists), commandLists);

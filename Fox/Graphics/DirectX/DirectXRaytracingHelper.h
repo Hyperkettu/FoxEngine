@@ -8,8 +8,11 @@ namespace Fox {
     
         namespace DirectX {
 
-            inline VOID AllocateUploadBuffer(ID3D12Device* pDevice, VOID* pData, UINT64 dataSize, ID3D12Resource** ppResource, const wchar_t* resourceName = nullptr)
-            {
+            VOID FOX_API AllocateUnorderedAccessViewBuffer(ID3D12Device* pDevice, UINT64 bufferSize, ID3D12Resource** ppResource, 
+                D3D12_RESOURCE_STATES initialResourceState = D3D12_RESOURCE_STATE_COMMON, const wchar_t* resourceName = nullptr);
+
+
+            inline VOID FOX_API AllocateUploadBuffer(ID3D12Device* pDevice, VOID* pData, UINT64 dataSize, ID3D12Resource** ppResource, const wchar_t* resourceName = nullptr) {
                 auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
                 auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(dataSize);
                 ThrowIfFailed(pDevice->CreateCommittedResource(
