@@ -14,7 +14,7 @@ namespace Fox {
 				CreateDescriptorHeap(direct3D);
 				BuildVertexAndIndexBuffers(direct3D);
 				BuildRaytracingAccelerationStructuresForGeometry(direct3D);
-
+				CreateConstantBuffers(direct3D);
 			}
 
 			VOID DirectXRaytracing::CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
@@ -392,6 +392,36 @@ namespace Fox {
 				Logger::PrintLog(L"Created acceleration strcture for geometry successfully.\n");
 #endif
 			}
+
+			VOID DirectXRaytracing::CreateConstantBuffers(Fox::Graphics::DirectX::Direct3D& direct3D) { 
+				auto device = direct3D.GetDirect3DDevice();
+				UINT frameCount = direct3D.GetBackBufferCount();
+
+				// Create the constant buffer memory and map the CPU and GPU addresses
+				const D3D12_HEAP_PROPERTIES uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
+				// Allocate one constant buffer per frame, since it gets updated every frame.
+				size_t cbSize = frameCount * sizeof(PerFrameConstantBuffer);
+				const D3D12_RESOURCE_DESC constantBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(cbSize);
+
+				ThrowIfFailed(device->CreateCommittedResource(
+					&uploadHeapProperties,
+					D3D12_HEAP_FLAG_NONE,
+					&constantBufferDesc,
+					D3D12_RESOURCE_STATE_GENERIC_READ,
+					nullptr,
+					IID_PPV_ARGS(&perFrameConstants)));
+
+				// Map the constant buffer and cache its heap pointers.
+				// We don't unmap this until the app closes. Keeping buffer mapped for the lifetime of the resource is okay.
+		        // We do not intend to read from this resource on the CPU.
+				ThrowIfFailed(perFrameConstants->Map(0, nullptr, reinterpret_cast<void**>(&perFrameConstantData)));
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Created constant buffers successfully.\n");
+#endif
+			}
+
 
 		}
 	}

@@ -31,12 +31,22 @@ namespace Fox {
 				VOID CreateDescriptorHeap(const Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID BuildVertexAndIndexBuffers(const Fox::Graphics::DirectX::Direct3D& direct3D);				
 				VOID BuildRaytracingAccelerationStructuresForGeometry(Fox::Graphics::DirectX::Direct3D& direct3D);
-
+				VOID CreateConstantBuffers(Fox::Graphics::DirectX::Direct3D& direct3D);
 
 				UINT CreateShaderResourceViewForBuffer(const Fox::Graphics::DirectX::Direct3D& direct3D, Direct3DBuffer* buffer, UINT numElements, UINT elementSize);
 				UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
 
 				VOID CreateLocalRootSignatureSubobjects(CD3DX12_STATE_OBJECT_DESC* raytracingPipelineStateDesc);
+
+				// constant buffers
+				union PerFrameConstantBuffer {
+					PerFrame perFrameConstantBuffer;
+					uint8_t alignmentPadding[D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT];
+				}
+;
+				Microsoft::WRL::ComPtr<ID3D12Resource> perFrameConstants;
+				PerFrameConstantBuffer* perFrameConstantData;
+
 
 				// DirectX Raytracing (DXR) attributes
 				Microsoft::WRL::ComPtr<ID3D12Device5> dxrDevice;
