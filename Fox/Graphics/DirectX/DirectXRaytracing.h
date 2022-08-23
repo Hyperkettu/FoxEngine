@@ -19,7 +19,7 @@ namespace Fox {
 				DirectXRaytracing() = default;
 
 				VOID CreateDeviceDependentResources(Fox::Graphics::DirectX::Direct3D& direct3D);
-				VOID CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D);
+				VOID CreateWindowSizeDependentResources(Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID ReleaseDeviceDependentResources();
 				VOID ReleaseWindowSizeDependentResources();
 
@@ -33,6 +33,7 @@ namespace Fox {
 				VOID BuildRaytracingAccelerationStructuresForGeometry(Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateConstantBuffers(Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID BuildShaderTables(Fox::Graphics::DirectX::Direct3D& direct3D);
+				VOID CreateRaytracingOutputTexture(Fox::Graphics::DirectX::Direct3D& direct3D);
 
 				UINT CreateShaderResourceViewForBuffer(const Fox::Graphics::DirectX::Direct3D& direct3D, Direct3DBuffer* buffer, UINT numElements, UINT elementSize);
 				UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
@@ -53,6 +54,11 @@ namespace Fox {
 				Microsoft::WRL::ComPtr<ID3D12Device5> dxrDevice;
 				Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> dxrCommandList;
 				Microsoft::WRL::ComPtr<ID3D12StateObject> dxrPipelineState;
+
+				// Raytracing output
+				Microsoft::WRL::ComPtr<ID3D12Resource> raytracingOutputTexture;
+				D3D12_GPU_DESCRIPTOR_HANDLE raytracingOutputGPUHandle;
+				UINT raytracingOutputResourceUAVDescriptorHeapIndex;
 
 				// Root signatures
 				Microsoft::WRL::ComPtr<ID3D12RootSignature> raytracingGlobalRootSignature;

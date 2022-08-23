@@ -71,6 +71,9 @@ namespace Fox {
 				unsigned int GetDeviceOptions() const { return options; }
 				LPCWSTR GetAdapterDescription() const { return adapterDescription.c_str(); }
 				UINT GetAdapterID() const { return adapterId; }
+				UINT GetScreenWidth() const { return screenWidth; }
+				UINT GetScreenHeight() const { return screenHeight; }
+
 
 				CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView() const
 				{

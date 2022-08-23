@@ -16,10 +16,11 @@ namespace Fox {
 				BuildRaytracingAccelerationStructuresForGeometry(direct3D);
 				CreateConstantBuffers(direct3D);
 				BuildShaderTables(direct3D);
+				CreateRaytracingOutputTexture(direct3D);
 			}
 
-			VOID DirectXRaytracing::CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
-				
+			VOID DirectXRaytracing::CreateWindowSizeDependentResources(Fox::Graphics::DirectX::Direct3D& direct3D) {
+				CreateRaytracingOutputTexture(direct3D);
 			}
 
 			VOID DirectXRaytracing::ReleaseDeviceDependentResources() {
@@ -483,6 +484,34 @@ namespace Fox {
 				Logger::PrintLog(L"Built shader tables successfully.\n");
 #endif
 			}
+
+			VOID DirectXRaytracing::CreateRaytracingOutputTexture(Fox::Graphics::DirectX::Direct3D& direct3D) {
+				auto device = direct3D.GetDirect3DDevice();
+				DXGI_FORMAT backbufferFormat = direct3D.GetBackBufferFormat();
+
+				// Create the output resource. The dimensions and format should match the swap-chain.
+				auto uavDesc = CD3DX12_RESOURCE_DESC::Tex2D(backbufferFormat, direct3D.GetScreenWidth(), direct3D.GetScreenHeight(),
+					1, 1, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+
+				auto defaultHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+				ThrowIfFailed(device->CreateCommittedResource(
+					&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &uavDesc, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, nullptr, IID_PPV_ARGS(&raytracingOutputTexture)));
+				raytracingOutputTexture->SetName(L"RaytracingOutputTexture");
+
+				D3D12_CPU_DESCRIPTOR_HANDLE uavDescriptorHandle;
+				raytracingOutputResourceUAVDescriptorHeapIndex = AllocateDescriptor(&uavDescriptorHandle, raytracingOutputResourceUAVDescriptorHeapIndex);
+
+				D3D12_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+				UAVDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+				device->CreateUnorderedAccessView(raytracingOutputTexture.Get(), nullptr, &UAVDesc, uavDescriptorHandle);
+				raytracingOutputGPUHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(descriptorHeap->GetGPUDescriptorHandleForHeapStart(),
+					raytracingOutputResourceUAVDescriptorHeapIndex, descriptorSize);
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Created raytracing output texture successfully.\n");
+#endif
+			}
+
 
 
 
