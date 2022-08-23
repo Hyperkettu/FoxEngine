@@ -32,6 +32,7 @@ namespace Fox {
 				VOID BuildVertexAndIndexBuffers(const Fox::Graphics::DirectX::Direct3D& direct3D);				
 				VOID BuildRaytracingAccelerationStructuresForGeometry(Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID CreateConstantBuffers(Fox::Graphics::DirectX::Direct3D& direct3D);
+				VOID BuildShaderTables(Fox::Graphics::DirectX::Direct3D& direct3D);
 
 				UINT CreateShaderResourceViewForBuffer(const Fox::Graphics::DirectX::Direct3D& direct3D, Direct3DBuffer* buffer, UINT numElements, UINT elementSize);
 				UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
@@ -72,6 +73,11 @@ namespace Fox {
 				// Acceleration structure
 				Microsoft::WRL::ComPtr<ID3D12Resource> bottomLevelAccelerationStructure;
 				Microsoft::WRL::ComPtr<ID3D12Resource> topLevelAccelerationStructure;
+
+				// Shader tables
+				Microsoft::WRL::ComPtr<ID3D12Resource> missShaderTable;
+				Microsoft::WRL::ComPtr<ID3D12Resource> hitGroupShaderTable;
+				Microsoft::WRL::ComPtr<ID3D12Resource> rayGenerationShaderTable;
 			};
 		}
 	}

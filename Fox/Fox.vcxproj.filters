@@ -217,6 +217,15 @@
     <ClInclude Include="Graphics\DirectX\RaytracingHlslCompatibilityDefinitions.h">
       <Filter>Graphics\DirectX\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX\GPUUploadBuffer.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\ShaderRecord.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\ShaderTable.h">
+      <Filter>Graphics\DirectX\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Logger.cpp">
@@ -310,6 +319,15 @@
       <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\DirectX\DirectXRaytracing.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\GPUUploadBuffer.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\ShaderRecord.cpp">
+      <Filter>Graphics\DirectX\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\ShaderTable.cpp">
       <Filter>Graphics\DirectX\Private</Filter>
     </ClCompile>
   </ItemGroup>

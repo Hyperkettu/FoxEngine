@@ -15,6 +15,7 @@ namespace Fox {
 				BuildVertexAndIndexBuffers(direct3D);
 				BuildRaytracingAccelerationStructuresForGeometry(direct3D);
 				CreateConstantBuffers(direct3D);
+				BuildShaderTables(direct3D);
 			}
 
 			VOID DirectXRaytracing::CreateWindowSizeDependentResources(const Fox::Graphics::DirectX::Direct3D& direct3D) {
@@ -421,6 +422,68 @@ namespace Fox {
 				Logger::PrintLog(L"Created constant buffers successfully.\n");
 #endif
 			}
+
+			// build shader tables that define root parameters
+			VOID DirectXRaytracing::BuildShaderTables(Fox::Graphics::DirectX::Direct3D& direct3D) {
+				auto device = direct3D.GetDirect3DDevice();
+
+				void* rayGenerationShaderIdentifier;
+				void* missShaderIdentifier;
+				void* hitGroupShaderIdentifier;
+
+				auto GetShaderIdentifiers = [&](auto* stateObjectProperties)
+				{
+					rayGenerationShaderIdentifier = stateObjectProperties->GetShaderIdentifier(L"MyRayGenerationShader");
+					missShaderIdentifier = stateObjectProperties->GetShaderIdentifier(L"MyMissShader");
+					hitGroupShaderIdentifier = stateObjectProperties->GetShaderIdentifier(L"MyHitGroup");
+				};
+
+				// Get shader identifiers.
+				UINT shaderIdentifierSize;
+				{
+					Microsoft::WRL::ComPtr<ID3D12StateObjectProperties> stateObjectProperties;
+					ThrowIfFailed(dxrPipelineState.As(&stateObjectProperties));
+					GetShaderIdentifiers(stateObjectProperties.Get());
+					shaderIdentifierSize = D3D12_SHADER_IDENTIFIER_SIZE_IN_BYTES;
+				}
+
+				// Ray gen shader table
+				{
+					UINT numShaderRecords = 1;
+					UINT shaderRecordSize = shaderIdentifierSize;
+					Fox::Graphics::DirectX::ShaderTable rayGenerationShaderTable(device, numShaderRecords, shaderRecordSize, L"RayGenerationShaderTable");
+					rayGenerationShaderTable.AddRecord(Fox::Graphics::DirectX::ShaderRecord(rayGenerationShaderIdentifier, shaderIdentifierSize));
+					this->rayGenerationShaderTable = rayGenerationShaderTable.GetResource();
+				}
+
+				// Miss shader table
+				{
+					UINT numShaderRecords = 1;
+					UINT shaderRecordSize = shaderIdentifierSize;
+					Fox::Graphics::DirectX::ShaderTable missShaderTable(device, numShaderRecords, shaderRecordSize, L"MissShaderTable");
+					missShaderTable.AddRecord(Fox::Graphics::DirectX::ShaderRecord(missShaderIdentifier, shaderIdentifierSize));
+					this->missShaderTable = missShaderTable.GetResource();
+				}
+
+				// Hit group shader table
+				{
+					struct RootArguments {
+						CubeData material;
+					} rootArguments;
+					rootArguments.material = cubeConstantBuffer;
+
+					UINT numShaderRecords = 1;
+					UINT shaderRecordSize = shaderIdentifierSize + sizeof(rootArguments);
+					Fox::Graphics::DirectX::ShaderTable hitGroupShaderTable(device, numShaderRecords, shaderRecordSize, L"HitGroupShaderTable");
+					hitGroupShaderTable.AddRecord(Fox::Graphics::DirectX::ShaderRecord(hitGroupShaderIdentifier, shaderIdentifierSize, &rootArguments, sizeof(rootArguments)));
+					this->hitGroupShaderTable = hitGroupShaderTable.GetResource();
+				}
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"Built shader tables successfully.\n");
+#endif
+			}
+
 
 
 		}

@@ -35,6 +35,9 @@
 	#endif
 
 	#include "Fox/Graphics/DirectX/RaytracingHlslCompatibilityDefinitions.h"
+	#include "Fox/Graphics/DirectX/GPUUploadBuffer.h"
+	#include "Fox/Graphics/DirectX/ShaderRecord.h"
+	#include "Fox/Graphics/DirectX/ShaderTable.h"
 	#include "Fox/Graphics/DirectX/DirectXHelper.h"
 	#include "Fox/Graphics/DirectX/DirectXRaytracingHelper.h"
 	#include "Fox/Graphics/DirectX/Direct3D.h"

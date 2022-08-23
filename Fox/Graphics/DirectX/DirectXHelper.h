@@ -25,6 +25,8 @@ namespace Fox {
             VOID FOX_API ThrowIfFailed(HRESULT hr, const wchar_t* message);
             inline VOID FOX_API ThrowIfFalse(bool value);
             inline VOID FOX_API ThrowIfFalse(bool value, const wchar_t* msg);
+
+            inline UINT FOX_API Align(UINT size, UINT alignment);
 		
 		}
 	}

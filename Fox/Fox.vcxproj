@@ -117,8 +117,11 @@
     <ClInclude Include="Graphics\DirectX\DirectXHelper.h" />
     <ClInclude Include="Graphics\DirectX\DirectXRaytracing.h" />
     <ClInclude Include="Graphics\DirectX\DirectXRaytracingHelper.h" />
+    <ClInclude Include="Graphics\DirectX\GPUUploadBuffer.h" />
     <ClInclude Include="Graphics\DirectX\HlslCompatibilityDefinitions.h" />
     <ClInclude Include="Graphics\DirectX\RaytracingHlslCompatibilityDefinitions.h" />
+    <ClInclude Include="Graphics\DirectX\ShaderRecord.h" />
+    <ClInclude Include="Graphics\DirectX\ShaderTable.h" />
     <ClInclude Include="Graphics\IRenderer.h" />
     <ClInclude Include="Graphics\RendererConfig.h" />
     <ClInclude Include="Graphics\ShaderConfig.h" />
@@ -154,6 +157,9 @@
     <ClCompile Include="Graphics\DirectX\DirectXHelper.cpp" />
     <ClCompile Include="Graphics\DirectX\DirectXRaytracing.cpp" />
     <ClCompile Include="Graphics\DirectX\DirectXRaytracingHelper.cpp" />
+    <ClCompile Include="Graphics\DirectX\GPUUploadBuffer.cpp" />
+    <ClCompile Include="Graphics\DirectX\ShaderRecord.cpp" />
+    <ClCompile Include="Graphics\DirectX\ShaderTable.cpp" />
     <ClCompile Include="Graphics\IRenderer.cpp" />
     <ClCompile Include="Graphics\RendererConfig.cpp" />
     <ClCompile Include="Graphics\ShaderConfig.cpp" />

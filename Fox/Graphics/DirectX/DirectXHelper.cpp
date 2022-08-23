@@ -32,6 +32,10 @@ namespace Fox {
 			{
 				ThrowIfFailed(value ? S_OK : E_FAIL, msg);
 			}
+
+			UINT Align(UINT size, UINT alignment) {
+				return (size + (alignment - 1)) & ~(alignment - 1);
+			}
 		}
 	}
 }
