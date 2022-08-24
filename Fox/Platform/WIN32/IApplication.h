@@ -15,6 +15,7 @@ namespace Fox {
 
 				virtual VOID SetupGameSettings() = 0;
 				virtual VOID Init() = 0;
+				virtual VOID Destroy() = 0;
 				virtual VOID Update() = 0;
 				virtual VOID Render(FLOAT dt) = 0;
 				virtual VOID PreInitialize() = 0;

@@ -33,6 +33,10 @@ namespace Fox {
 
 		}
 
+		VOID Simulation::Destroy() { 
+			renderer->Destroy();
+		}
+
 		LRESULT Simulation::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 			switch (message) {

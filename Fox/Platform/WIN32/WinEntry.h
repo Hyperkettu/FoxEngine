@@ -31,5 +31,11 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 		}
 	}
 
+	entryApplication->Destroy();
+
+#ifdef _DEBUG
+	logger.PrintLog(L"Application exited.\n");
+#endif
+
 	return 0;
 }

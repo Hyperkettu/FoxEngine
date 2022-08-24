@@ -6,6 +6,10 @@ namespace Fox {
 
 		namespace DirectX {
 
+			DirectX12Renderer::~DirectX12Renderer() {
+				Destroy();
+			}
+
 			BOOL DirectX12Renderer::Initialize() {
 				direct3D = std::make_unique<Fox::Graphics::DirectX::Direct3D>(config);
 				directXRaytracing = std::make_unique<Fox::Graphics::DirectX::DirectXRaytracing>();
@@ -34,6 +38,12 @@ namespace Fox {
 				return TRUE;
 			}
 
+			VOID DirectX12Renderer::Destroy() {
+				direct3D->WaitForGpu();
+				OnDeviceLost();
+				direct3D = nullptr;
+			}
+
 			BOOL DirectX12Renderer::Resize(UINT width, UINT height, BOOL minimized) {
 				return direct3D ? direct3D->Resize(width, height, minimized) : FALSE;
 			}
@@ -46,12 +56,20 @@ namespace Fox {
 			VOID DirectX12Renderer::OnDeviceLost() {
 				directXRaytracing->ReleaseWindowSizeDependentResources();
 				directXRaytracing->ReleaseDeviceDependentResources();
+
+#ifdef _DEBUG 
+				Logger::PrintLog(L"Release DirectX Raytracing resources.\n");
+#endif
 			}
 
 			VOID DirectX12Renderer::OnDeviceRestored() {
 				directXRaytracing->CreateDeviceDependentResources(*direct3D.get());
 				directXRaytracing->CreateWindowSizeDependentResources(*direct3D.get());
 				UpdateCamera();
+
+#ifdef _DEBUG 
+				Logger::PrintLog(L"Create DirectX Raytracing resources.\n");
+#endif
 			}
 
 			RECT DirectX12Renderer::GetFullscreenWindowRectangle() const {

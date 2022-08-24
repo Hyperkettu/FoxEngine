@@ -96,6 +96,10 @@ namespace Fox {
 			{
 				// Ensure that the GPU is no longer referencing resources that are about to be destroyed.
 				WaitForGpu();
+
+#ifdef _DEBUG
+				Logger::PrintLog(L"DirectX 12 Ultimate resources released.\n");
+#endif
 			}
 
 			VOID Direct3D::RegisterDeviceNotify(IDeviceNotify* deviceNotify)

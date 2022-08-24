@@ -24,11 +24,29 @@ namespace Fox {
 			}
 
 			VOID DirectXRaytracing::ReleaseDeviceDependentResources() {
-			
+				raytracingGlobalRootSignature.Reset();
+				raytracingLocalRootSignature.Reset();
+
+				dxrDevice.Reset();
+				dxrCommandList.Reset();
+				dxrPipelineState.Reset();
+
+				descriptorHeap.Reset();
+				numDescriptorsAllocated = 0;
+				raytracingOutputResourceUAVDescriptorHeapIndex = UINT_MAX;
+				indexBuffer.resource.Reset();
+				vertexBuffer.resource.Reset();
+				perFrameConstants.Reset();
+				rayGenerationShaderTable.Reset();
+				missShaderTable.Reset();
+				hitGroupShaderTable.Reset();
+
+				bottomLevelAccelerationStructure.Reset();
+				topLevelAccelerationStructure.Reset();
 			}
 
 			VOID DirectXRaytracing::ReleaseWindowSizeDependentResources() {
-			
+				raytracingOutputTexture.Reset();
 			}
 
 			VOID DirectXRaytracing::CreateRaytracingInterfaces(const Fox::Graphics::DirectX::Direct3D& direct3D) {

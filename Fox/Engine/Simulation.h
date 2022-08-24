@@ -11,6 +11,7 @@ namespace Fox {
 			~Simulation();
 
 			virtual VOID PreInitialize() override;
+			virtual VOID Destroy() override;
 			virtual LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
 			virtual VOID OnKeyDown(UINT8 keyCode) override;
