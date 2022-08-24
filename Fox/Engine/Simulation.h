@@ -25,6 +25,9 @@ namespace Fox {
 			VOID InitializeRenderer();
 
 		private:
+
+			virtual VOID UpdateInternal() override;
+
 			UINT windowStyle;
 			RECT windowRect;
 

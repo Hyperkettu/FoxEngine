@@ -24,7 +24,10 @@ namespace Fox {
 				VOID ReleaseWindowSizeDependentResources();
 
 				VOID SetupMaterialConstantBuffer();
+				VOID SetupMaterialConstantBufferLights(Fox::Graphics::DirectX::Direct3D& direct3D);
 				VOID UpdatePerFrameConstantBuffer(Fox::Graphics::DirectX::Direct3D& direct3D, const PerFrame& data);
+
+				VOID Update(Fox::Graphics::DirectX::Direct3D& direct3D, FLOAT dt);
 
 			private:
 

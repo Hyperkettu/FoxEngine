@@ -144,5 +144,15 @@ namespace Fox {
 			Window::OnResizeWindow(width, height, minimized);
 		}
 
+		VOID Simulation::UpdateInternal() {
+
+			FLOAT dt = 1.0f / 60.0f;
+
+			if (renderer) {
+				renderer->Update(dt);
+			}
+			Render(dt);
+		}
+
 	}
 }

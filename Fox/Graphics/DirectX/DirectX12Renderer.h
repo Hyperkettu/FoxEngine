@@ -14,8 +14,9 @@ namespace Fox {
 				BOOL InitializeScene() override;
 				VOID Destroy() override;
 
+				VOID Update(FLOAT dt) override;
 				VOID Render(FLOAT dt) override;
-				BOOL Resize(UINT width, UINT height, BOOL minimized);
+				BOOL Resize(UINT width, UINT height, BOOL minimized) override;
 
 				VOID SetupCamera();
 				VOID UpdateCamera();

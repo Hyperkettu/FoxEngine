@@ -17,6 +17,7 @@ namespace Fox {
 			virtual BOOL InitializeScene() = 0;
 			virtual VOID Destroy() = 0;
 
+			virtual VOID Update(FLOAT dt) = 0;
 			virtual VOID Render(FLOAT dt) = 0;
 			virtual BOOL Resize(UINT width, UINT height, BOOL minimized) = 0;
 

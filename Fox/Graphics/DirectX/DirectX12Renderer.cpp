@@ -131,6 +131,9 @@ namespace Fox {
 					SetupCamera();
 				}
 
+				// Setup lights.
+				directXRaytracing->SetupMaterialConstantBufferLights(*direct3D.get());
+
 				return TRUE;
 			}
 
@@ -165,7 +168,28 @@ namespace Fox {
 				directXRaytracing->UpdatePerFrameConstantBuffer(*direct3D.get(), data);
 			}
 
+			VOID DirectX12Renderer::Update(FLOAT dt) {
+			//	m_timer.Tick();
+			//	CalculateFrameStats();
+				UINT frameIndex = direct3D->GetCurrentFrameIndex();
+				UINT previousFrameIndex = direct3D->GetPreviousFrameIndex();
 
+				// Rotate the camera around Y axis.
+				{
+					float secondsToRotateAround = 24.0f;
+					float angleToRotateBy = 360.0f * (dt / secondsToRotateAround);
+					XMMATRIX rotate = XMMatrixRotationY(XMConvertToRadians(angleToRotateBy));
+					cameraPosition = XMVector3Transform(cameraPosition, rotate);
+					cameraUp = XMVector3Transform(cameraUp, rotate);
+					cameraLookAtPosition = XMVector3Transform(cameraLookAtPosition, rotate);
+					UpdateCamera();
+				}
+
+				// Rotate the second light around Y axis.
+				{
+					directXRaytracing->Update(*direct3D.get(), dt);
+				}
+			}
 
 		}
 	}

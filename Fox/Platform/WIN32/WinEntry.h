@@ -26,8 +26,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 			DispatchMessage(&msg);
 		}
 		else {
+			entryApplication->UpdateInternal();
 			entryApplication->Update(); 
-			entryApplication->Render(0);
 		}
 	}
 

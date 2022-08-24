@@ -534,12 +534,46 @@ namespace Fox {
 				cubeConstantBuffer.albedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 
-			VOID DirectXRaytracing::UpdatePerFrameConstantBuffer(Fox::Graphics::DirectX::Direct3D& direct3D, const PerFrame& data) {
+			VOID DirectXRaytracing::SetupMaterialConstantBufferLights(Fox::Graphics::DirectX::Direct3D& direct3D) {
+				// Initialize the lighting parameters.
+				XMFLOAT4 lightPosition;
+				XMFLOAT4 lightAmbientColor;
+				XMFLOAT4 lightDiffuseColor;
+
 				UINT frameIndex = direct3D.GetCurrentFrameIndex();
-				perFrameConstantBuffer[frameIndex] = data;
+
+				lightPosition = XMFLOAT4(0.0f, 1.8f, -3.0f, 0.0f);
+				perFrameConstantBuffer[frameIndex].lightPosition = XMLoadFloat4(&lightPosition);
+
+				lightAmbientColor = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+				perFrameConstantBuffer[frameIndex].lightAmbientColor = XMLoadFloat4(&lightAmbientColor);
+
+				lightDiffuseColor = XMFLOAT4(0.5f, 0.0f, 0.0f, 1.0f);
+				perFrameConstantBuffer[frameIndex].lightDiffuseColor = XMLoadFloat4(&lightDiffuseColor);
+
+				// Apply the initial values to all frames' buffer instances.
+				for (PerFrame& perFrame : perFrameConstantBuffer)
+				{
+					perFrame = perFrameConstantBuffer[frameIndex];
+				}
 			}
 
+			VOID DirectXRaytracing::UpdatePerFrameConstantBuffer(Fox::Graphics::DirectX::Direct3D& direct3D, const PerFrame& data) {
+				UINT frameIndex = direct3D.GetCurrentFrameIndex();
+				perFrameConstantBuffer[frameIndex].cameraPosition = data.cameraPosition;
+				perFrameConstantBuffer[frameIndex].inverseProjection = data.inverseProjection;
+			}
 
+			VOID DirectXRaytracing::Update(Fox::Graphics::DirectX::Direct3D& direct3D, FLOAT dt) {
+				UINT previousFrameIndex = direct3D.GetPreviousFrameIndex();
+				UINT frameIndex = direct3D.GetCurrentFrameIndex();
+				float secondsToRotateAround = 8.0f;
+				float angleToRotateBy = -360.0f * (dt / secondsToRotateAround);
+
+				XMMATRIX rotate = XMMatrixRotationY(XMConvertToRadians(angleToRotateBy));
+				const XMVECTOR& previousLightPosition = perFrameConstantBuffer[previousFrameIndex].lightPosition;
+				perFrameConstantBuffer[frameIndex].lightPosition = XMVector3Transform(previousLightPosition, rotate);
+			}
 
 		}
 	}

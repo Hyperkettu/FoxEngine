@@ -17,6 +17,7 @@ namespace Fox {
 				virtual VOID Init() = 0;
 				virtual VOID Destroy() = 0;
 				virtual VOID Update() = 0;
+				virtual VOID UpdateInternal() = 0;
 				virtual VOID Render(FLOAT dt) = 0;
 				virtual VOID PreInitialize() = 0;
 			};
