@@ -23,6 +23,9 @@ namespace Fox {
 				VOID ReleaseDeviceDependentResources();
 				VOID ReleaseWindowSizeDependentResources();
 
+				VOID SetupMaterialConstantBuffer();
+				VOID UpdatePerFrameConstantBuffer(Fox::Graphics::DirectX::Direct3D& direct3D, const PerFrame& data);
+
 			private:
 
 				VOID CreateRaytracingInterfaces(const Fox::Graphics::DirectX::Direct3D& direct3D);
@@ -66,6 +69,7 @@ namespace Fox {
 
 				// Constant buffers
 				CubeData cubeConstantBuffer;
+				PerFrame perFrameConstantBuffer[Fox::Graphics::Buffering::MAX_NUMBER_OF_BUFFERS];
 
 				// Descriptor heap
 				Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;

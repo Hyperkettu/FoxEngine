@@ -29,6 +29,7 @@ namespace Fox {
 
 				directXRaytracing->CreateDeviceDependentResources(*direct3D.get());
 				directXRaytracing->CreateWindowSizeDependentResources(*direct3D.get());
+				UpdateCamera();
 
 				return TRUE;
 			}
@@ -50,6 +51,7 @@ namespace Fox {
 			VOID DirectX12Renderer::OnDeviceRestored() {
 				directXRaytracing->CreateDeviceDependentResources(*direct3D.get());
 				directXRaytracing->CreateWindowSizeDependentResources(*direct3D.get());
+				UpdateCamera();
 			}
 
 			RECT DirectX12Renderer::GetFullscreenWindowRectangle() const {
@@ -101,7 +103,48 @@ namespace Fox {
 			}
 
 			BOOL DirectX12Renderer::InitializeScene() {
+				// Setup materials.
+				{
+					directXRaytracing->SetupMaterialConstantBuffer();
+				}
+
+				// Setup camera.
+				{
+					SetupCamera();
+				}
+
 				return TRUE;
+			}
+
+			VOID DirectX12Renderer::SetupCamera() {
+				// Initialize the view and projection inverse matrices.
+				cameraPosition = { 0.0f, 2.0f, -5.0f, 1.0f };
+				cameraLookAtPosition = { 0.0f, 0.0f, 0.0f, 1.0f };
+				XMVECTOR right = { 1.0f, 0.0f, 0.0f, 0.0f };
+
+				XMVECTOR direction = XMVector4Normalize(cameraLookAtPosition - cameraPosition);
+				cameraUp = XMVector3Normalize(XMVector3Cross(direction, right));
+
+				// Rotate camera around Y axis.
+				XMMATRIX rotate = XMMatrixRotationY(XMConvertToRadians(45.0f));
+				cameraPosition = XMVector3Transform(cameraPosition, rotate);
+				cameraUp = XMVector3Transform(cameraUp, rotate);
+
+				UpdateCamera();
+			}
+
+			VOID DirectX12Renderer::UpdateCamera(){ 
+				PerFrame data;
+				FLOAT fovAngleY = 45.0f;
+
+				XMMATRIX view = XMMatrixLookAtLH(cameraPosition, cameraLookAtPosition, cameraUp);
+				XMMATRIX projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(fovAngleY), direct3D->GetAspectRatio(), 0.1f, 1000.0f);
+				XMMATRIX viewProjection = view * projection;
+
+				data.cameraPosition = cameraPosition;
+				data.inverseProjection = XMMatrixInverse(nullptr, viewProjection);
+
+				directXRaytracing->UpdatePerFrameConstantBuffer(*direct3D.get(), data);
 			}
 
 

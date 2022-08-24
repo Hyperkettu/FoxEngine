@@ -11,9 +11,12 @@ namespace Fox {
 				DirectX12Renderer(Fox::Graphics::RendererConfig& rendererConfig) : Fox::Graphics::IRenderer(rendererConfig) {}
 				virtual ~DirectX12Renderer() {}
 				BOOL Initialize() override;
-				BOOL InitializeScene();
+				BOOL InitializeScene() override;
 				VOID Render(FLOAT dt) override;
 				BOOL Resize(UINT width, UINT height, BOOL minimized);
+
+				VOID SetupCamera();
+				VOID UpdateCamera();
 
 				RECT GetFullscreenWindowRectangle() const;
 
@@ -25,6 +28,11 @@ namespace Fox {
 			private: 
 				std::unique_ptr<Fox::Graphics::DirectX::Direct3D> direct3D;
 				std::unique_ptr<Fox::Graphics::DirectX::DirectXRaytracing> directXRaytracing;
+
+				XMVECTOR cameraPosition;
+				XMVECTOR cameraLookAtPosition;
+				XMVECTOR cameraUp;
+
 			};
 		}
 	}

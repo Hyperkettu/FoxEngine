@@ -41,7 +41,12 @@ namespace Fox {
 				VOID ExecuteMainCommandList() const;
 				VOID WaitForGpu() noexcept;
 
-				VOID SetWindow(HWND handle, UINT width, UINT height) { windowHandle = handle; screenWidth = width; screenHeight = height; }
+				VOID SetWindow(HWND handle, UINT width, UINT height) { 
+					windowHandle = handle; 
+					screenWidth = width; 
+					screenHeight = height; 
+					aspectRatio = static_cast<FLOAT>(screenWidth) / static_cast<FLOAT>(screenHeight);
+				}
 
 
 				BOOL IsTearingSupported() const { return config.allowTearing; }
@@ -73,6 +78,7 @@ namespace Fox {
 				UINT GetAdapterID() const { return adapterId; }
 				UINT GetScreenWidth() const { return screenWidth; }
 				UINT GetScreenHeight() const { return screenHeight; }
+				FLOAT GetAspectRatio() const { return aspectRatio; }
 
 
 				CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView() const

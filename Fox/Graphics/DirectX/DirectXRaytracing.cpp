@@ -512,6 +512,14 @@ namespace Fox {
 #endif
 			}
 
+			VOID DirectXRaytracing::SetupMaterialConstantBuffer() {
+				cubeConstantBuffer.albedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			}
+
+			VOID DirectXRaytracing::UpdatePerFrameConstantBuffer(Fox::Graphics::DirectX::Direct3D& direct3D, const PerFrame& data) {
+				UINT frameIndex = direct3D.GetCurrentFrameIndex();
+				perFrameConstantBuffer[frameIndex] = data;
+			}
 
 
 
